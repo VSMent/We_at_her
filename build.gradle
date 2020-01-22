@@ -25,14 +25,14 @@ repositories {
 dependencies {
     // Starter for web (RESTApi ...)
     implementation 'org.springframework.boot:spring-boot-starter-web'
-//    testImplementation('org.springframework.boot:spring-boot-starter-test') {
-//        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-//    }
-    // https://mvnrepository.com/artifact/org.springframework/spring-webmvc
-//    compile group: 'org.springframework', name: 'spring-webmvc', version: '5.2.2.RELEASE'
-    // https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf
-//    compile group: 'org.thymeleaf', name: 'thymeleaf', version: '3.0.11.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
 
+test {
+	useJUnitPlatform()
 }
 
 

@@ -1,6 +1,8 @@
 package pr.eleks.we_at_her.course;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 import pr.eleks.we_at_her.topic.Topic;
 
@@ -29,7 +31,8 @@ public class CourseService {
         return courseRepository.findById(id).orElse(null);
     }
 
-    public void addCourse(Course course) {
+    public void addCourse(String topicId, Course course) {
+        course.setTopic(new Topic(topicId, "", ""));
         courseRepository.save(course);
     }
 
@@ -41,13 +44,15 @@ public class CourseService {
         courseRepository.deleteById(id);
     }
 
-    @PostConstruct
-    public void init() {
+//    @DependsOn("pr.eleks.we_at_her.topic.Topic")
+//    @Order(2)
+//    @PostConstruct
+//    public void init() {
 //        courseRepository.saveAll(Arrays.asList(
-//                new Course("winter", "Winter season", "Winter is the coldest season of the year in polar and temperate zones."),
-//                new Course("spring", "Spring season", "Spring, also known as springtime is one of the four temperate seasons, following winter and preceding summer."),
-//                new Course("summer", "Summer season", "Summer is the hottest of the four temperate seasons, falling after spring and before autumn."),
-//                new Course("autumn", "Autumn season", "Autumn, also known as fall in North American English, is one of the four temperate seasons.")
+//                new Course("skiing", "Winter season Skiing Course", "You can go skiing during winter.", "winter"),
+//                new Course("swimming", "Summer season Swimming Course", "You can go swimming during summer.", "summer"),
+//                new Course("jogging", "Summer season Jogging Course", "You can go jogging during summer.", "summer"),
+//                new Course("walking", "Autumn season Walking Course", "You can go walking during autumn.", "autumn")
 //        ));
-    }
+//    }
 }

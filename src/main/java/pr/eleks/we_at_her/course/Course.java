@@ -3,12 +3,12 @@ package pr.eleks.we_at_her.course;
 import pr.eleks.we_at_her.topic.Topic;
 
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import java.io.Serializable;
 
 @Entity
-public class Course {
+public class Course implements Serializable {
 
     @Id
     private String id;
@@ -20,11 +20,11 @@ public class Course {
     public Course() {
     }
 
-    public Course(String id, String name, String description, String topicId) {
+    public Course(String id, String name, String description,String topicId) {
         this.id = id;
         this.name = name;
         this.description = description;
-//        this.topic = new Topic(topicId,"","");
+        this.topic = new Topic(topicId,"","");
     }
 
     public String getId() {

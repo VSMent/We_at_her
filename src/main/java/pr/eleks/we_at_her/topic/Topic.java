@@ -2,9 +2,10 @@ package pr.eleks.we_at_her.topic;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 @Entity
-public class Topic {
+public class Topic implements Serializable {
 
     @Id
     private String id;

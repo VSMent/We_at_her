@@ -1,6 +1,7 @@
 package pr.eleks.we_at_her.topic;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -36,6 +37,7 @@ public class TopicService {
         topicRepository.deleteById(id);
     }
 
+//    @Order(1)
     @PostConstruct
     public void init() {
         topicRepository.saveAll(Arrays.asList(

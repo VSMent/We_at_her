@@ -1,7 +1,9 @@
-package pr.eleks.we_at_her.course;
+package pr.eleks.we_at_her.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pr.eleks.we_at_her.entities.Course;
+import pr.eleks.we_at_her.services.CourseService;
 
 import java.util.List;
 

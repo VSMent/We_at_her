@@ -1,14 +1,12 @@
-package pr.eleks.we_at_her.course;
+package pr.eleks.we_at_her.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.DependsOn;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
-import pr.eleks.we_at_her.topic.Topic;
+import pr.eleks.we_at_her.repositories.CourseRepository;
+import pr.eleks.we_at_her.entities.Course;
+import pr.eleks.we_at_her.entities.Topic;
 
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -44,7 +42,7 @@ public class CourseService {
         courseRepository.deleteById(id);
     }
 
-//    @DependsOn("pr.eleks.we_at_her.topic.Topic")
+//    @DependsOn("pr.eleks.we_at_her.entities.Topic")
 //    @Order(2)
 //    @PostConstruct
 //    public void init() {

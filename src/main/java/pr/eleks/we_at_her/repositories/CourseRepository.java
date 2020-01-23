@@ -1,6 +1,7 @@
-package pr.eleks.we_at_her.course;
+package pr.eleks.we_at_her.repositories;
 
 import org.springframework.data.repository.CrudRepository;
+import pr.eleks.we_at_her.entities.Course;
 
 import java.util.List;
 

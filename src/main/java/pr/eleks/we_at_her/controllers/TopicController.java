@@ -1,7 +1,9 @@
-package pr.eleks.we_at_her.topic;
+package pr.eleks.we_at_her.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pr.eleks.we_at_her.entities.Topic;
+import pr.eleks.we_at_her.services.TopicService;
 
 import java.util.List;
 

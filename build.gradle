@@ -1,11 +1,7 @@
 plugins {
-    // Spring boot in general
     id 'org.springframework.boot' version '2.2.4.RELEASE'
-    // Manage Spring plugins like a maven dependencies
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
-    // Java related stuff
     id 'java'
-    // if we want to build to war
     id 'war'
 }
 
@@ -29,21 +25,24 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     // Something for data
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // HIBERNATE
+    // SECURITY
+        // Endpoint authorisation
+        // Registration
+
+
+//    implementation 'org.hibernate:hibernate-core'
+
 //    implementation 'org.springframework.boot:spring-boot-webmvc'
-//    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-//    implementation 'org.springframework.boot:spring-jdbc'
     // Something for View component of MVC
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    // DB for testing
-//    implementation 'org.apache.derby:derby'
     runtimeOnly 'mysql:mysql-connector-java'
-//    runtimeOnly 'org.springframework:spring-jdbc'
     // Starter for monitoring
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+//    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
-    implementation fileTree(dir: 'lib', include: '*.jar')
+//    implementation fileTree(dir: 'lib', include: '*.jar')
 }
 
 test {

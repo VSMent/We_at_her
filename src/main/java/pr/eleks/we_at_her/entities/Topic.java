@@ -1,30 +1,24 @@
-package pr.eleks.we_at_her.course;
-
-import pr.eleks.we_at_her.topic.Topic;
+package pr.eleks.we_at_her.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import java.io.Serializable;
 
 @Entity
-public class Course implements Serializable {
+public class Topic implements Serializable {
 
     @Id
     private String id;
     private String name;
     private String description;
-    @ManyToOne
-    private Topic topic;
 
-    public Course() {
+    public Topic() {
     }
 
-    public Course(String id, String name, String description,String topicId) {
+    public Topic(String id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.topic = new Topic(topicId,"","");
     }
 
     public String getId() {
@@ -49,13 +43,5 @@ public class Course implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Topic getTopic() {
-        return topic;
-    }
-
-    public void setTopic(Topic topic) {
-        this.topic = topic;
     }
 }

@@ -1,8 +1,9 @@
-package pr.eleks.we_at_her.topic;
+package pr.eleks.we_at_her.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
+import pr.eleks.we_at_her.entities.Topic;
+import pr.eleks.we_at_her.repositories.TopicRepository;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;

@@ -5,6 +5,8 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     // Java related stuff
     id 'java'
+    // if we want to build to war
+    id 'war'
 }
 
 group 'pr.eleks'
@@ -30,7 +32,9 @@ dependencies {
     // Something for View component of MVC
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     // DB for testing
-    runtime 'org.apache.derby:derby'
+    implementation 'org.apache.derby:derby'
+    // Starter for monitoring
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }

@@ -26,14 +26,15 @@ dependencies {
     // Starter for web (RESTApi ...)
     implementation 'org.springframework.boot:spring-boot-starter-web'
     // Something for data
-    implementation 'org.springframework.boot:spring-boot-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     // Something for View component of MVC
-//    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     // DB for testing
     runtime 'org.apache.derby:derby'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
-		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-	}
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    implementation fileTree(dir: 'lib', include: '*.jar')
 }
 
 test {

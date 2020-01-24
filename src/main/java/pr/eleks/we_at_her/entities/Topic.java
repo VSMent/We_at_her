@@ -5,7 +5,7 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity
-public class Topic implements Serializable {
+public class Topic{
 
     @Id
     private String id;

@@ -1,6 +1,8 @@
 package pr.eleks.we_at_her.services;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -66,19 +68,19 @@ public class WeatherSampleService {
 
         // Make request
         RestTemplate restTemplate = new RestTemplate();
-        ApiWeatherSampleDto apiResponse = restTemplate.getForObject(uriBuilder.toUriString(), ApiWeatherSampleDto.class);
+        ApiWeatherSampleDto apiResponseDto = restTemplate.getForObject(uriBuilder.toUriString(), ApiWeatherSampleDto.class);
 
         // Handle error, return result
-        if (apiResponse != null) {
+        if (apiResponseDto != null) {
             return new WeatherSampleDto(
-                    apiResponse.getName(),
-                    apiResponse.getMain().getTemp(),
-                    apiResponse.getMain().getFeels_like(),
-                    apiResponse.getMain().getPressure(),
-                    apiResponse.getMain().getHumidity(),
-                    apiResponse.getClouds().getAll(),
-                    apiResponse.getId(),
-                    apiResponse.getDt()
+                    apiResponseDto.getName(),
+                    apiResponseDto.getMain().getTemp(),
+                    apiResponseDto.getMain().getFeels_like(),
+                    apiResponseDto.getMain().getPressure(),
+                    apiResponseDto.getMain().getHumidity(),
+                    apiResponseDto.getClouds().getAll(),
+                    apiResponseDto.getId(),
+                    apiResponseDto.getDt()
             );
         }
         return null;

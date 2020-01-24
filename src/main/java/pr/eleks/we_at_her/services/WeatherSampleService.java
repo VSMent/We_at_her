@@ -3,6 +3,7 @@ package pr.eleks.we_at_her.services;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 import pr.eleks.we_at_her.dto.ApiWeatherSampleDto;
 import pr.eleks.we_at_her.dto.WeatherSampleDto;
 import pr.eleks.we_at_her.entities.WeatherSample;
@@ -48,19 +49,26 @@ public class WeatherSampleService {
     }
 
     public WeatherSampleDto getWeatherSampleFromApi(String city, String lang, String units) {
+        // Default values
         city = city.equals("") ? "Ternopil" : city;
         lang = lang.equals("") ? "UA" : lang;
         units = units.equals("") ? "metric" : units;
-        final String uri = String.format("http://api.openweathermap.org/data/2.5/weather" +
-                        "?q=%s" +
-                        "&lang=%s" +
-                        "&units=%s" +
-                        "&appid=%s",
-                city, lang, units, dotenv.get("OPENWEATHERMAP_API")
-        );
-        RestTemplate restTemplate = new RestTemplate();
-        ApiWeatherSampleDto apiResponse = restTemplate.getForObject(uri, ApiWeatherSampleDto.class);
 
+        // Prepare request string
+        String apiUrl = "http://api.openweathermap.org/data/2.5";
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder
+                .fromUriString(apiUrl)
+                .pathSegment("weather")
+                .queryParam("q", city)
+                .queryParam("lang", lang)
+                .queryParam("units", units)
+                .queryParam("appid",dotenv.get("OPENWEATHERMAP_API"));
+
+        // Make request
+        RestTemplate restTemplate = new RestTemplate();
+        ApiWeatherSampleDto apiResponse = restTemplate.getForObject(uriBuilder.toUriString(), ApiWeatherSampleDto.class);
+
+        // Handle error, return result
         if (apiResponse != null) {
             return new WeatherSampleDto(
                     apiResponse.getName(),
@@ -86,5 +94,6 @@ public class WeatherSampleService {
                         82, 5, 691650, 1579829302)
                 )
         );
+        getWeatherSampleFromApi("","","");
     }
 }

@@ -60,17 +60,20 @@ public class WeatherSampleService {
         );
         RestTemplate restTemplate = new RestTemplate();
         ApiWeatherSampleDto apiResponse = restTemplate.getForObject(uri, ApiWeatherSampleDto.class);
-        assert apiResponse != null;
-        return new WeatherSampleDto(
-                apiResponse.getName(),
-                apiResponse.getMain().getTemp(),
-                apiResponse.getMain().getFeels_like(),
-                apiResponse.getMain().getPressure(),
-                apiResponse.getMain().getHumidity(),
-                apiResponse.getClouds().getAll(),
-                apiResponse.getId(),
-                apiResponse.getDt()
-        );
+
+        if (apiResponse != null) {
+            return new WeatherSampleDto(
+                    apiResponse.getName(),
+                    apiResponse.getMain().getTemp(),
+                    apiResponse.getMain().getFeels_like(),
+                    apiResponse.getMain().getPressure(),
+                    apiResponse.getMain().getHumidity(),
+                    apiResponse.getClouds().getAll(),
+                    apiResponse.getId(),
+                    apiResponse.getDt()
+            );
+        }
+        return null;
     }
 
 
@@ -83,6 +86,5 @@ public class WeatherSampleService {
                         82, 5, 691650, 1579829302)
                 )
         );
-//        getWeatherSampleFromApi("","","");
     }
 }

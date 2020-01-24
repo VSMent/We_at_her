@@ -12,7 +12,7 @@ version '1.0-SNAPSHOT'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-sourceSets{
+sourceSets {
     main.java.srcDir 'src/main'
     test.java.srcDir 'src/test'
 }
@@ -46,4 +46,8 @@ test {
     useJUnitPlatform()
 }
 
+task writeNewPom {
+    doLast { pom {} writeTo("pom.xml") }
+}
 
+build.finalizedBy(writeNewPom)

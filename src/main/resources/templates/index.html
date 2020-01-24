@@ -14,17 +14,32 @@
 
         th, td {
             padding: 15px;
+            font-size: 20px;
         }
 
         table, th, td {
             border: solid black 1px;
             border-collapse: collapse;
         }
+
+        #controls {
+            margin-block-end: 20px;
+        }
+
+        #controls > button {
+            padding: 15px;
+            margin: 0 50px;
+            font-size: 18px;
+        }
     </style>
 </head>
 <body>
 <div>
     <h1>Weather Samples</h1>
+    <div id="controls">
+        <button onclick="window.location.href='/getFromApi'">Load data from API</button>
+        <button onclick="window.location.href='/'">Refresh data</button>
+    </div>
     <table>
         <thead>
         <tr>

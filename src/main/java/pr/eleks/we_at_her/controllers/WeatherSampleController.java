@@ -34,12 +34,12 @@ public class WeatherSampleController {
         return convertToDto(weatherSampleService.getWeatherSample(id));
     }
 
-    @GetMapping({"/weatherSamplesFromApi","/weatherSamplesFromApi/{doReturn}"})
-    public WeatherSampleDto addWeatherSampleFromApi(@PathVariable Optional<Boolean> doReturn) {
+    @GetMapping("/weatherSamplesFromApi/{doReturn}")
+    public WeatherSampleDto addWeatherSampleFromApi(@PathVariable boolean doReturn) {
         WeatherSampleDto apiWeatherSampleDto = weatherSampleService.getWeatherSampleFromApi("", "", "");
         if (apiWeatherSampleDto != null) {
             addWeatherSample(apiWeatherSampleDto);
-            return doReturn.isPresent() && Boolean.TRUE.equals(doReturn.get()) ? apiWeatherSampleDto : null;
+            return doReturn ? apiWeatherSampleDto : null;
         } else {
             System.out.println("Error: weatherSampleService.getWeatherSampleFromApi() returned null response " +
                     "\n@WeatherSampleController:WeatherSampleController()");

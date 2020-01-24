@@ -22,4 +22,10 @@ public class AppController {
         model.addAttribute("weatherSampleDtoList",weatherSampleDtoList);
         return "index";
     }
+
+    @GetMapping("/getFromApi")
+    public String getDataFromApi(Model model) {
+        weatherSampleController.addWeatherSampleFromApi(false);
+        return "redirect:/";
+    }
 }

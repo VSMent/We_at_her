@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>We at here</title>
+    <style>
+        div {
+            text-align: center;
+        }
+
+        table {
+            display: inline-block;
+        }
+
+        th, td {
+            padding: 15px;
+        }
+
+        table, th, td {
+            border: solid black 1px;
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <h1>Weather Samples</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>City Name</th>
+            <th>Temperature</th>
+            <th>Feels Like</th>
+            <th>Pressure</th>
+            <th>Humidity</th>
+            <th>Clouds</th>
+            <th>City Id</th>
+            <th>Time</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="el : ${weatherSampleDtoList}">
+            <td th:text="${el.id}">Id</td>
+            <td th:text="${el.cityName}">City Name</td>
+            <td th:text="${el.temperature}">Temperature</td>
+            <td th:text="${el.feelsLike}">Feels Like</td>
+            <td th:text="${el.pressure}">Pressure</td>
+            <td th:text="${el.humidity}">Humidity</td>
+            <td th:text="${el.clouds}">Clouds</td>
+            <td th:text="${el.cityId}">City Id</td>
+            <td th:text="${el.time}">Time</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

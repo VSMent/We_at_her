@@ -1,8 +1,6 @@
 package pr.eleks.we_at_her.services;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -87,15 +85,15 @@ public class WeatherSampleService {
     }
 
 
-    @PostConstruct
-    public void init() {
-        weatherSampleRepository.saveAll(Arrays.asList(
-                new WeatherSample(1L, "Ternopil", -0.99f, -7.32f, 1030,
-                        82, 5, 691650, 1579826046),
-                new WeatherSample("Ternopil", -0.99f, -7.32f, 1030,
-                        82, 5, 691650, 1579829302)
-                )
-        );
-        getWeatherSampleFromApi("","","");
-    }
+//    @PostConstruct
+//    public void init() {
+//        weatherSampleRepository.saveAll(Arrays.asList(
+//                new WeatherSample(1L, "Ternopil", -0.99f, -7.32f, 1030,
+//                        82, 5, 691650, 1579826046),
+//                new WeatherSample("Ternopil", -0.99f, -7.32f, 1030,
+//                        82, 5, 691650, 1579829302)
+//                )
+//        );
+//        getWeatherSampleFromApi("","","");
+//    }
 }

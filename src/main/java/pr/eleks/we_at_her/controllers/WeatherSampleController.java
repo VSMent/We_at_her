@@ -7,6 +7,7 @@ import pr.eleks.we_at_her.entities.WeatherSample;
 import pr.eleks.we_at_her.services.WeatherSampleService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -33,12 +34,12 @@ public class WeatherSampleController {
         return convertToDto(weatherSampleService.getWeatherSample(id));
     }
 
-    @GetMapping("/weatherSamplesFromApi/{doReturn}")
-    public WeatherSampleDto addWeatherSampleFromApi(@PathVariable boolean doReturn) {
+    @GetMapping({"/weatherSamplesFromApi","/weatherSamplesFromApi/{doReturn}"})
+    public WeatherSampleDto addWeatherSampleFromApi(@PathVariable Optional<Boolean> doReturn) {
         WeatherSampleDto apiWeatherSampleDto = weatherSampleService.getWeatherSampleFromApi("", "", "");
         if (apiWeatherSampleDto != null) {
             addWeatherSample(apiWeatherSampleDto);
-            return doReturn ? apiWeatherSampleDto : null;
+            return doReturn.isPresent() && Boolean.TRUE.equals(doReturn.get()) ? apiWeatherSampleDto : null;
         } else {
             System.out.println("Error: weatherSampleService.getWeatherSampleFromApi() returned null response " +
                     "\n@WeatherSampleController:WeatherSampleController()");

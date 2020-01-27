@@ -7,7 +7,6 @@ import pr.eleks.we_at_her.entities.WeatherSample;
 import pr.eleks.we_at_her.services.WeatherSampleService;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -31,18 +30,32 @@ public class WeatherSampleController {
 
     @GetMapping("/weatherSamples/{id}")
     public WeatherSampleDto getWeatherSample(@PathVariable Long id) {
-        return convertToDto(weatherSampleService.getWeatherSample(id));
+        return convertToDto(weatherSampleService.findWeatherSample(id));
+    }
+
+    @GetMapping("/weatherSamples/{cityId}/{time}")
+    public WeatherSampleDto getWeatherSample(@PathVariable int cityId,@PathVariable int time) {
+        return convertToDto(weatherSampleService.findFirstWeatherSampleByCityIdAndTime(cityId,time));
     }
 
     @GetMapping("/weatherSamplesFromApi/{doReturn}")
     public WeatherSampleDto addWeatherSampleFromApi(@PathVariable boolean doReturn) {
         WeatherSampleDto apiWeatherSampleDto = weatherSampleService.getWeatherSampleFromApi("", "", "");
         if (apiWeatherSampleDto != null) {
-            addWeatherSample(apiWeatherSampleDto);
+            WeatherSampleDto existingWeatherSampleDto = convertToDto(weatherSampleService.findFirstWeatherSampleByCityIdAndTime(
+                    apiWeatherSampleDto.getCityId(),
+                    apiWeatherSampleDto.getTime()
+            ));
+            if (existingWeatherSampleDto != null){
+                existingWeatherSampleDto.setId(null);
+            }
+            if (existingWeatherSampleDto == null || !existingWeatherSampleDto.equals(apiWeatherSampleDto)) {
+                addWeatherSample(apiWeatherSampleDto);
+            }
             return doReturn ? apiWeatherSampleDto : null;
         } else {
             System.out.println("Error: weatherSampleService.getWeatherSampleFromApi() returned null response " +
-                    "\n@WeatherSampleController:WeatherSampleController()");
+                    "\n@WeatherSampleController:addWeatherSampleFromApi()");
             return null;
         }
     }
@@ -64,10 +77,16 @@ public class WeatherSampleController {
 
 
     private WeatherSampleDto convertToDto(WeatherSample weatherSample) {
+        if (weatherSample == null){
+            return null;
+        }
         return modelMapper.map(weatherSample, WeatherSampleDto.class);
     }
 
     private WeatherSample convertToEntity(WeatherSampleDto weatherSampleDto) {
+        if (weatherSampleDto == null){
+            return null;
+        }
         return modelMapper.map(weatherSampleDto, WeatherSample.class);
     }
 //    INSERT INTO `weather_sample` (`id`, `city_id`, `city_name`, `clouds`, `feels_like`, `humidity`, `pressure`, `temperature`, `time`) VALUES ('1', '691650', 'Ternopil', '5', '-7.32', '82', '1030', '-0.99', '1579826046')

@@ -32,8 +32,12 @@ public class WeatherSampleService {
         return weatherSamples;
     }
 
-    public WeatherSample getWeatherSample(Long id) {
+    public WeatherSample findWeatherSample(Long id) {
         return weatherSampleRepository.findById(id).orElse(null);
+    }
+
+    public WeatherSample findFirstWeatherSampleByCityIdAndTime(int cityId,int time) {
+        return weatherSampleRepository.findFirstByCityIdAndTime(cityId, time).orElse(null);
     }
 
     public void addWeatherSample(WeatherSample weatherSample) {

@@ -2,6 +2,7 @@ package pr.eleks.we_at_her.dto;
 
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class WeatherSampleDto implements Serializable {
     private Long id;
@@ -98,5 +99,26 @@ public class WeatherSampleDto implements Serializable {
 
     public void setTime(int time) {
         this.time = time;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WeatherSampleDto that = (WeatherSampleDto) o;
+        return Float.compare(that.getTemperature(), getTemperature()) == 0 &&
+                Float.compare(that.getFeelsLike(), getFeelsLike()) == 0 &&
+                getPressure() == that.getPressure() &&
+                getHumidity() == that.getHumidity() &&
+                getClouds() == that.getClouds() &&
+                getCityId() == that.getCityId() &&
+                getTime() == that.getTime() &&
+                Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getCityName(), that.getCityName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getCityName(), getTemperature(), getFeelsLike(), getPressure(), getHumidity(), getClouds(), getCityId(), getTime());
     }
 }

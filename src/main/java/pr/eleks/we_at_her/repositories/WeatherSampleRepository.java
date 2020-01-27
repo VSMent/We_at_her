@@ -3,6 +3,9 @@ package pr.eleks.we_at_her.repositories;
 import org.springframework.data.repository.CrudRepository;
 import pr.eleks.we_at_her.entities.WeatherSample;
 
-public interface WeatherSampleRepository extends CrudRepository<WeatherSample, Long> {
+import java.util.Optional;
 
+public interface WeatherSampleRepository extends CrudRepository<WeatherSample, Long> {
+    public Optional<WeatherSample> findFirstByCityIdAndTime(int cityId, int time);
 }
+// TODO fix this returning null

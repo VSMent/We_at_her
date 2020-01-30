@@ -75,14 +75,14 @@ public class WeatherSampleService {
         // Handle error, return result
         if (apiResponseDto != null) {
             return new WeatherSampleDto(
-                    apiResponseDto.getName(),
-                    apiResponseDto.getMain().getTemp(),
-                    apiResponseDto.getMain().getFeels_like(),
-                    apiResponseDto.getMain().getPressure(),
-                    apiResponseDto.getMain().getHumidity(),
-                    apiResponseDto.getClouds().getAll(),
-                    apiResponseDto.getId(),
-                    apiResponseDto.getDt()
+                    apiResponseDto.getCityName(),
+                    apiResponseDto.getTemperature(),
+                    apiResponseDto.getFeelsLike(),
+                    apiResponseDto.getPressure(),
+                    apiResponseDto.getHumidity(),
+                    apiResponseDto.getClouds(),
+                    apiResponseDto.getCityId(),
+                    apiResponseDto.getTime()
             );
         }
         return null;

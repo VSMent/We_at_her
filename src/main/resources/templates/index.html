@@ -40,7 +40,11 @@
 <body>
 <div>
     <h1>Weather Samples</h1>
+    <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
     <div id="controls">
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign Out"/>
+        </form>
         <button onclick="window.location.href='/addWeatherSamplesFromApi'">Load data from API</button>
         <button onclick="window.location.href='/'">Refresh data</button>
     </div>

@@ -1,4 +1,4 @@
-package pr.eleks.we_at_her;
+package pr.eleks.we_at_her.configs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cdimascio.dotenv.Dotenv;

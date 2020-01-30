@@ -6,6 +6,6 @@ import pr.eleks.we_at_her.entities.WeatherSample;
 import java.util.Optional;
 
 public interface WeatherSampleRepository extends CrudRepository<WeatherSample, Long> {
-    public Optional<WeatherSample> findFirstByCityIdAndTime(int cityId, int time);
+    Optional<WeatherSample> findFirstByCityIdAndTime(int cityId, int time);
 }
 // TODO fix this returning null

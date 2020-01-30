@@ -1,5 +1,7 @@
 package pr.eleks.we_at_her.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

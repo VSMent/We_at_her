@@ -1,11 +1,19 @@
 package pr.eleks.we_at_her.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
+import java.util.Map;
 import java.util.Objects;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class WeatherSampleDto implements Serializable {
+    @JsonIgnore
     private Long id;
+    @JsonProperty("name")
     private String cityName;    // Ternopil
     private float temperature;  // -1.4 - 15.8 deg C
     private float feelsLike;    // -1.4 - 15.8 deg C
@@ -13,7 +21,25 @@ public class WeatherSampleDto implements Serializable {
     private int humidity;       // 10 -90 %
     private int clouds;         // 10 -90 %
     private int cityId;         // 691650
+    @JsonProperty("dt")
     private int time;           // 1579825648
+
+    @JsonProperty("main")
+    private void unpackMain(Map<String, String> main) {
+        temperature = Float.parseFloat(main.get("temp"));
+        feelsLike = Float.parseFloat(main.get("feels_like"));
+        pressure = Integer.parseInt(main.get("pressure"));
+        humidity = Integer.parseInt(main.get("humidity"));
+
+    }
+    @JsonProperty("clouds")
+    private void unpackClouds(Map<String, Integer> cloudsObj) {
+        clouds = cloudsObj.get("all");
+    }
+    @JsonProperty("id")
+    private void unpackId(Integer idObj){
+        cityId = idObj;
+    }
 
     public WeatherSampleDto() {
     }

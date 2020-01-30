@@ -70,20 +70,24 @@ public class WeatherSampleService {
 
         // Make request
         RestTemplate restTemplate = new RestTemplate();
-        ApiWeatherSampleDto apiResponseDto = restTemplate.getForObject(uriBuilder.toUriString(), ApiWeatherSampleDto.class);
+//        ApiWeatherSampleDto apiResponseDto = restTemplate.getForObject(uriBuilder.toUriString(), ApiWeatherSampleDto.class);
+        WeatherSampleDto apiResponseDto = restTemplate.getForObject(uriBuilder.toUriString(), WeatherSampleDto.class);
 
         // Handle error, return result
+//        if (apiResponseDto != null) {
+//            return new WeatherSampleDto(
+//                    apiResponseDto.getName(),
+//                    apiResponseDto.getMain().getTemp(),
+//                    apiResponseDto.getMain().getFeels_like(),
+//                    apiResponseDto.getMain().getPressure(),
+//                    apiResponseDto.getMain().getHumidity(),
+//                    apiResponseDto.getClouds().getAll(),
+//                    apiResponseDto.getId(),
+//                    apiResponseDto.getDt()
+//            );
+//        }
         if (apiResponseDto != null) {
-            return new WeatherSampleDto(
-                    apiResponseDto.getName(),
-                    apiResponseDto.getMain().getTemp(),
-                    apiResponseDto.getMain().getFeels_like(),
-                    apiResponseDto.getMain().getPressure(),
-                    apiResponseDto.getMain().getHumidity(),
-                    apiResponseDto.getClouds().getAll(),
-                    apiResponseDto.getId(),
-                    apiResponseDto.getDt()
-            );
+            return apiResponseDto;
         }
         return null;
     }

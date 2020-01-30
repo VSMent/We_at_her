@@ -1,6 +1,6 @@
 package pr.eleks.we_at_her.controllers;
 
-import org.modelmapper.ModelMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.bind.annotation.*;
 import pr.eleks.we_at_her.dto.WeatherSampleDto;
 import pr.eleks.we_at_her.entities.WeatherSample;
@@ -13,11 +13,11 @@ import java.util.stream.Collectors;
 public class WeatherSampleController {
 
     private WeatherSampleService weatherSampleService;
-    private ModelMapper modelMapper;
+    private ObjectMapper mapper;
 
-    public WeatherSampleController(WeatherSampleService weatherSampleService, ModelMapper modelMapper) {
+    public WeatherSampleController(WeatherSampleService weatherSampleService,  ObjectMapper mapper) {
         this.weatherSampleService = weatherSampleService;
-        this.modelMapper = modelMapper;
+        this.mapper = mapper;
     }
 
     @GetMapping("/weatherSamples")
@@ -80,14 +80,14 @@ public class WeatherSampleController {
         if (weatherSample == null){
             return null;
         }
-        return modelMapper.map(weatherSample, WeatherSampleDto.class);
+        return mapper.convertValue(weatherSample,WeatherSampleDto.class);
     }
 
     private WeatherSample convertToEntity(WeatherSampleDto weatherSampleDto) {
         if (weatherSampleDto == null){
             return null;
         }
-        return modelMapper.map(weatherSampleDto, WeatherSample.class);
+        return mapper.convertValue(weatherSampleDto,WeatherSample.class);
     }
 //    INSERT INTO `weather_sample` (`id`, `city_id`, `city_name`, `clouds`, `feels_like`, `humidity`, `pressure`, `temperature`, `time`) VALUES ('1', '691650', 'Ternopil', '5', '-7.32', '82', '1030', '-0.99', '1579826046')
 }

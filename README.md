@@ -13,3 +13,4 @@ Materials used:
 1. java - Failed to auto-configure a DataSource: 'spring.datasource.url' - Stack Overflow [Answer](https://stackoverflow.com/a/50080306/7450890)
 1. Entity To DTO Conversion for a Spring REST API | Baeldung [article](https://www.baeldung.com/entity-to-and-from-dto-for-a-java-spring-application)
 1. Spring Boot CRUD Tutorial with Spring MVC, Spring Data JPA, ThymeLeaf, Hibernate, MySQL [YouTube video](https://www.youtube.com/watch?v=QloyS2dt9T4)
+1. Entity to DTO conversion in Java using Jackson [article](https://www.thetechnojournals.com/2019/10/entity-object-conversion-to-dto-object.html)

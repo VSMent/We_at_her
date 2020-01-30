@@ -2,6 +2,8 @@ package pr.eleks.we_at_her.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cdimascio.dotenv.Dotenv;
+import org.hibernate.annotations.OrderBy;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -11,6 +13,7 @@ import pr.eleks.we_at_her.entities.WeatherSample;
 import pr.eleks.we_at_her.repositories.WeatherSampleRepository;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -30,6 +33,7 @@ public class WeatherSampleService {
     public List<WeatherSample> getAllWeatherSamples() {
         List<WeatherSample> weatherSamples = new ArrayList<>();
         weatherSampleRepository.findAll().forEach(weatherSamples::add);
+        Collections.reverse(weatherSamples);
         return weatherSamples;
     }
 

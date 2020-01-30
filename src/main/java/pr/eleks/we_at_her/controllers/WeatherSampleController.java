@@ -1,6 +1,8 @@
 package pr.eleks.we_at_her.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pr.eleks.we_at_her.dto.WeatherSampleDto;
 import pr.eleks.we_at_her.entities.WeatherSample;
@@ -9,7 +11,7 @@ import pr.eleks.we_at_her.services.WeatherSampleService;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestController
+@Controller
 public class WeatherSampleController {
 
     private WeatherSampleService weatherSampleService;
@@ -20,60 +22,46 @@ public class WeatherSampleController {
         this.mapper = mapper;
     }
 
-    @GetMapping("/weatherSamples")
+    @GetMapping("/")
+    public String viewHomePage(Model model) {
+        List<WeatherSampleDto> weatherSampleDtoList = getAllWeatherSamples();
+        model.addAttribute("weatherSampleDtoList", weatherSampleDtoList);
+        return "index";
+    }
+
+    @GetMapping("/addWeatherSamplesFromApi")
+    public String addWeatherSampleFromApi() {
+        weatherSampleService.addWeatherSampleFromApi();
+        return "redirect:/";
+    }
+
+    @GetMapping("/weatherSamplesREST")
     public List<WeatherSampleDto> getAllWeatherSamples() {
         List<WeatherSample> weatherSamples = weatherSampleService.getAllWeatherSamples();
         return weatherSamples.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
-
-    @GetMapping("/weatherSamples/{id}")
-    public WeatherSampleDto getWeatherSample(@PathVariable Long id) {
-        return convertToDto(weatherSampleService.findWeatherSample(id));
-    }
-
-    @GetMapping("/weatherSamples/{cityId}/{time}")
-    public WeatherSampleDto getWeatherSample(@PathVariable int cityId, @PathVariable int time) {
-        return convertToDto(weatherSampleService.findFirstWeatherSampleByCityIdAndTime(cityId, time));
-    }
-
-    @GetMapping("/weatherSamplesFromApi/{doReturn}")
-    public WeatherSampleDto addWeatherSampleFromApi(@PathVariable boolean doReturn) {
-        WeatherSampleDto apiWeatherSampleDto = weatherSampleService.getWeatherSampleFromApi("", "", "");
-        if (apiWeatherSampleDto != null) {
-            WeatherSampleDto existingWeatherSampleDto = convertToDto(weatherSampleService.findFirstWeatherSampleByCityIdAndTime(
-                    apiWeatherSampleDto.getCityId(),
-                    apiWeatherSampleDto.getTime()
-            ));
-            if (existingWeatherSampleDto != null) {
-                existingWeatherSampleDto.setId(null);
-            }
-            if (existingWeatherSampleDto == null || !existingWeatherSampleDto.equals(apiWeatherSampleDto)) {
-                addWeatherSample(apiWeatherSampleDto);
-            }
-            return doReturn ? apiWeatherSampleDto : null;
-        } else {
-            System.out.println("Error: weatherSampleService.getWeatherSampleFromApi() returned null response " +
-                    "\n@WeatherSampleController:addWeatherSampleFromApi()");
-            return null;
-        }
-    }
-
-    @PostMapping("/weatherSamples")
-    public void addWeatherSample(@RequestBody WeatherSampleDto weatherSampleDto) {
-        weatherSampleService.addWeatherSample(convertToEntity(weatherSampleDto));
-    }
-
-    @PutMapping("/weatherSamples/{id}")
-    public void updateWeatherSample(@RequestBody WeatherSampleDto weatherSampleDto) {
-        weatherSampleService.updateWeatherSample(convertToEntity(weatherSampleDto));
-    }
-
-    @DeleteMapping("/weatherSamples/{id}")
-    public void deleteWeatherSample(@PathVariable Long id) {
-        weatherSampleService.deleteWeatherSample(id);
-    }
+//
+//    @GetMapping("/weatherSamples/{id}")
+//    public WeatherSampleDto getWeatherSample(@PathVariable Long id) {
+//        return convertToDto(weatherSampleService.findWeatherSample(id));
+//    }
+//
+//    @PostMapping("/weatherSamples")
+//    public void addWeatherSample(@RequestBody WeatherSampleDto weatherSampleDto) {
+//        weatherSampleService.addWeatherSample(convertToEntity(weatherSampleDto));
+//    }
+//
+//    @PutMapping("/weatherSamples/{id}")
+//    public void updateWeatherSample(@RequestBody WeatherSampleDto weatherSampleDto) {
+//        weatherSampleService.updateWeatherSample(convertToEntity(weatherSampleDto));
+//    }
+//
+//    @DeleteMapping("/weatherSamples/{id}")
+//    public void deleteWeatherSample(@PathVariable Long id) {
+//        weatherSampleService.deleteWeatherSample(id);
+//    }
 
 
     private WeatherSampleDto convertToDto(WeatherSample weatherSample) {

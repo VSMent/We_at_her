@@ -1,5 +1,6 @@
 package pr.eleks.we_at_her.services;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -9,9 +10,7 @@ import pr.eleks.we_at_her.dto.WeatherSampleDto;
 import pr.eleks.we_at_her.entities.WeatherSample;
 import pr.eleks.we_at_her.repositories.WeatherSampleRepository;
 
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -19,10 +18,12 @@ public class WeatherSampleService {
 
     private WeatherSampleRepository weatherSampleRepository;
     private Dotenv dotenv;
+    private ObjectMapper mapper;
 
-    public WeatherSampleService(WeatherSampleRepository weatherSampleRepository, Dotenv dotenv) {
+    public WeatherSampleService(WeatherSampleRepository weatherSampleRepository, Dotenv dotenv, ObjectMapper mapper) {
         this.weatherSampleRepository = weatherSampleRepository;
         this.dotenv = dotenv;
+        this.mapper = mapper;
     }
 
 
@@ -32,11 +33,11 @@ public class WeatherSampleService {
         return weatherSamples;
     }
 
-    public WeatherSample findWeatherSample(Long id) {
-        return weatherSampleRepository.findById(id).orElse(null);
-    }
+//    public WeatherSample findWeatherSample(Long id) {
+//        return weatherSampleRepository.findById(id).orElse(null);
+//    }
 
-    public WeatherSample findFirstWeatherSampleByCityIdAndTime(int cityId,int time) {
+    public WeatherSample findFirstWeatherSampleByCityIdAndTime(int cityId, int time) {
         return weatherSampleRepository.findFirstByCityIdAndTime(cityId, time).orElse(null);
     }
 
@@ -44,13 +45,13 @@ public class WeatherSampleService {
         weatherSampleRepository.save(weatherSample);
     }
 
-    public void updateWeatherSample(WeatherSample weatherSample) {
-        weatherSampleRepository.save(weatherSample);
-    }
+//    public void updateWeatherSample(WeatherSample weatherSample) {
+//        weatherSampleRepository.save(weatherSample);
+//    }
 
-    public void deleteWeatherSample(Long id) {
-        weatherSampleRepository.deleteById(id);
-    }
+//    public void deleteWeatherSample(Long id) {
+//        weatherSampleRepository.deleteById(id);
+//    }
 
     public WeatherSampleDto getWeatherSampleFromApi(String city, String lang, String units) {
         // Default values
@@ -66,7 +67,7 @@ public class WeatherSampleService {
                 .queryParam("q", city)
                 .queryParam("lang", lang)
                 .queryParam("units", units)
-                .queryParam("appid",dotenv.get("OPENWEATHERMAP_API"));
+                .queryParam("appid", dotenv.get("OPENWEATHERMAP_API"));
 
         // Make request
         RestTemplate restTemplate = new RestTemplate();
@@ -88,16 +89,38 @@ public class WeatherSampleService {
         return null;
     }
 
+    public WeatherSampleDto addWeatherSampleFromApi() {
+        WeatherSampleDto apiWeatherSampleDto = getWeatherSampleFromApi("", "", "");
+        if (apiWeatherSampleDto != null) {
+            WeatherSampleDto existingWeatherSampleDto = convertToDto(findFirstWeatherSampleByCityIdAndTime(
+                    apiWeatherSampleDto.getCityId(),
+                    apiWeatherSampleDto.getTime()
+            ));
+            if (existingWeatherSampleDto != null) {
+                existingWeatherSampleDto.setId(null);
+            }
+            if (existingWeatherSampleDto == null || !existingWeatherSampleDto.equals(apiWeatherSampleDto)) {
+                addWeatherSample(convertToEntity(apiWeatherSampleDto));
+            }
+            return apiWeatherSampleDto;
+        } else {
+            System.out.println("Error: weatherSampleService.getWeatherSampleFromApi() returned null response " +
+                    "\n@WeatherSampleController:addWeatherSampleFromApi()");
+            return null;
+        }
+    }
 
-//    @PostConstruct
-//    public void init() {
-//        weatherSampleRepository.saveAll(Arrays.asList(
-//                new WeatherSample(1L, "Ternopil", -0.99f, -7.32f, 1030,
-//                        82, 5, 691650, 1579826046),
-//                new WeatherSample("Ternopil", -0.99f, -7.32f, 1030,
-//                        82, 5, 691650, 1579829302)
-//                )
-//        );
-//        getWeatherSampleFromApi("","","");
-//    }
+    private WeatherSampleDto convertToDto(WeatherSample weatherSample) {
+        if (weatherSample == null) {
+            return null;
+        }
+        return mapper.convertValue(weatherSample, WeatherSampleDto.class);
+    }
+
+    private WeatherSample convertToEntity(WeatherSampleDto weatherSampleDto) {
+        if (weatherSampleDto == null) {
+            return null;
+        }
+        return mapper.convertValue(weatherSampleDto, WeatherSample.class);
+    }
 }

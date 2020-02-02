@@ -1,6 +1,5 @@
 package pr.eleks.we_at_her.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -8,19 +7,17 @@ import java.io.Serializable;
 import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ApiWeatherSampleDto implements Serializable {
-    @JsonIgnore
-    private Long id;
+public class OpenWeatherApiDto implements Serializable {
     @JsonProperty("name")
     private String cityName;    // Ternopil
-    private float temperature;  // -1.4 - 15.8 deg C
-    private float feelsLike;    // -1.4 - 15.8 deg C
-    private int pressure;       // 10 - 90 %
-    private int humidity;       // 10 -90 %
-    private int clouds;         // 10 -90 %
+    private float temperature;  // -1.4 - 15.8 (deg C)
+    private float feelsLike;    // -1.4 - 15.8 (deg C)
+    private int pressure;       // 10 - 90 (hPa - hecto Pascal)
+    private int humidity;       // 10 -90 (%)
+    private int clouds;         // 10 -90 (%)
     private int cityId;         // 691650
     @JsonProperty("dt")
-    private int time;           // 1579825648
+    private int time;           // 1579825648 (unix, UTC)
 
     @JsonProperty("main")
     private void unpackMain(Map<String, String> main) {
@@ -41,15 +38,7 @@ public class ApiWeatherSampleDto implements Serializable {
         cityId = idObj;
     }
 
-    public ApiWeatherSampleDto() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public OpenWeatherApiDto() {
     }
 
     public String getCityName() {

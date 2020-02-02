@@ -1,6 +1,5 @@
 package pr.eleks.we_at_her.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,9 @@ import pr.eleks.we_at_her.dto.WeatherSampleDto;
 import pr.eleks.we_at_her.entities.WeatherSample;
 import pr.eleks.we_at_her.repositories.WeatherSampleRepository;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,8 +24,6 @@ public class WeatherSampleService {
     private WeatherSampleRepository weatherSampleRepository;
     private ObjectMapper mapper;
     private Environment env;
-    private String weatherbitJson = "{\"data\":[{\"rh\":73,\"pod\":\"d\",\"lon\":25.60556,\"pres\":966.083,\"timezone\":\"Europe\\/Kiev\",\"ob_time\":\"2020-02-02 11:12\",\"country_code\":\"UA\",\"clouds\":83,\"ts\":1580641921,\"solar_rad\":194.933,\"state_code\":\"22\",\"city_name\":\"Ternopil’\",\"wind_spd\":6.55996,\"last_ob_time\":\"2020-02-02T10:54:00\",\"wind_cdir_full\":\"захід-пі́вніч-захід\",\"wind_cdir\":\"ЗСЗ\",\"slp\":1005.87,\"vis\":24.1352,\"h_angle\":18,\"sunset\":\"15:12\",\"dni\":707.23,\"dewpt\":3.5,\"snow\":0,\"uv\":1.14156,\"precip\":0,\"wind_dir\":283,\"sunrise\":\"05:41\",\"ghi\":323.83,\"dhi\":80.62,\"aqi\":22,\"lat\":49.55589,\"weather\":{\"icon\":\"c04d\",\"code\":\"804\",\"description\":\"Похмурі хмари\"},\"datetime\":\"2020-02-02:11\",\"temp\":8,\"station\":\"F1141\",\"elev_angle\":23.25,\"app_temp\":8}],\"count\":1}\n";
-    private String darkskyJson = "{\"latitude\":49.55589,\"longitude\":25.60556,\"timezone\":\"Europe/Kiev\",\"currently\":{\"time\":1580660167,\"summary\":\"Невелика Хмарність\",\"icon\":\"partly-cloudy-night\",\"precipIntensity\":0.0048,\"precipProbability\":0.01,\"precipType\":\"rain\",\"temperature\":6.14,\"apparentTemperature\":1.67,\"dewPoint\":1.91,\"humidity\":0.74,\"pressure\":1007.6,\"windSpeed\":7.94,\"windGust\":13.66,\"windBearing\":325,\"cloudCover\":0.39,\"uvIndex\":0,\"visibility\":16.093,\"ozone\":335.9},\"offset\":2}";
 
     public WeatherSampleService(WeatherSampleRepository weatherSampleRepository, ObjectMapper mapper, Environment env) {
         this.weatherSampleRepository = weatherSampleRepository;
@@ -60,7 +59,7 @@ public class WeatherSampleService {
 //        weatherSampleRepository.deleteById(id);
 //    }
 
-    public WeatherSampleDto getWeatherSampleFromOpenWeatherApi(String latitude, String longitude, String lang, String units) {
+    private WeatherSampleDto getWeatherSampleFromOpenWeatherApi(String latitude, String longitude, String lang, String units) {
         // Default values
         latitude = latitude.equals("") ? env.getProperty("city.Ternopil.lat") : latitude;
         longitude = longitude.equals("") ? env.getProperty("city.Ternopil.lon") : longitude;
@@ -68,7 +67,6 @@ public class WeatherSampleService {
         units = units.equals("") ? env.getProperty("OWApi.units") : units;
 
         // Prepare request string
-//        String apiUrl = "http://api.openweathermap.org/data/2.5";
         String apiUrl = env.getProperty("OWApi.baseUrl", "http://api.openweathermap.org/data/2.5");
         UriComponentsBuilder uriBuilder = UriComponentsBuilder
                 .fromUriString(apiUrl)
@@ -101,7 +99,7 @@ public class WeatherSampleService {
         return null;
     }
 
-    public WeatherSampleDto getWeatherSampleFromWeatherBitApi(String latitude, String longitude, String lang, String units) {
+    private WeatherSampleDto getWeatherSampleFromWeatherBitApi(String latitude, String longitude, String lang, String units) {
         // Default values
         latitude = latitude.equals("") ? env.getProperty("city.Ternopil.lat") : latitude;
         longitude = longitude.equals("") ? env.getProperty("city.Ternopil.lon") : longitude;
@@ -122,12 +120,6 @@ public class WeatherSampleService {
         // Make request
         RestTemplate restTemplate = new RestTemplate();
         WeatherBitApiDto apiResponseDto = restTemplate.getForObject(uriBuilder.toUriString(), WeatherBitApiDto.class);
-//        WeatherBitApiDto apiResponseDto = null;
-//        try {
-//            apiResponseDto = mapper.readValue(weatherbitJson, WeatherBitApiDto.class);
-//        } catch (JsonProcessingException e) {
-//            e.printStackTrace();
-//        }
 
         // Handle error, return result
         if (apiResponseDto != null) {
@@ -147,7 +139,7 @@ public class WeatherSampleService {
         return null;
     }
 
-    public WeatherSampleDto getWeatherSampleFromDarkSkyApi(String latitude, String longitude, String lang, String units) {
+    private WeatherSampleDto getWeatherSampleFromDarkSkyApi(String latitude, String longitude, String lang, String units) {
         // Default values
         latitude = latitude.equals("") ? env.getProperty("city.Ternopil.lat") : latitude;
         longitude = longitude.equals("") ? env.getProperty("city.Ternopil.lon") : longitude;
@@ -168,12 +160,6 @@ public class WeatherSampleService {
         // Make request
         RestTemplate restTemplate = new RestTemplate();
         DarkSkyApiDto apiResponseDto = restTemplate.getForObject(uriBuilder.toUriString(), DarkSkyApiDto.class);
-//        DarkSkyApiDto apiResponseDto = null;
-//        try {
-//            apiResponseDto = mapper.readValue(darkskyJson, DarkSkyApiDto.class);
-//        } catch (JsonProcessingException e) {
-//            e.printStackTrace();
-//        }
 
         // Handle error, return result
         if (apiResponseDto != null) {
@@ -193,27 +179,81 @@ public class WeatherSampleService {
         return null;
     }
 
-    public WeatherSampleDto addWeatherSampleFromApi() {
-        WeatherSampleDto OpenWeatherDto = getWeatherSampleFromOpenWeatherApi("", "", "", "");
-        WeatherSampleDto WeatherBitDto = getWeatherSampleFromWeatherBitApi("", "", "", "");
-        WeatherSampleDto DarkSkyDto = getWeatherSampleFromDarkSkyApi("", "", "", "");
-        if (OpenWeatherDto != null) {
-            WeatherSampleDto existingWeatherSampleDto = convertToDto(findFirstWeatherSampleByCityIdAndTime(
-                    OpenWeatherDto.getCityId(),
-                    OpenWeatherDto.getTime()
-            ));
-            if (existingWeatherSampleDto != null) {
-                existingWeatherSampleDto.setId(null);
+    private WeatherSampleDto getAverageFromWeatherSamples(ArrayList<WeatherSampleDto> apiDtos) {
+        WeatherSampleDto averageDto = new WeatherSampleDto();
+
+        averageDto.setLatitude(apiDtos.get(0).getLatitude());
+        averageDto.setLongitude(apiDtos.get(0).getLongitude());
+        averageDto.setCityName(apiDtos.get(0).getCityName());
+        averageDto.setTime(apiDtos.get(0).getTime());
+
+        // add all
+        for (WeatherSampleDto apiDto : apiDtos) {
+            averageDto.setTemperature(
+                    averageDto.getTemperature() + apiDto.getTemperature()
+            );
+            averageDto.setFeelsLike(
+                    averageDto.getFeelsLike() + apiDto.getFeelsLike()
+            );
+            averageDto.setPressure(
+                    averageDto.getPressure() + apiDto.getPressure()
+            );
+            averageDto.setHumidity(
+                    averageDto.getHumidity() + apiDto.getHumidity()
+            );
+            averageDto.setClouds(
+                    averageDto.getClouds() + apiDto.getClouds()
+            );
+            if (apiDto.getCityId() != -1) {
+                averageDto.setCityId(apiDto.getCityId());
             }
-            if (existingWeatherSampleDto == null || !existingWeatherSampleDto.equals(OpenWeatherDto)) {
-                addWeatherSample(convertToEntity(OpenWeatherDto));
+            if (apiDto.getTime() < averageDto.getTime()) {
+                averageDto.setTime(apiDto.getTime());
             }
-            return OpenWeatherDto;
-        } else {
-            System.out.println("Error: weatherSampleService.getWeatherSampleFromApi() returned null response " +
-                    "\n@WeatherSampleController:addWeatherSampleFromApi()");
-            return null;
         }
+
+        // Divide all
+        averageDto.setTemperature(
+                Math.round(averageDto.getTemperature() / 3 * 100) / 100.0f
+        );
+        averageDto.setFeelsLike(
+                Math.round(averageDto.getFeelsLike() / 3 * 100) / 100.0f
+        );
+        averageDto.setPressure(
+                Math.round(averageDto.getPressure() / 3 * 100) / 100.0f
+        );
+        averageDto.setHumidity(
+                Math.round(averageDto.getHumidity() / 3.0f)
+        );
+        averageDto.setClouds(
+                Math.round(averageDto.getClouds() / 3.0f)
+        );
+
+        return averageDto;
+    }
+
+    public WeatherSampleDto addWeatherSampleFromApi() {
+        WeatherSampleDto averageDto = getAverageFromWeatherSamples(
+                new ArrayList<>(
+                        Arrays.asList(
+                                getWeatherSampleFromOpenWeatherApi("", "", "", ""),
+                                getWeatherSampleFromWeatherBitApi("", "", "", ""),
+                                getWeatherSampleFromDarkSkyApi("", "", "", "")
+                        )
+                )
+        );
+
+        WeatherSampleDto existingWeatherSampleDto = convertToDto(findFirstWeatherSampleByCityIdAndTime(
+                averageDto.getCityId(),
+                averageDto.getTime()
+        ));
+        if (existingWeatherSampleDto != null) {
+            existingWeatherSampleDto.setId(null);
+        }
+        if (existingWeatherSampleDto == null || !existingWeatherSampleDto.equals(averageDto)) {
+            addWeatherSample(convertToEntity(averageDto));
+        }
+        return averageDto;
     }
 
     private WeatherSampleDto convertToDto(WeatherSample weatherSample) {
@@ -233,23 +273,23 @@ public class WeatherSampleService {
 //    @PostConstruct
 //    public void init() {
 //        weatherSampleRepository.saveAll(Arrays.asList(
-//                new WeatherSample("Ternopil", -0.99f, -7.32f, 1030, 82, 5, 691650, 1579826046),
-//                new WeatherSample("Ternopil", 1.67f, -5.64f, 985, 61, 51, 691650, 1579899329),
-//                new WeatherSample("Ternopil", 0f, -6.78f, 985, 64, 51, 691650, 1579902899),
-//                new WeatherSample("Ternopil", 0.56f, -5.25f, 985, 63, 51, 691650, 1579903776),
-//                new WeatherSample("Ternopil", 1.95f, -1.31f, 1016, 87, 99, 691650, 1580132973),
-//                new WeatherSample("Ternopil", 1.95f, -1.31f, 1016, 87, 99, 691650, 1580133658),
-//                new WeatherSample("Ternopil", 1.95f, -1.31f, 1016, 87, 99, 691650, 1580134637),
-//                new WeatherSample("Ternopil", 1.95f, -1.31f, 1016, 87, 99, 691650, 1580134637),
-//                new WeatherSample("Ternopil", 1.95f, -1.31f, 1016, 87, 99, 691650, 1580137114),
-//                new WeatherSample("Ternopil", 1.06f, -2.27f, 1016, 84, 100, 691650, 1580143089),
-//                new WeatherSample("Ternopil", 1.06f, -2.27f, 1016, 84, 100, 691650, 1580143552),
-//                new WeatherSample("Ternopil", 1.06f, -2.27f, 1016, 84, 100, 691650, 1580144981),
-//                new WeatherSample("Ternopil", 2.78f, -4.05f, 969, 76, 50, 691650, 1580322598),
-//                new WeatherSample("Ternopil", 3.33f, 0.28f, 969, 74, 50, 691650, 1580324738),
-//                new WeatherSample("Ternopil", 3.89f, -0.82f, 975, 79, 78, 691650, 1580372020),
-//                new WeatherSample("Ternopil", 3.89f, 0.4f, 975, 78, 78, 691650, 1580373254),
-//                new WeatherSample("Ternopil", 3.89f, -0.85f, 975, 78, 78, 691650, 1580374202)
+//                new WeatherSample("Ternopil", -0.99f, -7.32f, 1030, 82, 5, 691650, 1579826046,49.56f,25.61f),
+//                new WeatherSample("Ternopil", 1.67f, -5.64f, 985, 61, 51, 691650, 1579899329,49.56f,25.61f),
+//                new WeatherSample("Ternopil", 0f, -6.78f, 985, 64, 51, 691650, 1579902899,49.56f,25.61f),
+//                new WeatherSample("Ternopil", 0.56f, -5.25f, 985, 63, 51, 691650, 1579903776,49.56f,25.61f),
+//                new WeatherSample("Ternopil", 1.95f, -1.31f, 1016, 87, 99, 691650, 1580132973,49.56f,25.61f),
+//                new WeatherSample("Ternopil", 1.95f, -1.31f, 1016, 87, 99, 691650, 1580133658,49.56f,25.61f),
+//                new WeatherSample("Ternopil", 1.95f, -1.31f, 1016, 87, 99, 691650, 1580134637,49.56f,25.61f),
+//                new WeatherSample("Ternopil", 1.95f, -1.31f, 1016, 87, 99, 691650, 1580134637,49.56f,25.61f),
+//                new WeatherSample("Ternopil", 1.95f, -1.31f, 1016, 87, 99, 691650, 1580137114,49.56f,25.61f),
+//                new WeatherSample("Ternopil", 1.06f, -2.27f, 1016, 84, 100, 691650, 1580143089,49.56f,25.61f),
+//                new WeatherSample("Ternopil", 1.06f, -2.27f, 1016, 84, 100, 691650, 1580143552,49.56f,25.61f),
+//                new WeatherSample("Ternopil", 1.06f, -2.27f, 1016, 84, 100, 691650, 1580144981,49.56f,25.61f),
+//                new WeatherSample("Ternopil", 2.78f, -4.05f, 969, 76, 50, 691650, 1580322598,49.56f,25.61f),
+//                new WeatherSample("Ternopil", 3.33f, 0.28f, 969, 74, 50, 691650, 1580324738,49.56f,25.61f),
+//                new WeatherSample("Ternopil", 3.89f, -0.82f, 975, 79, 78, 691650, 1580372020,49.56f,25.61f),
+//                new WeatherSample("Ternopil", 3.89f, 0.4f, 975, 78, 78, 691650, 1580373254,49.56f,25.61f),
+//                new WeatherSample("Ternopil", 3.89f, -0.85f, 975, 78, 78, 691650, 158037420,49.56f,25.61f)
 //                )
 //        );
 //    }

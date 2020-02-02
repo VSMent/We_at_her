@@ -1,6 +1,6 @@
 package pr.eleks.we_at_her.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -8,39 +8,27 @@ import java.io.Serializable;
 import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class WeatherBitApiDto implements Serializable {
-    private String cityName;    // Ternopil
+public class DarkSkyApiDto implements Serializable {
     private float temperature;  // -1.4 - 15.8 (deg C)
     private float feelsLike;    // -1.4 - 15.8 (deg C)
-    private float pressure;     // 10 - 90 (1.0 milibar == 1.0 hecto Pascal)
-    private int humidity;       // 10 -90 (%)
-    private int clouds;         // 10 -90 (%)
-    private int time;           // 1579825648 (unix)
+    private float pressure;     // 10 - 90 (hPa - hecto Pascal)
+    private int humidity;       // 0.1 -> 10 (%)
+    private int clouds;         // 0.1 -> 10 (%)
+    private int time;           // 1579825648 (unix, UTC)
     private float latitude;     // 49.55589
     private float longitude;    // 25.60556
 
-    @JsonProperty("data")
-    private void unpackMain(Map<String, Object>[] data) {
-        cityName = data[0].get("city_name").toString();
-        temperature = Float.parseFloat(data[0].get("temp").toString());
-        feelsLike = Float.parseFloat(data[0].get("app_temp").toString());
-        pressure = Float.parseFloat(data[0].get("pres").toString());
-        humidity = Integer.parseInt(data[0].get("rh").toString());
-        clouds = Integer.parseInt(data[0].get("clouds").toString());
-        time = Integer.parseInt(data[0].get("ts").toString());
-        latitude = Float.parseFloat(data[0].get("lat").toString());
-        longitude = Float.parseFloat(data[0].get("lon").toString());
+    @JsonProperty("currently")
+    private void unpackCurrently(Map<String, String> currentlyObj) {
+        temperature = Float.parseFloat(currentlyObj.get("temperature"));
+        feelsLike = Float.parseFloat(currentlyObj.get("apparentTemperature"));
+        pressure = Float.parseFloat(currentlyObj.get("pressure"));
+        humidity = (int) (Float.parseFloat(currentlyObj.get("humidity")) * 100);
+        clouds = (int) (Float.parseFloat(currentlyObj.get("cloudCover")) * 100);
+        time = Integer.parseInt(currentlyObj.get("time"));
     }
 
-    public WeatherBitApiDto() {
-    }
-
-    public String getCityName() {
-        return cityName;
-    }
-
-    public void setCityName(String cityName) {
-        this.cityName = cityName;
+    public DarkSkyApiDto() {
     }
 
     public float getTemperature() {

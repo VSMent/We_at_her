@@ -7,18 +7,20 @@ import java.util.Objects;
 public class WeatherSampleDto implements Serializable {
     private Long id;
     private String cityName;    // Ternopil
-    private float temperature;  // -1.4 - 15.8 deg C
-    private float feelsLike;    // -1.4 - 15.8 deg C
-    private int pressure;       // 10 - 90 %
-    private int humidity;       // 10 -90 %
-    private int clouds;         // 10 -90 %
+    private float temperature;  // -1.4 - 15.8 (deg C)
+    private float feelsLike;    // -1.4 - 15.8 (deg C)
+    private float pressure;     // 10 - 90 (hPa - hecto Pascal)
+    private int humidity;       // 10 - 90 (%)
+    private int clouds;         // 10 - 90 (%)
     private int cityId;         // 691650
-    private int time;           // 1579825648
+    private int time;           // 1579825648 (unix)
+    private float latitude;     // 49.55589
+    private float longitude;    // 25.60556
 
     public WeatherSampleDto() {
     }
 
-    public WeatherSampleDto(String cityName, float temperature, float feelsLike, int pressure, int humidity, int clouds, int cityId, int time) {
+    public WeatherSampleDto(String cityName, float temperature, float feelsLike, float pressure, int humidity, int clouds, int cityId, int time, float latitude, float longitude) {
         this.cityName = cityName;
         this.temperature = temperature;
         this.feelsLike = feelsLike;
@@ -27,6 +29,8 @@ public class WeatherSampleDto implements Serializable {
         this.clouds = clouds;
         this.cityId = cityId;
         this.time = time;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public Long getId() {
@@ -61,11 +65,11 @@ public class WeatherSampleDto implements Serializable {
         this.feelsLike = feelsLike;
     }
 
-    public int getPressure() {
+    public float getPressure() {
         return pressure;
     }
 
-    public void setPressure(int pressure) {
+    public void setPressure(float pressure) {
         this.pressure = pressure;
     }
 
@@ -99,6 +103,22 @@ public class WeatherSampleDto implements Serializable {
 
     public void setTime(int time) {
         this.time = time;
+    }
+
+    public float getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(float latitude) {
+        this.latitude = latitude;
+    }
+
+    public float getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
     }
 
     @Override

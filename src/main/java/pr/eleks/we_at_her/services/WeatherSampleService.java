@@ -1,9 +1,7 @@
 package pr.eleks.we_at_her.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.cdimascio.dotenv.Dotenv;
-import org.hibernate.annotations.OrderBy;
-import org.springframework.core.annotation.Order;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -20,13 +18,13 @@ import java.util.List;
 public class WeatherSampleService {
 
     private WeatherSampleRepository weatherSampleRepository;
-    private Dotenv dotenv;
     private ObjectMapper mapper;
+    private Environment env;
 
-    public WeatherSampleService(WeatherSampleRepository weatherSampleRepository, Dotenv dotenv, ObjectMapper mapper) {
+    public WeatherSampleService(WeatherSampleRepository weatherSampleRepository,ObjectMapper mapper, Environment env) {
         this.weatherSampleRepository = weatherSampleRepository;
-        this.dotenv = dotenv;
         this.mapper = mapper;
+        this.env = env;
     }
 
 
@@ -59,19 +57,20 @@ public class WeatherSampleService {
 
     public WeatherSampleDto getWeatherSampleFromApi(String city, String lang, String units) {
         // Default values
-        city = city.equals("") ? "Ternopil" : city;
-        lang = lang.equals("") ? "UA" : lang;
-        units = units.equals("") ? "metric" : units;
+        city = city.equals("") ? env.getProperty("OWApi.city") : city;
+        lang = lang.equals("") ? env.getProperty("OWApi.lang") : lang;
+        units = units.equals("") ? env.getProperty("OWApi.units") : units;
 
         // Prepare request string
-        String apiUrl = "http://api.openweathermap.org/data/2.5";
+//        String apiUrl = "http://api.openweathermap.org/data/2.5";
+        String apiUrl = env.getProperty("OWApi.baseUrl","http://api.openweathermap.org/data/2.5");
         UriComponentsBuilder uriBuilder = UriComponentsBuilder
                 .fromUriString(apiUrl)
-                .pathSegment("weather")
+                .pathSegment(env.getProperty("OWApi.request"))
                 .queryParam("q", city)
                 .queryParam("lang", lang)
                 .queryParam("units", units)
-                .queryParam("appid", dotenv.get("OPENWEATHERMAP_API"));
+                .queryParam("appid", env.getProperty("OWApi.key"));
 
         // Make request
         RestTemplate restTemplate = new RestTemplate();
@@ -127,4 +126,28 @@ public class WeatherSampleService {
         }
         return mapper.convertValue(weatherSampleDto, WeatherSample.class);
     }
+
+//    @PostConstruct
+//    public void init() {
+//        weatherSampleRepository.saveAll(Arrays.asList(
+//                new WeatherSample("Ternopil", -0.99f, -7.32f, 1030, 82, 5, 691650, 1579826046),
+//                new WeatherSample("Ternopil", 1.67f, -5.64f, 985, 61, 51, 691650, 1579899329),
+//                new WeatherSample("Ternopil", 0f, -6.78f, 985, 64, 51, 691650, 1579902899),
+//                new WeatherSample("Ternopil", 0.56f, -5.25f, 985, 63, 51, 691650, 1579903776),
+//                new WeatherSample("Ternopil", 1.95f, -1.31f, 1016, 87, 99, 691650, 1580132973),
+//                new WeatherSample("Ternopil", 1.95f, -1.31f, 1016, 87, 99, 691650, 1580133658),
+//                new WeatherSample("Ternopil", 1.95f, -1.31f, 1016, 87, 99, 691650, 1580134637),
+//                new WeatherSample("Ternopil", 1.95f, -1.31f, 1016, 87, 99, 691650, 1580134637),
+//                new WeatherSample("Ternopil", 1.95f, -1.31f, 1016, 87, 99, 691650, 1580137114),
+//                new WeatherSample("Ternopil", 1.06f, -2.27f, 1016, 84, 100, 691650, 1580143089),
+//                new WeatherSample("Ternopil", 1.06f, -2.27f, 1016, 84, 100, 691650, 1580143552),
+//                new WeatherSample("Ternopil", 1.06f, -2.27f, 1016, 84, 100, 691650, 1580144981),
+//                new WeatherSample("Ternopil", 2.78f, -4.05f, 969, 76, 50, 691650, 1580322598),
+//                new WeatherSample("Ternopil", 3.33f, 0.28f, 969, 74, 50, 691650, 1580324738),
+//                new WeatherSample("Ternopil", 3.89f, -0.82f, 975, 79, 78, 691650, 1580372020),
+//                new WeatherSample("Ternopil", 3.89f, 0.4f, 975, 78, 78, 691650, 1580373254),
+//                new WeatherSample("Ternopil", 3.89f, -0.85f, 975, 78, 78, 691650, 1580374202)
+//                )
+//        );
+//    }
 }

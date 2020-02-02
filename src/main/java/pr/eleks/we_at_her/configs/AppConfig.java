@@ -1,7 +1,6 @@
 package pr.eleks.we_at_her.configs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,8 +11,4 @@ public class AppConfig {
         return new ObjectMapper();
     }
 
-    @Bean
-    public Dotenv dotenv() {
-        return Dotenv.load();
-    }
 }

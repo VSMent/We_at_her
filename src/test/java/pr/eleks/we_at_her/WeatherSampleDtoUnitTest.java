@@ -1,14 +1,14 @@
 package pr.eleks.we_at_her;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
 import pr.eleks.we_at_her.dto.WeatherSampleDto;
 import pr.eleks.we_at_her.entities.WeatherSample;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class WeatherSampleDtoUnitTest {
-    private ModelMapper modelMapper = new ModelMapper();
+    private ObjectMapper modelMapper = new ObjectMapper();
 
     @Test
     public void whenConvertWeatherSampleEntityToWeatherSampleDto_thenCorrect() {
@@ -23,7 +23,7 @@ public class WeatherSampleDtoUnitTest {
         weatherSample.setTemperature(-0.49f);
         weatherSample.setTime(1579884814);
 
-        WeatherSampleDto weatherSampleDto = modelMapper.map(weatherSample, WeatherSampleDto.class);
+        WeatherSampleDto weatherSampleDto = modelMapper.convertValue(weatherSample, WeatherSampleDto.class);
         assertEquals(weatherSample.getId(), weatherSampleDto.getId());
         assertEquals(weatherSample.getCityId(), weatherSampleDto.getCityId());
         assertEquals(weatherSample.getCityName(), weatherSampleDto.getCityName());
@@ -48,7 +48,7 @@ public class WeatherSampleDtoUnitTest {
         weatherSampleDto.setTemperature(-0.49f);
         weatherSampleDto.setTime(1579884814);
 
-        WeatherSample weatherSample = modelMapper.map(weatherSampleDto, WeatherSample.class);
+        WeatherSample weatherSample = modelMapper.convertValue(weatherSampleDto, WeatherSample.class);
         assertEquals(weatherSampleDto.getId(), weatherSample.getId());
         assertEquals(weatherSampleDto.getCityId(), weatherSample.getCityId());
         assertEquals(weatherSampleDto.getCityName(), weatherSample.getCityName());

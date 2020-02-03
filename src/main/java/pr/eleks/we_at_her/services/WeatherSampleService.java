@@ -234,7 +234,7 @@ public class WeatherSampleService {
     @Scheduled(cron = "0 0 */1 * * *")
     // second, minute, hour, day of month, month, day(s) of week (* any, */x every x, ? no specification)
     public WeatherSampleDto addWeatherSampleFromApi() {
-        System.out.println(new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss\t").format(new Date()) + "Executing \"addWeatherSampleFromApi\"");
+        System.out.println(new SimpleDateFormat("yyyy.MM.dd HH:mm:ss\t\t").format(new Date()) + "Executing \"addWeatherSampleFromApi\"");
         WeatherSampleDto averageDto = getAverageFromWeatherSamples(
                 new ArrayList<>(
                         Arrays.asList(

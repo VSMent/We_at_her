@@ -2,6 +2,7 @@ package pr.eleks.we_at_her.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -13,10 +14,8 @@ import pr.eleks.we_at_her.entities.WeatherSample;
 import pr.eleks.we_at_her.repositories.WeatherSampleRepository;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class WeatherSampleService {
@@ -232,7 +231,10 @@ public class WeatherSampleService {
         return averageDto;
     }
 
+    @Scheduled(cron = "0 0 */1 * * *")
+    // second, minute, hour, day of month, month, day(s) of week (* any, */x every x, ? no specification)
     public WeatherSampleDto addWeatherSampleFromApi() {
+        System.out.println(new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss\t").format(new Date()) + "Executing \"addWeatherSampleFromApi\"");
         WeatherSampleDto averageDto = getAverageFromWeatherSamples(
                 new ArrayList<>(
                         Arrays.asList(

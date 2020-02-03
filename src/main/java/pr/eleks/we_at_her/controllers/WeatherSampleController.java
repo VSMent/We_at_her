@@ -20,12 +20,6 @@ public class WeatherSampleController {
         this.weatherSampleService = weatherSampleService;
         this.mapper = mapper;
     }
-    
-//    @GetMapping("/addWeatherSamplesFromApi")
-//    public String addWeatherSampleFromApi() {
-//        weatherSampleService.addWeatherSampleFromApi();
-//        return "redirect:/";
-//    }
 
     @GetMapping("/weatherSamplesREST")
     public List<WeatherSampleDto> getAllWeatherSamples() {

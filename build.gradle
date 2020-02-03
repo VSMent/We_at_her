@@ -28,14 +28,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.security:spring-security-test'
     runtimeOnly 'mysql:mysql-connector-java'
-//    implementation 'org.springframework:spring-webmvc'
 //    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
-    // HIBERNATE
-    // SECURITY
-    // Endpoint authorisation
-    // Registration
-
+    testImplementation 'org.awaitility:awaitility:3.1.2'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }

@@ -1,9 +1,8 @@
 package pr.eleks.we_at_her.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 import pr.eleks.we_at_her.dto.WeatherSampleDto;
 import pr.eleks.we_at_her.entities.WeatherSample;
 import pr.eleks.we_at_her.services.WeatherSampleService;
@@ -11,7 +10,7 @@ import pr.eleks.we_at_her.services.WeatherSampleService;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller
+@RestController
 public class WeatherSampleController {
 
     private WeatherSampleService weatherSampleService;
@@ -22,18 +21,18 @@ public class WeatherSampleController {
         this.mapper = mapper;
     }
 
-    @GetMapping("/")
-    public String viewHomePage(Model model) {
-        List<WeatherSampleDto> weatherSampleDtoList = getAllWeatherSamples();
-        model.addAttribute("weatherSampleDtoList", weatherSampleDtoList);
-        return "index";
-    }
-
-    @GetMapping("/addWeatherSamplesFromApi")
-    public String addWeatherSampleFromApi() {
-        weatherSampleService.addWeatherSampleFromApi();
-        return "redirect:/";
-    }
+//    @GetMapping("/")
+//    public String viewHomePage(Model model) {
+//        List<WeatherSampleDto> weatherSampleDtoList = getAllWeatherSamples();
+//        model.addAttribute("weatherSampleDtoList", weatherSampleDtoList);
+//        return "index";
+//    }
+//
+//    @GetMapping("/addWeatherSamplesFromApi")
+//    public String addWeatherSampleFromApi() {
+//        weatherSampleService.addWeatherSampleFromApi();
+//        return "redirect:/";
+//    }
 
     @GetMapping("/weatherSamplesREST")
     public List<WeatherSampleDto> getAllWeatherSamples() {

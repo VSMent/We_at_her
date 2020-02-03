@@ -20,14 +20,7 @@ public class WeatherSampleController {
         this.weatherSampleService = weatherSampleService;
         this.mapper = mapper;
     }
-
-//    @GetMapping("/")
-//    public String viewHomePage(Model model) {
-//        List<WeatherSampleDto> weatherSampleDtoList = getAllWeatherSamples();
-//        model.addAttribute("weatherSampleDtoList", weatherSampleDtoList);
-//        return "index";
-//    }
-//
+    
 //    @GetMapping("/addWeatherSamplesFromApi")
 //    public String addWeatherSampleFromApi() {
 //        weatherSampleService.addWeatherSampleFromApi();

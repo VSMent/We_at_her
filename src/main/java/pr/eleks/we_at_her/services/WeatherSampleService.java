@@ -11,9 +11,9 @@ import pr.eleks.we_at_her.dto.OpenWeatherApiDto;
 import pr.eleks.we_at_her.dto.WeatherBitApiDto;
 import pr.eleks.we_at_her.dto.WeatherSampleDto;
 import pr.eleks.we_at_her.entities.WeatherSample;
+import pr.eleks.we_at_her.exceptions.PropertyNotFoundException;
 import pr.eleks.we_at_her.repositories.WeatherSampleRepository;
 
-import javax.annotation.PostConstruct;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -60,7 +60,7 @@ public class WeatherSampleService {
 //        weatherSampleRepository.deleteById(id);
 //    }
 
-    private WeatherSampleDto getWeatherSampleFromOpenWeatherApi(String latitude, String longitude, String lang, String units) {
+    private WeatherSampleDto getWeatherSampleFromOpenWeatherApi(String latitude, String longitude, String lang, String units) throws PropertyNotFoundException {
         // Default values
         latitude = latitude.equals("") ? env.getProperty("city.Ternopil.lat") : latitude;
         longitude = longitude.equals("") ? env.getProperty("city.Ternopil.lon") : longitude;
@@ -68,7 +68,10 @@ public class WeatherSampleService {
         units = units.equals("") ? env.getProperty("OWApi.units") : units;
 
         // Prepare request string
-        String apiUrl = env.getProperty("OWApi.baseUrl", "http://api.openweathermap.org/data/2.5"); //todo exception
+        String apiUrl = env.getProperty("OWApi.baseUrl");
+        if (apiUrl == null) {
+            throw new PropertyNotFoundException("OWApi.baseUrl");
+        }
         UriComponentsBuilder uriBuilder = UriComponentsBuilder
                 .fromUriString(apiUrl)
                 .pathSegment(env.getProperty("OWApi.request"))
@@ -99,7 +102,7 @@ public class WeatherSampleService {
         return null;
     }
 
-    private WeatherSampleDto getWeatherSampleFromWeatherBitApi(String latitude, String longitude, String lang, String units) {
+    private WeatherSampleDto getWeatherSampleFromWeatherBitApi(String latitude, String longitude, String lang, String units) throws PropertyNotFoundException {
         // Default values
         latitude = latitude.equals("") ? env.getProperty("city.Ternopil.lat") : latitude;
         longitude = longitude.equals("") ? env.getProperty("city.Ternopil.lon") : longitude;
@@ -107,7 +110,10 @@ public class WeatherSampleService {
         units = units.equals("") ? env.getProperty("WBApi.units") : units;
 
         // Prepare request string
-        String apiUrl = env.getProperty("WBApi.baseUrl", "http://api.weatherbit.io/v2.0/");
+        String apiUrl = env.getProperty("WBApi.baseUrl");
+        if (apiUrl == null) {
+            throw new PropertyNotFoundException("WBApi.baseUrl");
+        }
         UriComponentsBuilder uriBuilder = UriComponentsBuilder
                 .fromUriString(apiUrl)
                 .pathSegment(env.getProperty("WBApi.request"))
@@ -138,7 +144,7 @@ public class WeatherSampleService {
         return null;
     }
 
-    private WeatherSampleDto getWeatherSampleFromDarkSkyApi(String latitude, String longitude, String lang, String units) {
+    private WeatherSampleDto getWeatherSampleFromDarkSkyApi(String latitude, String longitude, String lang, String units) throws PropertyNotFoundException {
         // Default values
         latitude = latitude.equals("") ? env.getProperty("city.Ternopil.lat") : latitude;
         longitude = longitude.equals("") ? env.getProperty("city.Ternopil.lon") : longitude;
@@ -146,7 +152,10 @@ public class WeatherSampleService {
         units = units.equals("") ? env.getProperty("DSApi.units") : units;
 
         // Prepare request string
-        String apiUrl = env.getProperty("DSApi.baseUrl", "https://api.darksky.net/");
+        String apiUrl = env.getProperty("DSApi.baseUrl");
+        if (apiUrl == null) {
+            throw new PropertyNotFoundException("DSApi.baseUrl");
+        }
         UriComponentsBuilder uriBuilder = UriComponentsBuilder
                 .fromUriString(apiUrl)
                 .pathSegment(env.getProperty("DSApi.request"))
@@ -232,7 +241,7 @@ public class WeatherSampleService {
 
     @Scheduled(cron = "0 0 */1 * * *")
     // second, minute, hour, day of month, month, day(s) of week (* any, */x every x, ? no specification)
-    public WeatherSampleDto addWeatherSampleFromApi() {
+    public void addWeatherSampleFromApi() throws PropertyNotFoundException {
         System.out.println(new SimpleDateFormat("yyyy.MM.dd HH:mm:ss\t\t").format(new Date()) + "Executing \"addWeatherSampleFromApi\"");
         WeatherSampleDto averageDto = getAverageFromWeatherSamples(
                 new ArrayList<>(
@@ -254,7 +263,6 @@ public class WeatherSampleService {
         if (existingWeatherSampleDto == null || !existingWeatherSampleDto.equals(averageDto)) {
             addWeatherSample(convertToEntity(averageDto));
         }
-        return averageDto;
     }
 
     private WeatherSampleDto convertToDto(WeatherSample weatherSample) {

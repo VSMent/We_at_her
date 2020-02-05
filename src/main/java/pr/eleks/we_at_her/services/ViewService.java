@@ -28,7 +28,7 @@ public class ViewService {
     }
 
     public List<WeatherSampleDto> getAllWeatherSamples() {
-        String apiUrl = "http://localhost:" + env.getProperty("server.port");
+        String apiUrl = env.getProperty("server.host") +":"+ env.getProperty("server.port");
         UriComponentsBuilder uriBuilder = UriComponentsBuilder
                 .fromUriString(apiUrl)
                 .pathSegment("weatherSamplesREST");

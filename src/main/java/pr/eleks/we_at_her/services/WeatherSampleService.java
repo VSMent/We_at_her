@@ -23,18 +23,20 @@ public class WeatherSampleService {
     private WeatherSampleRepository weatherSampleRepository;
     private ObjectMapper mapper;
     private Environment env;
+    private RestTemplate restTemplate;
 
-    public WeatherSampleService(WeatherSampleRepository weatherSampleRepository, ObjectMapper mapper, Environment env) {
+    public WeatherSampleService(WeatherSampleRepository weatherSampleRepository, ObjectMapper mapper, Environment env, RestTemplate restTemplate) {
         this.weatherSampleRepository = weatherSampleRepository;
         this.mapper = mapper;
         this.env = env;
+        this.restTemplate = restTemplate;
     }
 
 
     public List<WeatherSample> getAllWeatherSamples() {
         List<WeatherSample> weatherSamples = new ArrayList<>();
         weatherSampleRepository.findAll().forEach(weatherSamples::add);
-        Collections.reverse(weatherSamples);
+        Collections.reverse(weatherSamples); //todo stream
         return weatherSamples;
     }
 
@@ -66,7 +68,7 @@ public class WeatherSampleService {
         units = units.equals("") ? env.getProperty("OWApi.units") : units;
 
         // Prepare request string
-        String apiUrl = env.getProperty("OWApi.baseUrl", "http://api.openweathermap.org/data/2.5");
+        String apiUrl = env.getProperty("OWApi.baseUrl", "http://api.openweathermap.org/data/2.5"); //todo exception
         UriComponentsBuilder uriBuilder = UriComponentsBuilder
                 .fromUriString(apiUrl)
                 .pathSegment(env.getProperty("OWApi.request"))
@@ -77,7 +79,6 @@ public class WeatherSampleService {
                 .queryParam("appid", env.getProperty("OWApi.key"));
 
         // Make request
-        RestTemplate restTemplate = new RestTemplate();
         OpenWeatherApiDto apiResponseDto = restTemplate.getForObject(uriBuilder.toUriString(), OpenWeatherApiDto.class);
 
         // Handle error, return result
@@ -117,7 +118,6 @@ public class WeatherSampleService {
                 .queryParam("key", env.getProperty("WBApi.key"));
 
         // Make request
-        RestTemplate restTemplate = new RestTemplate();
         WeatherBitApiDto apiResponseDto = restTemplate.getForObject(uriBuilder.toUriString(), WeatherBitApiDto.class);
 
         // Handle error, return result
@@ -157,7 +157,6 @@ public class WeatherSampleService {
                 .queryParam("exclude", env.getProperty("DSApi.exclude"));
 
         // Make request
-        RestTemplate restTemplate = new RestTemplate();
         DarkSkyApiDto apiResponseDto = restTemplate.getForObject(uriBuilder.toUriString(), DarkSkyApiDto.class);
 
         // Handle error, return result

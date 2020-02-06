@@ -1,6 +1,7 @@
 package pr.eleks.we_at_her.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,9 @@ import pr.eleks.we_at_her.dto.WeatherSampleDto;
 import pr.eleks.we_at_her.entities.WeatherSample;
 import pr.eleks.we_at_her.exceptions.PropertyNotFoundException;
 import pr.eleks.we_at_her.repositories.WeatherSampleRepository;
+import pr.eleks.we_at_her.services.impl.DarkSkyApiServiceImpl;
+import pr.eleks.we_at_her.services.impl.OpenWeatherApiServiceImpl;
+import pr.eleks.we_at_her.services.impl.WeatherBitApiServiceImpl;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -24,19 +28,33 @@ public class WeatherSampleService {
     private ObjectMapper mapper;
     private Environment env;
     private RestTemplate restTemplate;
+    private DarkSkyApiServiceImpl darkSkyApiService;
+    private OpenWeatherApiServiceImpl openWeatherApiService;
+    private WeatherBitApiServiceImpl weatherBitApiService;
 
-    public WeatherSampleService(WeatherSampleRepository weatherSampleRepository, ObjectMapper mapper, Environment env, RestTemplate restTemplate) {
+    public WeatherSampleService(
+            WeatherSampleRepository weatherSampleRepository,
+            ObjectMapper mapper,
+            Environment env,
+            RestTemplate restTemplate,
+            DarkSkyApiServiceImpl darkSkyApiService,
+            OpenWeatherApiServiceImpl openWeatherApiService,
+            WeatherBitApiServiceImpl weatherBitApiService
+    ) {
         this.weatherSampleRepository = weatherSampleRepository;
         this.mapper = mapper;
         this.env = env;
         this.restTemplate = restTemplate;
+        this.darkSkyApiService = darkSkyApiService;
+        this.openWeatherApiService = openWeatherApiService;
+        this.weatherBitApiService = weatherBitApiService;
     }
 
 
     public List<WeatherSample> getAllWeatherSamples() {
         List<WeatherSample> weatherSamples = new ArrayList<>();
         weatherSampleRepository.findAll().forEach(weatherSamples::add);
-        Collections.reverse(weatherSamples); //todo stream
+        Collections.reverse(weatherSamples);
         return weatherSamples;
     }
 
@@ -60,131 +78,6 @@ public class WeatherSampleService {
 //        weatherSampleRepository.deleteById(id);
 //    }
 
-    private WeatherSampleDto getWeatherSampleFromOpenWeatherApi(String latitude, String longitude, String lang, String units) throws PropertyNotFoundException {
-        // Default values
-        latitude = latitude.equals("") ? env.getProperty("city.Ternopil.lat") : latitude;
-        longitude = longitude.equals("") ? env.getProperty("city.Ternopil.lon") : longitude;
-        lang = lang.equals("") ? env.getProperty("OWApi.lang") : lang;
-        units = units.equals("") ? env.getProperty("OWApi.units") : units;
-
-        // Prepare request string
-        String apiUrl = env.getProperty("OWApi.baseUrl");
-        if (apiUrl == null) {
-            throw new PropertyNotFoundException("OWApi.baseUrl");
-        }
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder
-                .fromUriString(apiUrl)
-                .pathSegment(env.getProperty("OWApi.request"))
-                .queryParam("lat", latitude)
-                .queryParam("lon", longitude)
-                .queryParam("lang", lang)
-                .queryParam("units", units)
-                .queryParam("appid", env.getProperty("OWApi.key"));
-
-        // Make request
-        OpenWeatherApiDto apiResponseDto = restTemplate.getForObject(uriBuilder.toUriString(), OpenWeatherApiDto.class);
-
-        // Handle error, return result
-        if (apiResponseDto != null) {
-            return new WeatherSampleDto(
-                    apiResponseDto.getCityName(),
-                    apiResponseDto.getTemperature(),
-                    apiResponseDto.getFeelsLike(),
-                    apiResponseDto.getPressure(),
-                    apiResponseDto.getHumidity(),
-                    apiResponseDto.getClouds(),
-                    apiResponseDto.getCityId(),
-                    apiResponseDto.getTime(),
-                    apiResponseDto.getLatitude(),
-                    apiResponseDto.getLongitude()
-            );
-        }
-        return null;
-    }
-
-    private WeatherSampleDto getWeatherSampleFromWeatherBitApi(String latitude, String longitude, String lang, String units) throws PropertyNotFoundException {
-        // Default values
-        latitude = latitude.equals("") ? env.getProperty("city.Ternopil.lat") : latitude;
-        longitude = longitude.equals("") ? env.getProperty("city.Ternopil.lon") : longitude;
-        lang = lang.equals("") ? env.getProperty("WBApi.lang") : lang;
-        units = units.equals("") ? env.getProperty("WBApi.units") : units;
-
-        // Prepare request string
-        String apiUrl = env.getProperty("WBApi.baseUrl");
-        if (apiUrl == null) {
-            throw new PropertyNotFoundException("WBApi.baseUrl");
-        }
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder
-                .fromUriString(apiUrl)
-                .pathSegment(env.getProperty("WBApi.request"))
-                .queryParam("lat", latitude)
-                .queryParam("lon", longitude)
-                .queryParam("lang", lang)
-                .queryParam("units", units)
-                .queryParam("key", env.getProperty("WBApi.key"));
-
-        // Make request
-        WeatherBitApiDto apiResponseDto = restTemplate.getForObject(uriBuilder.toUriString(), WeatherBitApiDto.class);
-
-        // Handle error, return result
-        if (apiResponseDto != null) {
-            return new WeatherSampleDto(
-                    apiResponseDto.getCityName(),
-                    apiResponseDto.getTemperature(),
-                    apiResponseDto.getFeelsLike(),
-                    apiResponseDto.getPressure(),
-                    apiResponseDto.getHumidity(),
-                    apiResponseDto.getClouds(),
-                    -1,
-                    apiResponseDto.getTime(),
-                    apiResponseDto.getLatitude(),
-                    apiResponseDto.getLongitude()
-            );
-        }
-        return null;
-    }
-
-    private WeatherSampleDto getWeatherSampleFromDarkSkyApi(String latitude, String longitude, String lang, String units) throws PropertyNotFoundException {
-        // Default values
-        latitude = latitude.equals("") ? env.getProperty("city.Ternopil.lat") : latitude;
-        longitude = longitude.equals("") ? env.getProperty("city.Ternopil.lon") : longitude;
-        lang = lang.equals("") ? env.getProperty("DSApi.lang") : lang;
-        units = units.equals("") ? env.getProperty("DSApi.units") : units;
-
-        // Prepare request string
-        String apiUrl = env.getProperty("DSApi.baseUrl");
-        if (apiUrl == null) {
-            throw new PropertyNotFoundException("DSApi.baseUrl");
-        }
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder
-                .fromUriString(apiUrl)
-                .pathSegment(env.getProperty("DSApi.request"))
-                .pathSegment(env.getProperty("DSApi.key"))
-                .pathSegment(latitude + "," + longitude)
-                .queryParam("lang", lang)
-                .queryParam("units", units)
-                .queryParam("exclude", env.getProperty("DSApi.exclude"));
-
-        // Make request
-        DarkSkyApiDto apiResponseDto = restTemplate.getForObject(uriBuilder.toUriString(), DarkSkyApiDto.class);
-
-        // Handle error, return result
-        if (apiResponseDto != null) {
-            return new WeatherSampleDto(
-                    null,
-                    apiResponseDto.getTemperature(),
-                    apiResponseDto.getFeelsLike(),
-                    apiResponseDto.getPressure(),
-                    apiResponseDto.getHumidity(),
-                    apiResponseDto.getClouds(),
-                    -1,
-                    apiResponseDto.getTime(),
-                    apiResponseDto.getLatitude(),
-                    apiResponseDto.getLongitude()
-            );
-        }
-        return null;
-    }
 
     private WeatherSampleDto getAverageFromWeatherSamples(ArrayList<WeatherSampleDto> apiDtos) {
         WeatherSampleDto averageDto = new WeatherSampleDto();
@@ -246,9 +139,9 @@ public class WeatherSampleService {
         WeatherSampleDto averageDto = getAverageFromWeatherSamples(
                 new ArrayList<>(
                         Arrays.asList(
-                                getWeatherSampleFromOpenWeatherApi("", "", "", ""),
-                                getWeatherSampleFromWeatherBitApi("", "", "", ""),
-                                getWeatherSampleFromDarkSkyApi("", "", "", "")
+                                openWeatherApiService.getWeatherSampleFrmApi("", "", "", ""),
+                                weatherBitApiService.getWeatherSampleFrmApi("", "", "", ""),
+                                darkSkyApiService.getWeatherSampleFrmApi("", "", "", "")
                         )
                 )
         );

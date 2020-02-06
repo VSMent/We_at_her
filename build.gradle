@@ -45,7 +45,7 @@ task writeNewPom {
     doLast { pom {} writeTo("pom.xml") }
 }
 
-build.finalizedBy(writeNewPom)
+classes.finalizedBy(writeNewPom)
 
 bootRun {
     systemProperty "spring.profiles.active", "local"

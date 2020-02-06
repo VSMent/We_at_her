@@ -1,34 +1,28 @@
-package pr.eleks.we_at_her.services;
+package pr.eleks.we_at_her.services.view.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import pr.eleks.we_at_her.dto.WeatherSampleDto;
-import pr.eleks.we_at_her.repositories.WeatherSampleRepository;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class ViewService {
+public class ViewServiceImpl {
 
-
-    private WeatherSampleRepository weatherSampleRepository;
-    private ObjectMapper mapper;
     private Environment env;
     private RestTemplate restTemplate;
 
-    public ViewService(WeatherSampleRepository weatherSampleRepository, ObjectMapper mapper, Environment env, RestTemplate restTemplate) {
-        this.weatherSampleRepository = weatherSampleRepository;
-        this.mapper = mapper;
+    public ViewServiceImpl(Environment env, RestTemplate restTemplate) {
         this.env = env;
         this.restTemplate = restTemplate;
     }
 
     public List<WeatherSampleDto> getAllWeatherSamples() {
-        String apiUrl = env.getProperty("server.host") +":"+ env.getProperty("server.port");
+        String apiUrl = env.getProperty("server.host") + ":" + env.getProperty("server.port");
         UriComponentsBuilder uriBuilder = UriComponentsBuilder
                 .fromUriString(apiUrl)
                 .pathSegment("weatherSamplesREST");

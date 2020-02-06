@@ -1,22 +1,19 @@
-package pr.eleks.we_at_her.services.impl;
+package pr.eleks.we_at_her.services.api.impl;
 
-        import org.springframework.core.env.Environment;
-        import org.springframework.stereotype.Service;
-        import org.springframework.web.client.RestTemplate;
-        import org.springframework.web.util.UriComponentsBuilder;
-        import pr.eleks.we_at_her.dto.DarkSkyApiDto;
-        import pr.eleks.we_at_her.dto.OpenWeatherApiDto;
-        import pr.eleks.we_at_her.dto.WeatherSampleDto;
-        import pr.eleks.we_at_her.exceptions.PropertyNotFoundException;
-        import pr.eleks.we_at_her.services.ApiService;
-
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+import pr.eleks.we_at_her.dto.WeatherBitApiDto;
+import pr.eleks.we_at_her.dto.WeatherSampleDto;
+import pr.eleks.we_at_her.exceptions.PropertyNotFoundException;
+import pr.eleks.we_at_her.services.api.ApiService;
 @Service
-public class OpenWeatherApiServiceImpl implements ApiService {
-
+public class WeatherBitApiServiceImpl implements ApiService {
     private Environment env;
     private RestTemplate restTemplate;
 
-    public OpenWeatherApiServiceImpl(Environment env, RestTemplate restTemplate) {
+    public WeatherBitApiServiceImpl(Environment env, RestTemplate restTemplate) {
         this.env = env;
         this.restTemplate = restTemplate;
     }
@@ -26,25 +23,25 @@ public class OpenWeatherApiServiceImpl implements ApiService {
         // Default values
         latitude = latitude.equals("") ? env.getProperty("city.Ternopil.lat") : latitude;
         longitude = longitude.equals("") ? env.getProperty("city.Ternopil.lon") : longitude;
-        lang = lang.equals("") ? env.getProperty("OWApi.lang") : lang;
-        units = units.equals("") ? env.getProperty("OWApi.units") : units;
+        lang = lang.equals("") ? env.getProperty("WBApi.lang") : lang;
+        units = units.equals("") ? env.getProperty("WBApi.units") : units;
 
         // Prepare request string
-        String apiUrl = env.getProperty("OWApi.baseUrl");
+        String apiUrl = env.getProperty("WBApi.baseUrl");
         if (apiUrl == null) {
-            throw new PropertyNotFoundException("OWApi.baseUrl");
+            throw new PropertyNotFoundException("WBApi.baseUrl");
         }
         UriComponentsBuilder uriBuilder = UriComponentsBuilder
                 .fromUriString(apiUrl)
-                .pathSegment(env.getProperty("OWApi.request"))
+                .pathSegment(env.getProperty("WBApi.request"))
                 .queryParam("lat", latitude)
                 .queryParam("lon", longitude)
                 .queryParam("lang", lang)
                 .queryParam("units", units)
-                .queryParam("appid", env.getProperty("OWApi.key"));
+                .queryParam("key", env.getProperty("WBApi.key"));
 
         // Make request
-        OpenWeatherApiDto apiResponseDto = restTemplate.getForObject(uriBuilder.toUriString(), OpenWeatherApiDto.class);
+        WeatherBitApiDto apiResponseDto = restTemplate.getForObject(uriBuilder.toUriString(), WeatherBitApiDto.class);
 
         // Handle error, return result
         if (apiResponseDto != null) {
@@ -55,7 +52,7 @@ public class OpenWeatherApiServiceImpl implements ApiService {
                     apiResponseDto.getPressure(),
                     apiResponseDto.getHumidity(),
                     apiResponseDto.getClouds(),
-                    apiResponseDto.getCityId(),
+                    -1,
                     apiResponseDto.getTime(),
                     apiResponseDto.getLatitude(),
                     apiResponseDto.getLongitude()

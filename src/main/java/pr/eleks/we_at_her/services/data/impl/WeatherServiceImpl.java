@@ -1,50 +1,38 @@
-package pr.eleks.we_at_her.services;
+package pr.eleks.we_at_her.services.data.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
-import pr.eleks.we_at_her.dto.DarkSkyApiDto;
-import pr.eleks.we_at_her.dto.OpenWeatherApiDto;
-import pr.eleks.we_at_her.dto.WeatherBitApiDto;
 import pr.eleks.we_at_her.dto.WeatherSampleDto;
 import pr.eleks.we_at_her.entities.WeatherSample;
 import pr.eleks.we_at_her.exceptions.PropertyNotFoundException;
 import pr.eleks.we_at_her.repositories.WeatherSampleRepository;
-import pr.eleks.we_at_her.services.impl.DarkSkyApiServiceImpl;
-import pr.eleks.we_at_her.services.impl.OpenWeatherApiServiceImpl;
-import pr.eleks.we_at_her.services.impl.WeatherBitApiServiceImpl;
+import pr.eleks.we_at_her.services.api.impl.DarkSkyApiServiceImpl;
+import pr.eleks.we_at_her.services.api.impl.OpenWeatherApiServiceImpl;
+import pr.eleks.we_at_her.services.api.impl.WeatherBitApiServiceImpl;
+import pr.eleks.we_at_her.services.data.WeatherService;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
-public class WeatherSampleService {
+public class WeatherServiceImpl implements WeatherService {
 
     private WeatherSampleRepository weatherSampleRepository;
     private ObjectMapper mapper;
-    private Environment env;
-    private RestTemplate restTemplate;
     private DarkSkyApiServiceImpl darkSkyApiService;
     private OpenWeatherApiServiceImpl openWeatherApiService;
     private WeatherBitApiServiceImpl weatherBitApiService;
 
-    public WeatherSampleService(
+    public WeatherServiceImpl(
             WeatherSampleRepository weatherSampleRepository,
             ObjectMapper mapper,
-            Environment env,
-            RestTemplate restTemplate,
             DarkSkyApiServiceImpl darkSkyApiService,
             OpenWeatherApiServiceImpl openWeatherApiService,
             WeatherBitApiServiceImpl weatherBitApiService
     ) {
         this.weatherSampleRepository = weatherSampleRepository;
         this.mapper = mapper;
-        this.env = env;
-        this.restTemplate = restTemplate;
         this.darkSkyApiService = darkSkyApiService;
         this.openWeatherApiService = openWeatherApiService;
         this.weatherBitApiService = weatherBitApiService;
@@ -79,7 +67,7 @@ public class WeatherSampleService {
 //    }
 
 
-    private WeatherSampleDto getAverageFromWeatherSamples(ArrayList<WeatherSampleDto> apiDtos) {
+    public WeatherSampleDto getAverageFromWeatherSamples(ArrayList<WeatherSampleDto> apiDtos) {
         WeatherSampleDto averageDto = new WeatherSampleDto();
 
         averageDto.setLatitude(apiDtos.get(0).getLatitude());
@@ -158,40 +146,40 @@ public class WeatherSampleService {
         }
     }
 
-    private WeatherSampleDto convertToDto(WeatherSample weatherSample) {
+    public WeatherSampleDto convertToDto(WeatherSample weatherSample) {
         if (weatherSample == null) {
             return null;
         }
         return mapper.convertValue(weatherSample, WeatherSampleDto.class);
     }
 
-    private WeatherSample convertToEntity(WeatherSampleDto weatherSampleDto) {
+    public WeatherSample convertToEntity(WeatherSampleDto weatherSampleDto) {
         if (weatherSampleDto == null) {
             return null;
         }
         return mapper.convertValue(weatherSampleDto, WeatherSample.class);
     }
 
-//    @PostConstruct
+//        @PostConstruct
 //    public void init() {
 //        weatherSampleRepository.saveAll(Arrays.asList(
-//                new WeatherSample("Ternopil", -0.99f, -7.32f, 1030, 82, 5, 691650, 1579826046,49.56f,25.61f),
-//                new WeatherSample("Ternopil", 1.67f, -5.64f, 985, 61, 51, 691650, 1579899329,49.56f,25.61f),
-//                new WeatherSample("Ternopil", 0f, -6.78f, 985, 64, 51, 691650, 1579902899,49.56f,25.61f),
-//                new WeatherSample("Ternopil", 0.56f, -5.25f, 985, 63, 51, 691650, 1579903776,49.56f,25.61f),
-//                new WeatherSample("Ternopil", 1.95f, -1.31f, 1016, 87, 99, 691650, 1580132973,49.56f,25.61f),
-//                new WeatherSample("Ternopil", 1.95f, -1.31f, 1016, 87, 99, 691650, 1580133658,49.56f,25.61f),
-//                new WeatherSample("Ternopil", 1.95f, -1.31f, 1016, 87, 99, 691650, 1580134637,49.56f,25.61f),
-//                new WeatherSample("Ternopil", 1.95f, -1.31f, 1016, 87, 99, 691650, 1580134637,49.56f,25.61f),
-//                new WeatherSample("Ternopil", 1.95f, -1.31f, 1016, 87, 99, 691650, 1580137114,49.56f,25.61f),
-//                new WeatherSample("Ternopil", 1.06f, -2.27f, 1016, 84, 100, 691650, 1580143089,49.56f,25.61f),
-//                new WeatherSample("Ternopil", 1.06f, -2.27f, 1016, 84, 100, 691650, 1580143552,49.56f,25.61f),
-//                new WeatherSample("Ternopil", 1.06f, -2.27f, 1016, 84, 100, 691650, 1580144981,49.56f,25.61f),
-//                new WeatherSample("Ternopil", 2.78f, -4.05f, 969, 76, 50, 691650, 1580322598,49.56f,25.61f),
-//                new WeatherSample("Ternopil", 3.33f, 0.28f, 969, 74, 50, 691650, 1580324738,49.56f,25.61f),
-//                new WeatherSample("Ternopil", 3.89f, -0.82f, 975, 79, 78, 691650, 1580372020,49.56f,25.61f),
-//                new WeatherSample("Ternopil", 3.89f, 0.4f, 975, 78, 78, 691650, 1580373254,49.56f,25.61f),
-//                new WeatherSample("Ternopil", 3.89f, -0.85f, 975, 78, 78, 691650, 158037420,49.56f,25.61f)
+//                new WeatherSample("Ternopil", -0.99f, -7.32f, 1030, 82, 5, 691650, 1579826046, 49.56f, 25.61f),
+//                new WeatherSample("Ternopil", 1.67f, -5.64f, 985, 61, 51, 691650, 1579899329, 49.56f, 25.61f),
+//                new WeatherSample("Ternopil", 0f, -6.78f, 985, 64, 51, 691650, 1579902899, 49.56f, 25.61f),
+//                new WeatherSample("Ternopil", 0.56f, -5.25f, 985, 63, 51, 691650, 1579903776, 49.56f, 25.61f),
+//                new WeatherSample("Ternopil", 1.95f, -1.31f, 1016, 87, 99, 691650, 1580132973, 49.56f, 25.61f),
+//                new WeatherSample("Ternopil", 1.95f, -1.31f, 1016, 87, 99, 691650, 1580133658, 49.56f, 25.61f),
+//                new WeatherSample("Ternopil", 1.95f, -1.31f, 1016, 87, 99, 691650, 1580134637, 49.56f, 25.61f),
+//                new WeatherSample("Ternopil", 1.95f, -1.31f, 1016, 87, 99, 691650, 1580134637, 49.56f, 25.61f),
+//                new WeatherSample("Ternopil", 1.95f, -1.31f, 1016, 87, 99, 691650, 1580137114, 49.56f, 25.61f),
+//                new WeatherSample("Ternopil", 1.06f, -2.27f, 1016, 84, 100, 691650, 1580143089, 49.56f, 25.61f),
+//                new WeatherSample("Ternopil", 1.06f, -2.27f, 1016, 84, 100, 691650, 1580143552, 49.56f, 25.61f),
+//                new WeatherSample("Ternopil", 1.06f, -2.27f, 1016, 84, 100, 691650, 1580144981, 49.56f, 25.61f),
+//                new WeatherSample("Ternopil", 2.78f, -4.05f, 969, 76, 50, 691650, 1580322598, 49.56f, 25.61f),
+//                new WeatherSample("Ternopil", 3.33f, 0.28f, 969, 74, 50, 691650, 1580324738, 49.56f, 25.61f),
+//                new WeatherSample("Ternopil", 3.89f, -0.82f, 975, 79, 78, 691650, 1580372020, 49.56f, 25.61f),
+//                new WeatherSample("Ternopil", 3.89f, 0.4f, 975, 78, 78, 691650, 1580373254, 49.56f, 25.61f),
+//                new WeatherSample("Ternopil", 3.89f, -0.85f, 975, 78, 78, 691650, 158037420, 49.56f, 25.61f)
 //                )
 //        );
 //    }

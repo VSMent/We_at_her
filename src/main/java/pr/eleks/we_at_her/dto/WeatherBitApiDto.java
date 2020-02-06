@@ -1,6 +1,5 @@
 package pr.eleks.we_at_her.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -30,9 +29,6 @@ public class WeatherBitApiDto implements Serializable {
         time = Integer.parseInt(data[0].get("ts").toString());
         latitude = Float.parseFloat(data[0].get("lat").toString());
         longitude = Float.parseFloat(data[0].get("lon").toString());
-    }
-
-    public WeatherBitApiDto() {
     }
 
     public String getCityName() {

@@ -45,9 +45,6 @@ public class OpenWeatherApiDto implements Serializable {
         longitude = coordObj.get("lon");
     }
 
-    public OpenWeatherApiDto() {
-    }
-
     public String getCityName() {
         return cityName;
     }

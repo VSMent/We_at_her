@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pr.eleks.we_at_her.dto.WeatherSampleDto;
 import pr.eleks.we_at_her.entities.WeatherSample;
-import pr.eleks.we_at_her.services.WeatherSampleService;
+import pr.eleks.we_at_her.services.data.impl.WeatherServiceImpl;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,17 +13,17 @@ import java.util.stream.Collectors;
 @RestController
 public class WeatherSampleController {
 
-    private WeatherSampleService weatherSampleService;
+    private WeatherServiceImpl weatherServiceImpl;
     private ObjectMapper mapper;
 
-    public WeatherSampleController(WeatherSampleService weatherSampleService, ObjectMapper mapper) {
-        this.weatherSampleService = weatherSampleService;
+    public WeatherSampleController(WeatherServiceImpl weatherServiceImpl, ObjectMapper mapper) {
+        this.weatherServiceImpl = weatherServiceImpl;
         this.mapper = mapper;
     }
 
     @GetMapping("/weatherSamplesREST")
     public List<WeatherSampleDto> getAllWeatherSamples() {
-        List<WeatherSample> weatherSamples = weatherSampleService.getAllWeatherSamples();
+        List<WeatherSample> weatherSamples = weatherServiceImpl.getAllWeatherSamples();
         return weatherSamples.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());

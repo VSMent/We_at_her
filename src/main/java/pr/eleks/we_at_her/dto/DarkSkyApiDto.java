@@ -28,9 +28,6 @@ public class DarkSkyApiDto implements Serializable {
         time = Integer.parseInt(currentlyObj.get("time"));
     }
 
-    public DarkSkyApiDto() {
-    }
-
     public float getTemperature() {
         return temperature;
     }

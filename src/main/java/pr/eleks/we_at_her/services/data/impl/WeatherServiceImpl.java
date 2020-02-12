@@ -69,6 +69,7 @@ public class WeatherServiceImpl implements WeatherService {
 
     public WeatherSampleDto getAverageFromWeatherSamples(ArrayList<WeatherSampleDto> apiDtos) {
         WeatherSampleDto averageDto = new WeatherSampleDto();
+        int weatherSamplesAmount = apiDtos.size();
 
         averageDto.setLatitude(apiDtos.get(0).getLatitude());
         averageDto.setLongitude(apiDtos.get(0).getLongitude());
@@ -102,19 +103,19 @@ public class WeatherServiceImpl implements WeatherService {
 
         // Divide all
         averageDto.setTemperature(
-                Math.round(averageDto.getTemperature() / 3 * 100) / 100.0f
+                Math.round(averageDto.getTemperature() / weatherSamplesAmount * 100) / 100.0f
         );
         averageDto.setFeelsLike(
-                Math.round(averageDto.getFeelsLike() / 3 * 100) / 100.0f
+                Math.round(averageDto.getFeelsLike() / weatherSamplesAmount * 100) / 100.0f
         );
         averageDto.setPressure(
-                Math.round(averageDto.getPressure() / 3 * 100) / 100.0f
+                Math.round(averageDto.getPressure() / weatherSamplesAmount * 100) / 100.0f
         );
         averageDto.setHumidity(
-                Math.round(averageDto.getHumidity() / 3.0f)
+                Math.round(averageDto.getHumidity() / (float) weatherSamplesAmount)
         );
         averageDto.setClouds(
-                Math.round(averageDto.getClouds() / 3.0f)
+                Math.round(averageDto.getClouds() / (float) weatherSamplesAmount)
         );
 
         return averageDto;
@@ -127,9 +128,9 @@ public class WeatherServiceImpl implements WeatherService {
         WeatherSampleDto averageDto = getAverageFromWeatherSamples(
                 new ArrayList<>(
                         Arrays.asList(
-                                openWeatherApiService.getWeatherSampleFrmApi("", "", "", ""),
-                                weatherBitApiService.getWeatherSampleFrmApi("", "", "", ""),
-                                darkSkyApiService.getWeatherSampleFrmApi("", "", "", "")
+                                openWeatherApiService.getWeatherSampleFromApi("", "", "", ""),
+                                weatherBitApiService.getWeatherSampleFromApi("", "", "", ""),
+                                darkSkyApiService.getWeatherSampleFromApi("", "", "", "")
                         )
                 )
         );

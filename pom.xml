@@ -19,10 +19,6 @@
           <artifactId>tomcat-annotations-api</artifactId>
           <groupId>org.apache.tomcat</groupId>
         </exclusion>
-        <exclusion>
-          <artifactId>protobuf-java</artifactId>
-          <groupId>com.google.protobuf</groupId>
-        </exclusion>
       </exclusions>
     </dependency>
     <dependency>
@@ -37,10 +33,6 @@
         <exclusion>
           <artifactId>tomcat-annotations-api</artifactId>
           <groupId>org.apache.tomcat</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>protobuf-java</artifactId>
-          <groupId>com.google.protobuf</groupId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -57,10 +49,6 @@
           <artifactId>tomcat-annotations-api</artifactId>
           <groupId>org.apache.tomcat</groupId>
         </exclusion>
-        <exclusion>
-          <artifactId>protobuf-java</artifactId>
-          <groupId>com.google.protobuf</groupId>
-        </exclusion>
       </exclusions>
     </dependency>
     <dependency>
@@ -76,10 +64,6 @@
           <artifactId>tomcat-annotations-api</artifactId>
           <groupId>org.apache.tomcat</groupId>
         </exclusion>
-        <exclusion>
-          <artifactId>protobuf-java</artifactId>
-          <groupId>com.google.protobuf</groupId>
-        </exclusion>
       </exclusions>
     </dependency>
     <dependency>
@@ -94,10 +78,6 @@
         <exclusion>
           <artifactId>tomcat-annotations-api</artifactId>
           <groupId>org.apache.tomcat</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>protobuf-java</artifactId>
-          <groupId>com.google.protobuf</groupId>
         </exclusion>
       </exclusions>
     </dependency>

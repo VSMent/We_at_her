@@ -21,7 +21,7 @@ public class OpenWeatherApiServiceImpl implements ApiService {
     }
 
     @Override
-    public WeatherSampleDto getWeatherSampleFrmApi(String latitude, String longitude, String lang, String units) throws PropertyNotFoundException {
+    public WeatherSampleDto getWeatherSampleFromApi(String latitude, String longitude, String lang, String units) throws PropertyNotFoundException {
         // Default values
         latitude = latitude.equals("") ? env.getProperty("city.Ternopil.lat") : latitude;
         longitude = longitude.equals("") ? env.getProperty("city.Ternopil.lon") : longitude;

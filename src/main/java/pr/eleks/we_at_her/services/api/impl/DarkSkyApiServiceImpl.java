@@ -15,9 +15,17 @@ public class DarkSkyApiServiceImpl implements ApiService {
     private Environment env;
     private RestTemplate restTemplate;
 
+    public DarkSkyApiServiceImpl() {
+    }
+
     public DarkSkyApiServiceImpl(Environment env, RestTemplate restTemplate) {
         this.env = env;
         this.restTemplate = restTemplate;
+    }
+
+    @Override
+    public String getName() {
+        return "DSApi";
     }
 
     @Override
@@ -25,22 +33,22 @@ public class DarkSkyApiServiceImpl implements ApiService {
         // Default values
         latitude = latitude.equals("") ? env.getProperty("city.Ternopil.lat") : latitude;
         longitude = longitude.equals("") ? env.getProperty("city.Ternopil.lon") : longitude;
-        lang = lang.equals("") ? env.getProperty("DSApi.lang") : lang;
-        units = units.equals("") ? env.getProperty("DSApi.units") : units;
+        lang = lang.equals("") ? env.getProperty("wApis.DSApi.lang") : lang;
+        units = units.equals("") ? env.getProperty("wApis.DSApi.units") : units;
 
         // Prepare request string
-        String apiUrl = env.getProperty("DSApi.baseUrl");
+        String apiUrl = env.getProperty("wApis.DSApi.baseUrl");
         if (apiUrl == null) {
-            throw new PropertyNotFoundException("DSApi.baseUrl");
+            throw new PropertyNotFoundException("wApis.DSApi.baseUrl");
         }
         UriComponentsBuilder uriBuilder = UriComponentsBuilder
                 .fromUriString(apiUrl)
-                .pathSegment(env.getProperty("DSApi.request"))
-                .pathSegment(env.getProperty("DSApi.key"))
+                .pathSegment(env.getProperty("wApis.DSApi.request"))
+                .pathSegment(env.getProperty("wApis.DSApi.key"))
                 .pathSegment(latitude + "," + longitude)
                 .queryParam("lang", lang)
                 .queryParam("units", units)
-                .queryParam("exclude", env.getProperty("DSApi.exclude"));
+                .queryParam("exclude", env.getProperty("wApis.DSApi.exclude"));
 
         // Make request
         DarkSkyApiDto apiResponseDto = restTemplate.getForObject(uriBuilder.toUriString(), DarkSkyApiDto.class);

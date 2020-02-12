@@ -5,4 +5,5 @@ import pr.eleks.we_at_her.exceptions.PropertyNotFoundException;
 
 public interface ApiService {
     WeatherSampleDto getWeatherSampleFromApi(String latitude, String longitude, String lang, String units) throws PropertyNotFoundException;
+    String getName();
 }

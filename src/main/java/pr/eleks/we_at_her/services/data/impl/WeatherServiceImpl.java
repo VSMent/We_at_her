@@ -1,12 +1,15 @@
 package pr.eleks.we_at_her.services.data.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import pr.eleks.we_at_her.dto.WeatherSampleDto;
 import pr.eleks.we_at_her.entities.WeatherSample;
 import pr.eleks.we_at_her.exceptions.PropertyNotFoundException;
+import pr.eleks.we_at_her.exceptions.UnknownServiceNameException;
 import pr.eleks.we_at_her.repositories.WeatherSampleRepository;
+import pr.eleks.we_at_her.services.api.ApiServiceFactory;
 import pr.eleks.we_at_her.services.api.impl.DarkSkyApiServiceImpl;
 import pr.eleks.we_at_her.services.api.impl.OpenWeatherApiServiceImpl;
 import pr.eleks.we_at_her.services.api.impl.WeatherBitApiServiceImpl;
@@ -20,22 +23,16 @@ public class WeatherServiceImpl implements WeatherService {
 
     private WeatherSampleRepository weatherSampleRepository;
     private ObjectMapper mapper;
-    private DarkSkyApiServiceImpl darkSkyApiService;
-    private OpenWeatherApiServiceImpl openWeatherApiService;
-    private WeatherBitApiServiceImpl weatherBitApiService;
+    private Environment env;
 
     public WeatherServiceImpl(
             WeatherSampleRepository weatherSampleRepository,
             ObjectMapper mapper,
-            DarkSkyApiServiceImpl darkSkyApiService,
-            OpenWeatherApiServiceImpl openWeatherApiService,
-            WeatherBitApiServiceImpl weatherBitApiService
+            Environment env
     ) {
         this.weatherSampleRepository = weatherSampleRepository;
         this.mapper = mapper;
-        this.darkSkyApiService = darkSkyApiService;
-        this.openWeatherApiService = openWeatherApiService;
-        this.weatherBitApiService = weatherBitApiService;
+        this.env = env;
     }
 
 
@@ -123,14 +120,15 @@ public class WeatherServiceImpl implements WeatherService {
 
     @Scheduled(cron = "0 0 */1 * * *")
     // second, minute, hour, day of month, month, day(s) of week (* any, */x every x, ? no specification)
-    public void addWeatherSampleFromApi() throws PropertyNotFoundException {
+    public void addWeatherSampleFromApi() throws PropertyNotFoundException, UnknownServiceNameException {
         System.out.println(new SimpleDateFormat("yyyy.MM.dd HH:mm:ss\t\t").format(new Date()) + "Executing \"addWeatherSampleFromApi\"");
+        String[] apiNames = env.getProperty("wApis.list", String[].class);
         WeatherSampleDto averageDto = getAverageFromWeatherSamples(
                 new ArrayList<>(
                         Arrays.asList(
-                                openWeatherApiService.getWeatherSampleFromApi("", "", "", ""),
-                                weatherBitApiService.getWeatherSampleFromApi("", "", "", ""),
-                                darkSkyApiService.getWeatherSampleFromApi("", "", "", "")
+                                ApiServiceFactory.getService(apiNames[0]).getWeatherSampleFromApi("", "", "", ""),
+                                ApiServiceFactory.getService(apiNames[1]).getWeatherSampleFromApi("", "", "", ""),
+                                ApiServiceFactory.getService(apiNames[2]).getWeatherSampleFromApi("", "", "", "")
                         )
                 )
         );

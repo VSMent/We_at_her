@@ -3,6 +3,7 @@ package pr.eleks.we_at_her.services.data;
 import pr.eleks.we_at_her.dto.WeatherSampleDto;
 import pr.eleks.we_at_her.entities.WeatherSample;
 import pr.eleks.we_at_her.exceptions.PropertyNotFoundException;
+import pr.eleks.we_at_her.exceptions.UnknownServiceNameException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ public interface WeatherService {
 
     WeatherSampleDto getAverageFromWeatherSamples(ArrayList<WeatherSampleDto> apiDtos);
 
-    void addWeatherSampleFromApi() throws PropertyNotFoundException;
+    void addWeatherSampleFromApi() throws PropertyNotFoundException, UnknownServiceNameException;
 
     WeatherSampleDto convertToDto(WeatherSample weatherSample);
 

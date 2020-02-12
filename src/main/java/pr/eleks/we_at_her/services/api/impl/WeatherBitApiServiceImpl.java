@@ -8,6 +8,7 @@ import pr.eleks.we_at_her.dto.WeatherBitApiDto;
 import pr.eleks.we_at_her.dto.WeatherSampleDto;
 import pr.eleks.we_at_her.exceptions.PropertyNotFoundException;
 import pr.eleks.we_at_her.services.api.ApiService;
+
 @Service
 public class WeatherBitApiServiceImpl implements ApiService {
     private Environment env;
@@ -19,28 +20,33 @@ public class WeatherBitApiServiceImpl implements ApiService {
     }
 
 
+    @Override
+    public String getName() {
+        return "WBApi";
+    }
+
 
     @Override
     public WeatherSampleDto getWeatherSampleFromApi(String latitude, String longitude, String lang, String units) throws PropertyNotFoundException {
         // Default values
         latitude = latitude.equals("") ? env.getProperty("city.Ternopil.lat") : latitude;
         longitude = longitude.equals("") ? env.getProperty("city.Ternopil.lon") : longitude;
-        lang = lang.equals("") ? env.getProperty("WBApi.lang") : lang;
-        units = units.equals("") ? env.getProperty("WBApi.units") : units;
+        lang = lang.equals("") ? env.getProperty("wApis.WBApi.lang") : lang;
+        units = units.equals("") ? env.getProperty("wApis.WBApi.units") : units;
 
         // Prepare request string
-        String apiUrl = env.getProperty("WBApi.baseUrl");
+        String apiUrl = env.getProperty("wApis.WBApi.baseUrl");
         if (apiUrl == null) {
-            throw new PropertyNotFoundException("WBApi.baseUrl");
+            throw new PropertyNotFoundException("wApis.WBApi.baseUrl");
         }
         UriComponentsBuilder uriBuilder = UriComponentsBuilder
                 .fromUriString(apiUrl)
-                .pathSegment(env.getProperty("WBApi.request"))
+                .pathSegment(env.getProperty("wApis.WBApi.request"))
                 .queryParam("lat", latitude)
                 .queryParam("lon", longitude)
                 .queryParam("lang", lang)
                 .queryParam("units", units)
-                .queryParam("key", env.getProperty("WBApi.key"));
+                .queryParam("key", env.getProperty("wApis.WBApi.key"));
 
         // Make request
         WeatherBitApiDto apiResponseDto = restTemplate.getForObject(uriBuilder.toUriString(), WeatherBitApiDto.class);

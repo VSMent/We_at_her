@@ -21,26 +21,32 @@ public class OpenWeatherApiServiceImpl implements ApiService {
     }
 
     @Override
+    public String getName() {
+        return "OWApi";
+    }
+
+
+    @Override
     public WeatherSampleDto getWeatherSampleFromApi(String latitude, String longitude, String lang, String units) throws PropertyNotFoundException {
         // Default values
         latitude = latitude.equals("") ? env.getProperty("city.Ternopil.lat") : latitude;
         longitude = longitude.equals("") ? env.getProperty("city.Ternopil.lon") : longitude;
-        lang = lang.equals("") ? env.getProperty("OWApi.lang") : lang;
-        units = units.equals("") ? env.getProperty("OWApi.units") : units;
+        lang = lang.equals("") ? env.getProperty("wApis.OWApi.lang") : lang;
+        units = units.equals("") ? env.getProperty("wApis.OWApi.units") : units;
 
         // Prepare request string
-        String apiUrl = env.getProperty("OWApi.baseUrl");
+        String apiUrl = env.getProperty("wApis.OWApi.baseUrl");
         if (apiUrl == null) {
-            throw new PropertyNotFoundException("OWApi.baseUrl");
+            throw new PropertyNotFoundException("wApis.OWApi.baseUrl");
         }
         UriComponentsBuilder uriBuilder = UriComponentsBuilder
                 .fromUriString(apiUrl)
-                .pathSegment(env.getProperty("OWApi.request"))
+                .pathSegment(env.getProperty("wApis.OWApi.request"))
                 .queryParam("lat", latitude)
                 .queryParam("lon", longitude)
                 .queryParam("lang", lang)
                 .queryParam("units", units)
-                .queryParam("appid", env.getProperty("OWApi.key"));
+                .queryParam("appid", env.getProperty("wApis.OWApi.key"));
 
         // Make request
         OpenWeatherApiDto apiResponseDto = restTemplate.getForObject(uriBuilder.toUriString(), OpenWeatherApiDto.class);

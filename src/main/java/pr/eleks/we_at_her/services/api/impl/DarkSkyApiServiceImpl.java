@@ -15,9 +15,6 @@ public class DarkSkyApiServiceImpl implements ApiService {
     private Environment env;
     private RestTemplate restTemplate;
 
-    public DarkSkyApiServiceImpl() {
-    }
-
     public DarkSkyApiServiceImpl(Environment env, RestTemplate restTemplate) {
         this.env = env;
         this.restTemplate = restTemplate;

@@ -8,6 +8,7 @@ import pr.eleks.we_at_her.dto.WeatherSampleDto;
 import pr.eleks.we_at_her.entities.WeatherSample;
 import pr.eleks.we_at_her.exceptions.PropertyNotFoundException;
 import pr.eleks.we_at_her.exceptions.UnknownServiceNameException;
+import pr.eleks.we_at_her.exceptions.WrongApiResponseException;
 import pr.eleks.we_at_her.repositories.WeatherSampleRepository;
 import pr.eleks.we_at_her.services.api.ApiServiceFactory;
 import pr.eleks.we_at_her.services.data.WeatherService;
@@ -115,10 +116,10 @@ public class WeatherServiceImpl implements WeatherService {
         return averageDto;
     }
 
-//    @Scheduled(cron = "0 0 */1 * * *")
-    @Scheduled(cron = "*/30 * * * * *")
+    @Scheduled(cron = "0 0 */1 * * *")
+//    @Scheduled(cron = "*/30 * * * * *")
     // second, minute, hour, day of month, month, day(s) of week (* any, */x every x, ? no specification)
-    public void addWeatherSampleFromApi() throws PropertyNotFoundException, UnknownServiceNameException {
+    public void addWeatherSampleFromApi() throws PropertyNotFoundException, UnknownServiceNameException, WrongApiResponseException {
         System.out.println(new SimpleDateFormat("yyyy.MM.dd HH:mm:ss\t\t").format(new Date()) + "Executing \"addWeatherSampleFromApi\"");
         String[] apiNames = env.getProperty("wApis.list", String[].class);
         WeatherSampleDto averageDto = getAverageFromWeatherSamples(

@@ -54,27 +54,25 @@ public class OpenWeatherApiServiceImpl extends AbstractApiServiceImpl {
                 .queryParam("appid", env.getProperty("wApis.OWApi.key"));
 
         // Make request
-        OpenWeatherApiDto apiResponseDto = restTemplate.getForObject(uriBuilder.toUriString(), OpenWeatherApiDto.class);
+//        OpenWeatherApiDto apiResponseDto = restTemplate.getForObject(uriBuilder.toUriString(), OpenWeatherApiDto.class);
+        OpenWeatherApiDto apiResponseDto =
+                Optional
+                        .ofNullable(restTemplate.getForObject(uriBuilder.toUriString(), OpenWeatherApiDto.class))
+//                        .filter(obj -> obj.getClass().equals(OpenWeatherApiDto.class))
+                        .orElseThrow(() -> new WrongApiResponseException(DarkSkyApiDto.class.getName()));
 
-//        Optional apiResponseDto = Optional
-//                .ofNullable(restTemplate.getForObject(uriBuilder.toUriString(), DarkSkyApiDto.class))
-//                .filter(obj -> obj.getClass().equals(DarkSkyApiDto.class))
-//                .orElseThrow(() -> new WrongApiResponseException(DarkSkyApiDto.class.getName()));
-        // Handle error, return result
-        if (apiResponseDto != null) {
-            return new WeatherSampleDto(
-//                    apiResponseDto.getCityName(),
-//                    apiResponseDto.getTemperature(),
-//                    apiResponseDto.getFeelsLike(),
-//                    apiResponseDto.getPressure(),
-//                    apiResponseDto.getHumidity(),
-//                    apiResponseDto.getClouds(),
-//                    apiResponseDto.getCityId(),
-//                    apiResponseDto.getTime(),
-//                    apiResponseDto.getLatitude(),
-//                    apiResponseDto.getLongitude()
-            );
-        }
-        return null;
+        // return result
+        return new WeatherSampleDto(
+                apiResponseDto.getCityName(),
+                apiResponseDto.getTemperature(),
+                apiResponseDto.getFeelsLike(),
+                apiResponseDto.getPressure(),
+                apiResponseDto.getHumidity(),
+                apiResponseDto.getClouds(),
+                apiResponseDto.getCityId(),
+                apiResponseDto.getTime(),
+                apiResponseDto.getLatitude(),
+                apiResponseDto.getLongitude()
+        );
     }
 }

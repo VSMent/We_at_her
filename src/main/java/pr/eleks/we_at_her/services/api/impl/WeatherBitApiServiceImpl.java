@@ -4,9 +4,13 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import pr.eleks.we_at_her.dto.DarkSkyApiDto;
 import pr.eleks.we_at_her.dto.WeatherBitApiDto;
 import pr.eleks.we_at_her.dto.WeatherSampleDto;
 import pr.eleks.we_at_her.exceptions.PropertyNotFoundException;
+import pr.eleks.we_at_her.exceptions.WrongApiResponseException;
+
+import java.util.Optional;
 
 @Service
 public class WeatherBitApiServiceImpl extends AbstractApiServiceImpl {
@@ -26,7 +30,7 @@ public class WeatherBitApiServiceImpl extends AbstractApiServiceImpl {
 
 
     @Override
-    public WeatherSampleDto getWeatherSampleFromApi(String latitude, String longitude, String lang, String units) throws PropertyNotFoundException {
+    public WeatherSampleDto getWeatherSampleFromApi(String latitude, String longitude, String lang, String units) throws PropertyNotFoundException, WrongApiResponseException {
         // Default values
         latitude = latitude.equals("") ? env.getProperty("city.Ternopil.lat") : latitude;
         longitude = longitude.equals("") ? env.getProperty("city.Ternopil.lon") : longitude;
@@ -48,23 +52,25 @@ public class WeatherBitApiServiceImpl extends AbstractApiServiceImpl {
                 .queryParam("key", env.getProperty("wApis.WBApi.key"));
 
         // Make request
-        WeatherBitApiDto apiResponseDto = restTemplate.getForObject(uriBuilder.toUriString(), WeatherBitApiDto.class);
+//        WeatherBitApiDto apiResponseDto = restTemplate.getForObject(uriBuilder.toUriString(), WeatherBitApiDto.class);
+        WeatherBitApiDto apiResponseDto =
+                Optional
+                        .ofNullable(restTemplate.getForObject(uriBuilder.toUriString(), WeatherBitApiDto.class))
+//                        .filter(obj -> obj.getClass().equals(WeatherBitApiDto.class))
+                        .orElseThrow(() -> new WrongApiResponseException(WeatherBitApiDto.class.getName()));
 
-        // Handle error, return result
-        if (apiResponseDto != null) {
-            return new WeatherSampleDto(
-                    apiResponseDto.getCityName(),
-                    apiResponseDto.getTemperature(),
-                    apiResponseDto.getFeelsLike(),
-                    apiResponseDto.getPressure(),
-                    apiResponseDto.getHumidity(),
-                    apiResponseDto.getClouds(),
-                    -1,
-                    apiResponseDto.getTime(),
-                    apiResponseDto.getLatitude(),
-                    apiResponseDto.getLongitude()
-            );
-        }
-        return null;
+        // return result
+        return new WeatherSampleDto(
+                apiResponseDto.getCityName(),
+                apiResponseDto.getTemperature(),
+                apiResponseDto.getFeelsLike(),
+                apiResponseDto.getPressure(),
+                apiResponseDto.getHumidity(),
+                apiResponseDto.getClouds(),
+                -1,
+                apiResponseDto.getTime(),
+                apiResponseDto.getLatitude(),
+                apiResponseDto.getLongitude()
+        );
     }
 }

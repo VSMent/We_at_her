@@ -7,6 +7,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import pr.eleks.we_at_her.dto.DarkSkyApiDto;
 import pr.eleks.we_at_her.dto.WeatherSampleDto;
 import pr.eleks.we_at_her.exceptions.PropertyNotFoundException;
+import pr.eleks.we_at_her.exceptions.WrongApiResponseException;
+
+import java.util.Optional;
 
 @Service
 public class DarkSkyApiServiceImpl extends AbstractApiServiceImpl {
@@ -25,7 +28,7 @@ public class DarkSkyApiServiceImpl extends AbstractApiServiceImpl {
     }
 
     @Override
-    public WeatherSampleDto getWeatherSampleFromApi(String latitude, String longitude, String lang, String units) throws PropertyNotFoundException {
+    public WeatherSampleDto getWeatherSampleFromApi(String latitude, String longitude, String lang, String units) throws PropertyNotFoundException, WrongApiResponseException {
         // Default values
         latitude = latitude.equals("") ? env.getProperty("city.Ternopil.lat") : latitude;
         longitude = longitude.equals("") ? env.getProperty("city.Ternopil.lon") : longitude;
@@ -47,23 +50,25 @@ public class DarkSkyApiServiceImpl extends AbstractApiServiceImpl {
                 .queryParam("exclude", env.getProperty("wApis.DSApi.exclude"));
 
         // Make request
-        DarkSkyApiDto apiResponseDto = restTemplate.getForObject(uriBuilder.toUriString(), DarkSkyApiDto.class);
+//        DarkSkyApiDto apiResponseDto = restTemplate.getForObject(uriBuilder.toUriString(), DarkSkyApiDto.class);
+        DarkSkyApiDto apiResponseDto =
+                Optional
+                        .ofNullable(restTemplate.getForObject(uriBuilder.toUriString(), DarkSkyApiDto.class))
+//                        .filter(obj -> obj.getClass().equals(DarkSkyApiDto.class))
+                        .orElseThrow(() -> new WrongApiResponseException(DarkSkyApiDto.class.getName()));
 
-        // Handle error, return result
-        if (apiResponseDto != null) {
-            return new WeatherSampleDto(
-                    null,
-                    apiResponseDto.getTemperature(),
-                    apiResponseDto.getFeelsLike(),
-                    apiResponseDto.getPressure(),
-                    apiResponseDto.getHumidity(),
-                    apiResponseDto.getClouds(),
-                    -1,
-                    apiResponseDto.getTime(),
-                    apiResponseDto.getLatitude(),
-                    apiResponseDto.getLongitude()
-            );
-        }
-        return null;
+        // return result
+        return new WeatherSampleDto(
+                null,
+                apiResponseDto.getTemperature(),
+                apiResponseDto.getFeelsLike(),
+                apiResponseDto.getPressure(),
+                apiResponseDto.getHumidity(),
+                apiResponseDto.getClouds(),
+                -1,
+                apiResponseDto.getTime(),
+                apiResponseDto.getLatitude(),
+                apiResponseDto.getLongitude()
+        );
     }
 }

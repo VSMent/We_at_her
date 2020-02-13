@@ -115,7 +115,8 @@ public class WeatherServiceImpl implements WeatherService {
         return averageDto;
     }
 
-    @Scheduled(cron = "0 0 */1 * * *")
+//    @Scheduled(cron = "0 0 */1 * * *")
+    @Scheduled(cron = "*/30 * * * * *")
     // second, minute, hour, day of month, month, day(s) of week (* any, */x every x, ? no specification)
     public void addWeatherSampleFromApi() throws PropertyNotFoundException, UnknownServiceNameException {
         System.out.println(new SimpleDateFormat("yyyy.MM.dd HH:mm:ss\t\t").format(new Date()) + "Executing \"addWeatherSampleFromApi\"");

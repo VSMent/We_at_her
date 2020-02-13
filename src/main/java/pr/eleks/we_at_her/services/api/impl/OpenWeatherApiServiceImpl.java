@@ -4,9 +4,15 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import pr.eleks.we_at_her.dto.DarkSkyApiDto;
 import pr.eleks.we_at_her.dto.OpenWeatherApiDto;
 import pr.eleks.we_at_her.dto.WeatherSampleDto;
 import pr.eleks.we_at_her.exceptions.PropertyNotFoundException;
+import pr.eleks.we_at_her.exceptions.WrongApiResponseException;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class OpenWeatherApiServiceImpl extends AbstractApiServiceImpl {
@@ -26,7 +32,7 @@ public class OpenWeatherApiServiceImpl extends AbstractApiServiceImpl {
 
 
     @Override
-    public WeatherSampleDto getWeatherSampleFromApi(String latitude, String longitude, String lang, String units) throws PropertyNotFoundException {
+    public WeatherSampleDto getWeatherSampleFromApi(String latitude, String longitude, String lang, String units) throws PropertyNotFoundException, WrongApiResponseException {
         // Default values
         latitude = latitude.equals("") ? env.getProperty("city.Ternopil.lat") : latitude;
         longitude = longitude.equals("") ? env.getProperty("city.Ternopil.lon") : longitude;
@@ -50,19 +56,23 @@ public class OpenWeatherApiServiceImpl extends AbstractApiServiceImpl {
         // Make request
         OpenWeatherApiDto apiResponseDto = restTemplate.getForObject(uriBuilder.toUriString(), OpenWeatherApiDto.class);
 
+//        Optional apiResponseDto = Optional
+//                .ofNullable(restTemplate.getForObject(uriBuilder.toUriString(), DarkSkyApiDto.class))
+//                .filter(obj -> obj.getClass().equals(DarkSkyApiDto.class))
+//                .orElseThrow(() -> new WrongApiResponseException(DarkSkyApiDto.class.getName()));
         // Handle error, return result
         if (apiResponseDto != null) {
             return new WeatherSampleDto(
-                    apiResponseDto.getCityName(),
-                    apiResponseDto.getTemperature(),
-                    apiResponseDto.getFeelsLike(),
-                    apiResponseDto.getPressure(),
-                    apiResponseDto.getHumidity(),
-                    apiResponseDto.getClouds(),
-                    apiResponseDto.getCityId(),
-                    apiResponseDto.getTime(),
-                    apiResponseDto.getLatitude(),
-                    apiResponseDto.getLongitude()
+//                    apiResponseDto.getCityName(),
+//                    apiResponseDto.getTemperature(),
+//                    apiResponseDto.getFeelsLike(),
+//                    apiResponseDto.getPressure(),
+//                    apiResponseDto.getHumidity(),
+//                    apiResponseDto.getClouds(),
+//                    apiResponseDto.getCityId(),
+//                    apiResponseDto.getTime(),
+//                    apiResponseDto.getLatitude(),
+//                    apiResponseDto.getLongitude()
             );
         }
         return null;

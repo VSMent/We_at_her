@@ -7,10 +7,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import pr.eleks.we_at_her.dto.WeatherBitApiDto;
 import pr.eleks.we_at_her.dto.WeatherSampleDto;
 import pr.eleks.we_at_her.exceptions.PropertyNotFoundException;
-import pr.eleks.we_at_her.services.api.ApiService;
 
 @Service
-public class WeatherBitApiServiceImpl implements ApiService {
+public class WeatherBitApiServiceImpl extends AbstractApiServiceImpl {
     private Environment env;
     private RestTemplate restTemplate;
 

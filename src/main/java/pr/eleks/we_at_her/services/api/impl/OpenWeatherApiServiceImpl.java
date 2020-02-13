@@ -1,16 +1,15 @@
 package pr.eleks.we_at_her.services.api.impl;
 
-        import org.springframework.core.env.Environment;
-        import org.springframework.stereotype.Service;
-        import org.springframework.web.client.RestTemplate;
-        import org.springframework.web.util.UriComponentsBuilder;
-        import pr.eleks.we_at_her.dto.OpenWeatherApiDto;
-        import pr.eleks.we_at_her.dto.WeatherSampleDto;
-        import pr.eleks.we_at_her.exceptions.PropertyNotFoundException;
-        import pr.eleks.we_at_her.services.api.ApiService;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+import pr.eleks.we_at_her.dto.OpenWeatherApiDto;
+import pr.eleks.we_at_her.dto.WeatherSampleDto;
+import pr.eleks.we_at_her.exceptions.PropertyNotFoundException;
 
 @Service
-public class OpenWeatherApiServiceImpl implements ApiService {
+public class OpenWeatherApiServiceImpl extends AbstractApiServiceImpl {
 
     private Environment env;
     private RestTemplate restTemplate;

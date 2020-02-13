@@ -10,9 +10,6 @@ import pr.eleks.we_at_her.exceptions.PropertyNotFoundException;
 import pr.eleks.we_at_her.exceptions.UnknownServiceNameException;
 import pr.eleks.we_at_her.repositories.WeatherSampleRepository;
 import pr.eleks.we_at_her.services.api.ApiServiceFactory;
-import pr.eleks.we_at_her.services.api.impl.DarkSkyApiServiceImpl;
-import pr.eleks.we_at_her.services.api.impl.OpenWeatherApiServiceImpl;
-import pr.eleks.we_at_her.services.api.impl.WeatherBitApiServiceImpl;
 import pr.eleks.we_at_her.services.data.WeatherService;
 
 import java.text.SimpleDateFormat;

@@ -4,6 +4,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import pr.eleks.we_at_her.dto.UserDto;
 import pr.eleks.we_at_her.dto.WeatherSampleDto;
 
 import java.util.ArrayList;
@@ -36,5 +37,14 @@ public class ViewServiceImpl {
         } else {
             return new ArrayList<>();
         }
+    }
+
+    public UserDto createUser(UserDto userDto) {
+        String apiUrl = env.getProperty("server.host") + ":" + env.getProperty("server.port");
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder
+                .fromUriString(apiUrl)
+                .pathSegment("userREST");
+
+        return restTemplate.postForEntity(uriBuilder.toUriString(), userDto, UserDto.class).getBody();
     }
 }

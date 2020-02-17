@@ -3,7 +3,10 @@ package pr.eleks.we_at_her.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import pr.eleks.we_at_her.dto.UserDto;
 import pr.eleks.we_at_her.dto.WeatherSampleDto;
+import pr.eleks.we_at_her.entities.User;
 import pr.eleks.we_at_her.services.view.impl.ViewServiceImpl;
 
 import java.util.List;
@@ -24,6 +27,21 @@ public class ViewController {
         List<WeatherSampleDto> weatherSampleDtoList = viewServiceImpl.getAllWeatherSamples();
         model.addAttribute("weatherSampleDtoList", weatherSampleDtoList);
         return "index";
+    }
+
+    @GetMapping("/register")
+    public String registration() {
+        return "register";
+    }
+
+    @PostMapping("/register")
+    public String addUser(UserDto userDto) {
+//        try {
+            viewServiceImpl.createUser(userDto);
+//        }catch (CreateUserException ex){
+//            return "redirect:/login";
+//        }
+        return "redirect:/";
     }
 
 }

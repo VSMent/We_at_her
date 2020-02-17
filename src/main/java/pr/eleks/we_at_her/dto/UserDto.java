@@ -7,50 +7,20 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Set;
 
-public class UserDto implements UserDetails, Serializable {
+public class UserDto implements  Serializable {
     private Long id;
     private String username;
     private String password;
     private String city;
     private Set<RoleDto> roles;
-    private boolean accountNonExpired = true;
-    private boolean accountNonLocked = true;
-    private boolean credentialsNonExpired = true;
-    private boolean enabled = true;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
+    public UserDto() {
     }
 
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return accountNonExpired;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return accountNonLocked;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return credentialsNonExpired;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return enabled;
+    public UserDto(String username, String password, String city) {
+        this.username = username;
+        this.password = password;
+        this.city = city;
     }
 
     public Long getId() {
@@ -61,8 +31,16 @@ public class UserDto implements UserDetails, Serializable {
         this.id = id;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public void setPassword(String password) {
@@ -83,21 +61,5 @@ public class UserDto implements UserDetails, Serializable {
 
     public void setRoles(Set<RoleDto> roles) {
         this.roles = roles;
-    }
-
-    public void setAccountNonExpired(boolean accountNonExpired) {
-        this.accountNonExpired = accountNonExpired;
-    }
-
-    public void setAccountNonLocked(boolean accountNonLocked) {
-        this.accountNonLocked = accountNonLocked;
-    }
-
-    public void setCredentialsNonExpired(boolean credentialsNonExpired) {
-        this.credentialsNonExpired = credentialsNonExpired;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
     }
 }

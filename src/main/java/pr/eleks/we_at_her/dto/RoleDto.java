@@ -4,25 +4,11 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serializable;
 
-public class RoleDto implements GrantedAuthority, Serializable {
-
-    private Long id;
-    private String authority;
+public enum  RoleDto implements GrantedAuthority, Serializable {
+    USER, ADMIN;
 
     @Override
     public String getAuthority() {
-        return authority;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setAuthority(String authority) {
-        this.authority = authority;
+        return name();
     }
 }

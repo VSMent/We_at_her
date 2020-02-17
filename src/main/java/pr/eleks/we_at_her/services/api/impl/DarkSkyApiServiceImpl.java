@@ -3,7 +3,6 @@ package pr.eleks.we_at_her.services.api.impl;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 import pr.eleks.we_at_her.dto.DarkSkyApiDto;
 import pr.eleks.we_at_her.dto.WeatherSampleDto;
 import pr.eleks.we_at_her.exceptions.PropertyNotFoundException;
@@ -28,33 +27,29 @@ public class DarkSkyApiServiceImpl extends AbstractApiServiceImpl {
     }
 
     @Override
-    public WeatherSampleDto getWeatherSampleFromApi(String latitude, String longitude, String lang, String units) throws PropertyNotFoundException, WrongApiResponseException {
-        // Default values
-        latitude = latitude.equals("") ? env.getProperty("city.Ternopil.lat") : latitude;
-        longitude = longitude.equals("") ? env.getProperty("city.Ternopil.lon") : longitude;
-        lang = lang.equals("") ? env.getProperty("wApis.DSApi.lang") : lang;
-        units = units.equals("") ? env.getProperty("wApis.DSApi.units") : units;
+    public WeatherSampleDto getWeatherSampleFromApi(String latitude, String longitude, String lang, String units)
+            throws PropertyNotFoundException, WrongApiResponseException {
+        super.prepareParameters(latitude, longitude, lang, units);
+        super.prepareBaseUrl();
 
         // Prepare request string
-        String apiUrl = env.getProperty("wApis.DSApi.baseUrl");
-        if (apiUrl == null) {
-            throw new PropertyNotFoundException("wApis.DSApi.baseUrl");
-        }
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder
-                .fromUriString(apiUrl)
-                .pathSegment(env.getProperty("wApis.DSApi.request"))
-                .pathSegment(env.getProperty("wApis.DSApi.key"))
-                .pathSegment(latitude + "," + longitude)
-                .queryParam("lang", lang)
-                .queryParam("units", units)
-                .queryParam("exclude", env.getProperty("wApis.DSApi.exclude"));
+        uriBuilder
+                .pathSegment(
+                        Optional
+                                .ofNullable(env.getProperty(apiPrefix + getName() + ".key"))
+                                .orElseThrow(() -> new PropertyNotFoundException(apiPrefix + getName() + ".key")))
+                .pathSegment(defaultValues.get("latitude") + "," + defaultValues.get("longitude"))
+                .queryParam("lang", defaultValues.get("lang"))
+                .queryParam("units", defaultValues.get("units"))
+                .queryParam("exclude",
+                        Optional
+                                .ofNullable(env.getProperty(apiPrefix + getName() + ".exclude"))
+                                .orElseThrow(() -> new PropertyNotFoundException(apiPrefix + getName() + ".exclude")));
 
         // Make request
-//        DarkSkyApiDto apiResponseDto = restTemplate.getForObject(uriBuilder.toUriString(), DarkSkyApiDto.class);
         DarkSkyApiDto apiResponseDto =
                 Optional
                         .ofNullable(restTemplate.getForObject(uriBuilder.toUriString(), DarkSkyApiDto.class))
-//                        .filter(obj -> obj.getClass().equals(DarkSkyApiDto.class))
                         .orElseThrow(() -> new WrongApiResponseException(DarkSkyApiDto.class.getName()));
 
         // return result

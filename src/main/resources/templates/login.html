@@ -1,20 +1,53 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Spring Security Example </title>
+    <meta charset="UTF-8">
+    <title>We at here</title>
+    <link rel="stylesheet" th:href="@{css/main.css}">
 </head>
 <body>
-<div th:if="${param.error}">
-    Invalid username and password.
+
+<!--<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>-->
+<!--<form th:action="@{/logout}" method="post">-->
+<!--    <input type="submit" value="Sign Out"/>-->
+<!--</form>-->
+
+<div class="centered">
+    <h1>Hello to We at here</h1>
+    <form th:action="@{/login}" method="post">
+        <table class="centered">
+            <tr>
+                <td colspan="2">
+                    <div th:if="${
+                        (logout == null || !logout) &&
+                        (error == null || !error)
+                        }">
+                        Please Log in.
+                    </div>
+                    <div th:if="${error}">
+                        Invalid username and password.
+                    </div>
+                    <div th:if="${param.logout}">
+                        You have been logged out.
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label> Username : </label></td>
+                <td><input type="text" name="username"/></td>
+            </tr>
+            <tr>
+                <td><label> Password: </label></td>
+                <td><input type="password" name="password"/></td>
+            </tr>
+            <tr>
+                <td>
+                    <button onclick="window.location.href='/register'">Register</button>
+                </td>
+                <td><input type="submit" value="Login"/></td>
+            </tr>
+        </table>
+    </form>
 </div>
-<div th:if="${param.logout}">
-    You have been logged out.
-</div>
-<form th:action="@{/login}" method="post">
-    <div><label> User Name : <input type="text" name="username"/> </label></div>
-    <div><label> Password: <input type="password" name="password"/> </label></div>
-    <div><input type="submit" value="Sign In"/></div>
-</form>
 </body>
 </html>

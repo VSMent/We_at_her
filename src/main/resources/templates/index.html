@@ -3,42 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>We at here</title>
-    <style>
-        div {
-            text-align: center;
-        }
-
-        table {
-            display: inline-block;
-        }
-        tbody{
-            overflow: auto;
-            height: 450px;
-        }
-
-        th, td {
-            padding: 15px;
-            font-size: 20px;
-        }
-
-        table, th, td {
-            border: solid black 1px;
-            border-collapse: collapse;
-        }
-
-        #controls {
-            margin-block-end: 20px;
-        }
-
-        #controls > button {
-            padding: 15px;
-            margin: 0 50px;
-            font-size: 18px;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{css/main.css}">
 </head>
 <body>
-<div>
+<div class="centered">
     <h1>Weather Samples</h1>
     <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
     <div id="controls">
@@ -48,7 +16,7 @@
 <!--        <button onclick="window.location.href='/addWeatherSamplesFromApi'">Load data from API</button>-->
         <button onclick="window.location.href='/'">Refresh data</button>
     </div>
-    <table>
+    <table class="centered data">
         <thead>
         <tr>
             <th>Id</th>

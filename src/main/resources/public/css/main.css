@@ -1,0 +1,34 @@
+div.centered {
+    text-align: center;
+}
+
+table.centered {
+    display: inline-block;
+}
+
+table.centered th, table.centered td {
+    padding: 15px;
+    font-size: 20px;
+}
+
+table.data tbody{
+    overflow: auto;
+    height: 450px;
+}
+
+table.data, table.data th, table.data td {
+    border: solid black 1px;
+    border-collapse: collapse;
+}
+
+#controls > button {
+    padding: 15px;
+    margin: 0 50px;
+    font-size: 18px;
+}
+
+#controls {
+    margin-block-end: 20px;
+}
+
+

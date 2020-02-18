@@ -4,9 +4,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import pr.eleks.we_at_her.dto.UserDto;
 import pr.eleks.we_at_her.dto.WeatherSampleDto;
-import pr.eleks.we_at_her.entities.User;
 import pr.eleks.we_at_her.services.view.impl.ViewServiceImpl;
 
 import java.util.List;
@@ -30,14 +30,14 @@ public class ViewController {
     }
 
     @GetMapping("/register")
-    public String registration() {
+    public String viewRegisterPage() {
         return "register";
     }
 
     @PostMapping("/register")
-    public String addUser(UserDto userDto) {
+    public String addUser(@RequestBody UserDto userDto) {
 //        try {
-            viewServiceImpl.createUser(userDto);
+        viewServiceImpl.createUser(userDto);
 //        }catch (CreateUserException ex){
 //            return "redirect:/login";
 //        }

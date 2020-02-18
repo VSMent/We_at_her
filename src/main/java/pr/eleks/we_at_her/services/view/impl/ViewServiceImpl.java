@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import pr.eleks.we_at_her.dto.UserDto;
-import pr.eleks.we_at_her.dto.WeatherSampleDto;
+import pr.eleks.we_at_her.dto.weather.WeatherSampleDto;
 
 import java.util.ArrayList;
 import java.util.Arrays;

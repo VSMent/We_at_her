@@ -3,8 +3,8 @@ package pr.eleks.we_at_her.services.api.impl;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import pr.eleks.we_at_her.dto.DarkSkyApiDto;
-import pr.eleks.we_at_her.dto.WeatherSampleDto;
+import pr.eleks.we_at_her.dto.weather.DarkSkyApiDto;
+import pr.eleks.we_at_her.dto.weather.WeatherSampleDto;
 import pr.eleks.we_at_her.exceptions.PropertyNotFoundException;
 import pr.eleks.we_at_her.exceptions.WrongApiResponseException;
 

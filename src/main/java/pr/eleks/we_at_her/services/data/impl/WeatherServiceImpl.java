@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import pr.eleks.we_at_her.dto.WeatherSampleDto;
+import pr.eleks.we_at_her.dto.weather.WeatherSampleDto;
 import pr.eleks.we_at_her.entities.WeatherSample;
 import pr.eleks.we_at_her.exceptions.PropertyNotFoundException;
 import pr.eleks.we_at_her.exceptions.UnknownServiceNameException;

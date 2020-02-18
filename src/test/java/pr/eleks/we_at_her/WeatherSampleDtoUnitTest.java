@@ -2,7 +2,7 @@ package pr.eleks.we_at_her;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import pr.eleks.we_at_her.dto.WeatherSampleDto;
+import pr.eleks.we_at_her.dto.weather.WeatherSampleDto;
 import pr.eleks.we_at_her.entities.WeatherSample;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -1,4 +1,4 @@
-package pr.eleks.we_at_her.dto;
+package pr.eleks.we_at_her.dto.weather;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

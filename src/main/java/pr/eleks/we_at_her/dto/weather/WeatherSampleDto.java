@@ -1,4 +1,4 @@
-package pr.eleks.we_at_her.dto;
+package pr.eleks.we_at_her.dto.weather;
 
 
 public class WeatherSampleDto extends AbstractWeatherSampleDto {

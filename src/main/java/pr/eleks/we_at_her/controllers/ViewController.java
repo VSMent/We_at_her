@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import pr.eleks.we_at_her.dto.UserDto;
-import pr.eleks.we_at_her.dto.WeatherSampleDto;
+import pr.eleks.we_at_her.dto.weather.WeatherSampleDto;
 import pr.eleks.we_at_her.services.view.impl.ViewServiceImpl;
 
 import java.util.List;

@@ -7,13 +7,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pr.eleks.we_at_her.dto.UserDto;
-import pr.eleks.we_at_her.dto.WeatherSampleDto;
 import pr.eleks.we_at_her.entities.User;
-import pr.eleks.we_at_her.entities.WeatherSample;
 import pr.eleks.we_at_her.repositories.UserRepository;
 import pr.eleks.we_at_her.services.data.UserService;
-
-import javax.annotation.PostConstruct;
 
 @Service
 public class UserServiceImpl implements UserDetailsService, UserService {

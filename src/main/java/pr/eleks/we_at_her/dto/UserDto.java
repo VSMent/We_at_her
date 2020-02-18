@@ -7,21 +7,22 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Set;
 
-public class UserDto implements  Serializable {
+public class UserDto implements Serializable {
     private Long id;
     private String username;
     private String password;
-    private String city;
+    private Long cityId;
     private String email;
     private Set<RoleDto> roles;
 
     public UserDto() {
     }
 
-    public UserDto(String username, String password, String city) {
+    public UserDto(String username, String password, Long cityId, String email) {
         this.username = username;
         this.password = password;
-        this.city = city;
+        this.cityId = cityId;
+        this.email = email;
     }
 
     public Long getId() {
@@ -48,12 +49,12 @@ public class UserDto implements  Serializable {
         this.password = password;
     }
 
-    public String getCity() {
-        return city;
+    public Long getCityId() {
+        return cityId;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setCityId(Long cityId) {
+        this.cityId = cityId;
     }
 
     public Set<RoleDto> getRoles() {

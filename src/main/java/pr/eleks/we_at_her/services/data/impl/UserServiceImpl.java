@@ -55,6 +55,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
 //    @PostConstruct
 //    private void init() {
-//        userRepository.save(convertToEntity(new UserDto("admin", "$2y$12$lfMgScUaJXeSvNHysXAi6uqqoIQkV0XjCf0LQPx21muVJoD7sfWpS", "Ternopil")));
+//        userRepository.save(convertToEntity(new UserDto("admin", "$2y$12$lfMgScUaJXeSvNHysXAi6uqqoIQkV0XjCf0LQPx21muVJoD7sfWpS", 691650L,"")));
 //    }
 }

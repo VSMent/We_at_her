@@ -17,7 +17,7 @@ public class User implements UserDetails {
     @Column(nullable = false, unique = true)
     private String username;
     private String password;
-    private String city;
+    private Long cityId;
     private String email;
     @ElementCollection(targetClass = RoleDto.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
@@ -50,12 +50,12 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public String getCity() {
-        return city;
+    public Long getCityId() {
+        return cityId;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setCityId(Long cityId) {
+        this.cityId = cityId;
     }
 
     public String getEmail() {

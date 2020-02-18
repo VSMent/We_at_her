@@ -24,19 +24,6 @@ public class WeatherSample {
     public WeatherSample() {
     }
 
-    public WeatherSample(String cityName, float temperature, float feelsLike, float pressure, int humidity, int clouds, int cityId, int time, float latitude, float longitude) {
-        this.cityName = cityName;
-        this.temperature = temperature;
-        this.feelsLike = feelsLike;
-        this.pressure = pressure;
-        this.humidity = humidity;
-        this.clouds = clouds;
-        this.cityId = cityId;
-        this.time = time;
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
-
     public Long getId() {
         return id;
     }

@@ -13,7 +13,6 @@ import java.util.Optional;
 @Service
 public class DarkSkyApiServiceImpl extends AbstractApiServiceImpl {
 
-    private Environment env;
     private RestTemplate restTemplate;
 
     public DarkSkyApiServiceImpl(Environment env, RestTemplate restTemplate) {
@@ -29,8 +28,8 @@ public class DarkSkyApiServiceImpl extends AbstractApiServiceImpl {
     @Override
     public WeatherSampleDto getWeatherSampleFromApi(String latitude, String longitude, String lang, String units)
             throws PropertyNotFoundException, WrongApiResponseException {
-        super.prepareParameters(latitude, longitude, lang, units);
-        super.prepareBaseUrl();
+        prepareParameters(latitude, longitude, lang, units);
+        prepareBaseUrl();
 
         // Prepare request string
         uriBuilder

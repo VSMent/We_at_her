@@ -1,6 +1,7 @@
 package pr.eleks.we_at_her.services.api.impl;
 
 import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 import pr.eleks.we_at_her.exceptions.PropertyNotFoundException;
 import pr.eleks.we_at_her.services.api.ApiService;
@@ -9,13 +10,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+@Service
 public abstract class AbstractApiServiceImpl implements ApiService {
 
     protected Map<String, String> defaultValues;
-    protected String apiPrefix = "wApi.";
+    protected String apiPrefix = "wApis.";
     protected UriComponentsBuilder uriBuilder;
-    private Environment env;
-
+    protected Environment env;
 
 
     @Override

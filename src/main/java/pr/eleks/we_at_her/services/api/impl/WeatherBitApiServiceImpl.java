@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Service
 public class WeatherBitApiServiceImpl extends AbstractApiServiceImpl {
-    private Environment env;
+
     private RestTemplate restTemplate;
 
     public WeatherBitApiServiceImpl(Environment env, RestTemplate restTemplate) {
@@ -20,18 +20,16 @@ public class WeatherBitApiServiceImpl extends AbstractApiServiceImpl {
         this.restTemplate = restTemplate;
     }
 
-
     @Override
     public String getName() {
         return "WBApi";
     }
 
-
     @Override
     public WeatherSampleDto getWeatherSampleFromApi(String latitude, String longitude, String lang, String units)
             throws PropertyNotFoundException, WrongApiResponseException {
-        super.prepareParameters(latitude, longitude, lang, units);
-        super.prepareBaseUrl();
+        prepareParameters(latitude, longitude, lang, units);
+        prepareBaseUrl();
 
         // Prepare request string
         uriBuilder

@@ -121,7 +121,9 @@ public class WeatherServiceImpl implements WeatherService {
     // second, minute, hour, day of month, month, day(s) of week (* any, */x every x, ? no specification)
     public void addWeatherSampleFromApi() throws PropertyNotFoundException, UnknownServiceNameException, WrongApiResponseException {
         System.out.println(new SimpleDateFormat("yyyy.MM.dd HH:mm:ss\t\t").format(new Date()) + "Executing \"addWeatherSampleFromApi\"");
-        String[] apiNames = env.getProperty("wApis.list", String[].class);
+        String[] apiNames = Optional
+                .ofNullable(env.getProperty("wApis.list", String[].class))
+                .orElseThrow(() -> new PropertyNotFoundException("wApis.list"));
         WeatherSampleDto averageDto = getAverageFromWeatherSamples(
                 new ArrayList<>(
                         Arrays.asList(

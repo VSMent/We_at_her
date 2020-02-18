@@ -21,6 +21,11 @@ table.data, table.data th, table.data td {
     border-collapse: collapse;
 }
 
+.error{
+    color: crimson;
+    font-weight: bold;
+}
+
 #controls > button {
     padding: 15px;
     margin: 0 50px;

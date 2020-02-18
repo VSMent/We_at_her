@@ -18,13 +18,10 @@
         <table class="centered">
             <tr>
                 <td colspan="2">
-                    <div th:if="${
-                        (logout == null || !logout) &&
-                        (error == null || !error)
-                        }">
+                    <div th:if="${(param.logout == null && param.error == null)}">
                         Please Log in.
                     </div>
-                    <div th:if="${error}">
+                    <div class="error" th:if="${param.error}">
                         Invalid username and password.
                     </div>
                     <div th:if="${param.logout}">
@@ -42,7 +39,7 @@
             </tr>
             <tr>
                 <td>
-                    <button onclick="window.location.href='/register'">Register</button>
+                    <button type="button" onclick="window.location.href='/register'">Register</button>
                 </td>
                 <td><input type="submit" value="Login"/></td>
             </tr>

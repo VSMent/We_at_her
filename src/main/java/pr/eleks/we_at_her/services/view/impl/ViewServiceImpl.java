@@ -49,6 +49,27 @@ public class ViewServiceImpl implements ViewService {
     }
 
     @Override
+    public List<CityDto> getAllCities() throws PropertyNotFoundException {
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder
+                .fromUriString(
+                        Optional.ofNullable(env.getProperty("server.host"))
+                                .orElseThrow(() -> new PropertyNotFoundException("server.host"))
+                                .concat(":").concat(
+                                Optional.ofNullable(env.getProperty("server.port"))
+                                        .orElseThrow(() -> new PropertyNotFoundException("server.port"))
+                        )
+                )
+                .pathSegment("cityREST");
+
+        // Make request
+        return new ArrayList<>(Arrays.asList(
+                Optional
+                        .ofNullable(restTemplate.getForObject(uriBuilder.toUriString(), CityDto[].class))
+                        .orElse(new CityDto[0])
+        ));
+    }
+
+    @Override
     public UserDto createUser(UserDto userDto) {
         String apiUrl = env.getProperty("server.host") + ":" + env.getProperty("server.port");
         UriComponentsBuilder uriBuilder = UriComponentsBuilder

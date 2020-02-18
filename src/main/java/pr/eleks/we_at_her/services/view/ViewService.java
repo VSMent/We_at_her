@@ -11,5 +11,7 @@ import java.util.List;
 public interface ViewService {
     List<WeatherSampleDto> getAllWeatherSamples() throws PropertyNotFoundException;
 
+    List<CityDto> getAllCities() throws PropertyNotFoundException;
+
     UserDto createUser(UserDto userDto);
 }

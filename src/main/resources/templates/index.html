@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>We at here</title>
@@ -13,7 +14,7 @@
         <form th:action="@{/logout}" method="post">
             <input type="submit" value="Sign Out"/>
         </form>
-<!--        <button onclick="window.location.href='/addWeatherSamplesFromApi'">Load data from API</button>-->
+        <!--        <button onclick="window.location.href='/addWeatherSamplesFromApi'">Load data from API</button>-->
         <button onclick="window.location.href='/'">Refresh data</button>
     </div>
     <table class="centered data">

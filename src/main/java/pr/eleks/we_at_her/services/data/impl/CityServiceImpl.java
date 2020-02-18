@@ -7,14 +7,9 @@ import pr.eleks.we_at_her.entities.City;
 import pr.eleks.we_at_her.repositories.CityRepository;
 import pr.eleks.we_at_her.services.data.CityService;
 
-import javax.annotation.PostConstruct;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 @Service
 public class CityServiceImpl implements CityService {
@@ -26,7 +21,13 @@ public class CityServiceImpl implements CityService {
         this.cityRepository = cityRepository;
     }
 
+    @Override
+    public List<CityDto> findAllCities() {
+        return StreamSupport.stream(cityRepository.findAll().spliterator(), false)
+                .map(this::convertToDto).collect(Collectors.toList());
+    }
 
+    @Override
     public CityDto convertToDto(City city) {
         if (city == null) {
             return null;
@@ -34,6 +35,7 @@ public class CityServiceImpl implements CityService {
         return mapper.convertValue(city, CityDto.class);
     }
 
+    @Override
     public City convertToEntity(CityDto cityDto) {
         if (cityDto == null) {
             return null;

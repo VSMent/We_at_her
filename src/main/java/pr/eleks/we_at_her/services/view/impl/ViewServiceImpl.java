@@ -37,7 +37,8 @@ public class ViewServiceImpl implements ViewService {
                                         .orElseThrow(() -> new PropertyNotFoundException("server.port"))
                         )
                 )
-                .pathSegment("weatherSampleREST");
+                .pathSegment("REST")
+                .pathSegment("weatherSample");
 
         // Make request
 
@@ -59,12 +60,14 @@ public class ViewServiceImpl implements ViewService {
                                         .orElseThrow(() -> new PropertyNotFoundException("server.port"))
                         )
                 )
-                .pathSegment("cityREST");
+                .pathSegment("REST")
+                .pathSegment("city");
 
         // Make request
+        CityDto[] cityDtos = restTemplate.getForObject(uriBuilder.toUriString(), CityDto[].class);
         return new ArrayList<>(Arrays.asList(
                 Optional
-                        .ofNullable(restTemplate.getForObject(uriBuilder.toUriString(), CityDto[].class))
+                        .ofNullable(cityDtos)
                         .orElse(new CityDto[0])
         ));
     }

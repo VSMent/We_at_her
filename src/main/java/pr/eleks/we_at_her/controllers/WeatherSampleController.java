@@ -2,6 +2,7 @@ package pr.eleks.we_at_her.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pr.eleks.we_at_her.dto.weather.WeatherSampleDto;
 import pr.eleks.we_at_her.entities.WeatherSample;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping("/REST")
 public class WeatherSampleController {
 
     private WeatherServiceImpl weatherServiceImpl;
@@ -21,7 +23,7 @@ public class WeatherSampleController {
         this.mapper = mapper;
     }
 
-    @GetMapping("/weatherSampleREST")
+    @GetMapping("/weatherSample")
     public List<WeatherSampleDto> getAllWeatherSamples() {
         List<WeatherSample> weatherSamples = weatherServiceImpl.getAllWeatherSamples();
         return weatherSamples.stream()

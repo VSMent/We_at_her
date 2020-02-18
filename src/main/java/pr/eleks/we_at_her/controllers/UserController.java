@@ -1,15 +1,13 @@
 package pr.eleks.we_at_her.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pr.eleks.we_at_her.dto.UserDto;
 import pr.eleks.we_at_her.entities.User;
 import pr.eleks.we_at_her.services.data.impl.UserServiceImpl;
 
 @RestController
+@RequestMapping("/REST")
 public class UserController {
     private UserServiceImpl userService;
     private ObjectMapper mapper;
@@ -19,12 +17,12 @@ public class UserController {
         this.mapper = mapper;
     }
 
-    @PostMapping("/userREST")
+    @PostMapping("/user")
     public void createUser(@RequestBody UserDto userDto) {
         userService.createUser(userDto);
     }
 
-    @GetMapping("/userREST")
+    @GetMapping("/user")
     public String getUsers() {
         return "get";
     }

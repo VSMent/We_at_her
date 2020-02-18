@@ -30,10 +30,12 @@ public class ViewServiceImpl implements ViewService {
     public List<WeatherSampleDto> getAllWeatherSamples() throws PropertyNotFoundException {
         UriComponentsBuilder uriBuilder = UriComponentsBuilder
                 .fromUriString(
-                        Optional.ofNullable(env.getProperty("server.host"))
+                        Optional
+                                .ofNullable(env.getProperty("server.host"))
                                 .orElseThrow(() -> new PropertyNotFoundException("server.host"))
                                 .concat(":").concat(
-                                Optional.ofNullable(env.getProperty("server.port"))
+                                Optional
+                                        .ofNullable(env.getProperty("server.port"))
                                         .orElseThrow(() -> new PropertyNotFoundException("server.port"))
                         )
                 )
@@ -53,10 +55,12 @@ public class ViewServiceImpl implements ViewService {
     public List<CityDto> getAllCities() throws PropertyNotFoundException {
         UriComponentsBuilder uriBuilder = UriComponentsBuilder
                 .fromUriString(
-                        Optional.ofNullable(env.getProperty("server.host"))
+                        Optional
+                                .ofNullable(env.getProperty("server.host"))
                                 .orElseThrow(() -> new PropertyNotFoundException("server.host"))
                                 .concat(":").concat(
-                                Optional.ofNullable(env.getProperty("server.port"))
+                                Optional
+                                        .ofNullable(env.getProperty("server.port"))
                                         .orElseThrow(() -> new PropertyNotFoundException("server.port"))
                         )
                 )
@@ -73,11 +77,20 @@ public class ViewServiceImpl implements ViewService {
     }
 
     @Override
-    public UserDto createUser(UserDto userDto) {
-        String apiUrl = env.getProperty("server.host") + ":" + env.getProperty("server.port");
+    public UserDto createUser(UserDto userDto) throws PropertyNotFoundException {
         UriComponentsBuilder uriBuilder = UriComponentsBuilder
-                .fromUriString(apiUrl)
-                .pathSegment("userREST");
+                .fromUriString(
+                        Optional
+                                .ofNullable(env.getProperty("server.host"))
+                                .orElseThrow(() -> new PropertyNotFoundException("server.host"))
+                                .concat(":").concat(
+                                Optional
+                                        .ofNullable(env.getProperty("server.port"))
+                                        .orElseThrow(() -> new PropertyNotFoundException("server.port"))
+                        )
+                )
+                .pathSegment("REST")
+                .pathSegment("user");
 
         return restTemplate.postForEntity(uriBuilder.toUriString(), userDto, UserDto.class).getBody();
     }

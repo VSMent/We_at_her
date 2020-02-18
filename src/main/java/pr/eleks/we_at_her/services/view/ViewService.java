@@ -13,5 +13,5 @@ public interface ViewService {
 
     List<CityDto> getAllCities() throws PropertyNotFoundException;
 
-    UserDto createUser(UserDto userDto);
+    UserDto createUser(UserDto userDto) throws PropertyNotFoundException;
 }

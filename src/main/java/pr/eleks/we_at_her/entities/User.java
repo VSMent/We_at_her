@@ -4,9 +4,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import pr.eleks.we_at_her.dto.RoleDto;
 
+import javax.management.relation.Role;
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class User implements UserDetails {
@@ -19,10 +19,11 @@ public class User implements UserDetails {
     private String password;
     private Long cityId;
     private String email;
-    @ElementCollection(targetClass = RoleDto.class, fetch = FetchType.EAGER)
+    //    @ElementCollection(targetClass = RoleDto.class, fetch = FetchType.EAGER)
+//    @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
-    @Enumerated(EnumType.STRING)
-    private Set<RoleDto> roles;
+    @Basic
+    private RoleDto role;
 
     public Long getId() {
         return id;
@@ -66,12 +67,12 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    public Set<RoleDto> getRoles() {
-        return roles;
+    public RoleDto getRole() {
+        return role;
     }
 
-    public void setRoles(Set<RoleDto> roles) {
-        this.roles = roles;
+    public void setRole(RoleDto role) {
+        this.role = role;
     }
 
     @Override
@@ -96,6 +97,6 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
+        return Collections.singletonList(getRole());
     }
 }

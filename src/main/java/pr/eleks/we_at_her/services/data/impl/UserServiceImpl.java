@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import pr.eleks.we_at_her.dto.RoleDto;
 import pr.eleks.we_at_her.dto.UserDto;
 import pr.eleks.we_at_her.entities.User;
 import pr.eleks.we_at_her.repositories.UserRepository;
@@ -26,12 +27,13 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
 
     public void createUser(UserDto userDto) {
+        userDto.setRole(RoleDto.USER);
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userRepository.save(convertToEntity(userDto));
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
         User user = userRepository.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException(username);
@@ -55,6 +57,12 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
 //    @PostConstruct
 //    private void init() {
-//        userRepository.save(convertToEntity(new UserDto("admin", "$2y$12$lfMgScUaJXeSvNHysXAi6uqqoIQkV0XjCf0LQPx21muVJoD7sfWpS", 691650L,"")));
+//        userRepository.save(convertToEntity(new UserDto(
+//                "admin",
+//                "$2a$12$SZPBnZ/DXjSyVyMCypxjgO2rgA/UAQqJ45krkWCC6AR4BNUXh4WZW",
+//                691650L,
+//                "ad@m.in",
+//                RoleDto.ADMIN)
+//        ));
 //    }
 }

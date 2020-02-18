@@ -19,8 +19,7 @@ public class User implements UserDetails {
     private String password;
     private Long cityId;
     private String email;
-    //    @ElementCollection(targetClass = RoleDto.class, fetch = FetchType.EAGER)
-//    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Basic
     private RoleDto role;

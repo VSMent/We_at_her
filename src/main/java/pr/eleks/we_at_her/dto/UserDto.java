@@ -1,11 +1,6 @@
 package pr.eleks.we_at_her.dto;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Set;
 
 public class UserDto implements Serializable {
     private Long id;
@@ -18,11 +13,12 @@ public class UserDto implements Serializable {
     public UserDto() {
     }
 
-    public UserDto(String username, String password, Long cityId, String email) {
+    public UserDto(String username, String password, Long cityId, String email, RoleDto role) {
         this.username = username;
         this.password = password;
         this.cityId = cityId;
         this.email = email;
+        this.role = role;
     }
 
     public Long getId() {

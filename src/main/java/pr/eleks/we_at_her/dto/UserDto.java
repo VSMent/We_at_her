@@ -12,6 +12,7 @@ public class UserDto implements  Serializable {
     private String username;
     private String password;
     private String city;
+    private String email;
     private Set<RoleDto> roles;
 
     public UserDto() {
@@ -61,5 +62,13 @@ public class UserDto implements  Serializable {
 
     public void setRoles(Set<RoleDto> roles) {
         this.roles = roles;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

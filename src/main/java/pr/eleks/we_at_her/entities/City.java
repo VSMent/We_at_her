@@ -8,11 +8,10 @@ import javax.persistence.Id;
 @Entity
 public class City {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String state;
-    private String country;
+    private String stateName;
+    private String countryName;
     private String latitude;
     private String longitude;
 
@@ -35,20 +34,20 @@ public class City {
         this.name = name;
     }
 
-    public String getState() {
-        return state;
+    public String getStateName() {
+        return stateName;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setStateName(String stateName) {
+        this.stateName = stateName;
     }
 
-    public String getCountry() {
-        return country;
+    public String getCountryName() {
+        return countryName;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
     }
 
     public String getLatitude() {

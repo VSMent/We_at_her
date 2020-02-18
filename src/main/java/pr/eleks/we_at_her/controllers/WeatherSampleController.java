@@ -21,7 +21,7 @@ public class WeatherSampleController {
         this.mapper = mapper;
     }
 
-    @GetMapping("/weatherSamplesREST")
+    @GetMapping("/weatherSampleREST")
     public List<WeatherSampleDto> getAllWeatherSamples() {
         List<WeatherSample> weatherSamples = weatherServiceImpl.getAllWeatherSamples();
         return weatherSamples.stream()
@@ -29,22 +29,22 @@ public class WeatherSampleController {
                 .collect(Collectors.toList());
     }
 //
-//    @GetMapping("/weatherSamples/{id}")
+//    @GetMapping("/weatherSample/{id}")
 //    public WeatherSampleDto getWeatherSample(@PathVariable Long id) {
 //        return convertToDto(weatherSampleService.findWeatherSample(id));
 //    }
 //
-//    @PostMapping("/weatherSamples")
+//    @PostMapping("/weatherSample")
 //    public void addWeatherSample(@RequestBody WeatherSampleDto weatherSampleDto) {
 //        weatherSampleService.addWeatherSample(convertToEntity(weatherSampleDto));
 //    }
 //
-//    @PutMapping("/weatherSamples/{id}")
+//    @PutMapping("/weatherSample/{id}")
 //    public void updateWeatherSample(@RequestBody WeatherSampleDto weatherSampleDto) {
 //        weatherSampleService.updateWeatherSample(convertToEntity(weatherSampleDto));
 //    }
 //
-//    @DeleteMapping("/weatherSamples/{id}")
+//    @DeleteMapping("/weatherSample/{id}")
 //    public void deleteWeatherSample(@PathVariable Long id) {
 //        weatherSampleService.deleteWeatherSample(id);
 //    }

@@ -1,22 +1,51 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      lang="en">
 <head>
     <title>Spring Security Example </title>
     <link rel="stylesheet" th:href="@{css/main.css}">
 </head>
 <body>
-<div th:if="${param.error}">
-    Invalid username and password.
+
+<div class="centered">
+    <h1>Hello to We at here</h1>
+    <form th:action="@{/register}" method="post">
+        <table class="centered">
+            <tr>
+                <td colspan="2">
+                    <div th:if="${(param.logout == null && param.error == null)}">
+                        Please Register.
+                    </div>
+                    <div class="error" th:if="${param.error}">
+                        Username is taken.
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="username"> Username: </label></td>
+                <td><input id="username" type="text" name="username"/></td>
+            </tr>
+            <tr>
+                <td><label for="password"> Password: </label></td>
+                <td><input id="password" type="password" name="password"/></td>
+            </tr>
+            <tr>
+                <td><label for="email"> Email: </label></td>
+                <td><input id="email" type="email" name="email"/></td>
+            </tr>
+            <tr>
+                <td><label for="city"> City: </label></td>
+                <td><input id="city" type="text" name="city"/></td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="button" onclick="window.location.href='/login'">Login</button>
+                </td>
+                <td><input type="submit" value="Register"/></td>
+            </tr>
+        </table>
+    </form>
 </div>
-<div th:if="${param.logout}">
-    You have been logged out.
-</div>
-<form th:action="@{/register}" method="post">
-    <div><label> User Name : <input type="text" name="username"/> </label></div>
-    <div><label> Password: <input type="password" name="password"/> </label></div>
-    <div><label> City Name: <input type="text" name="cityName"/> </label></div>
-    <div><input type="submit" value="Sign In"/></div>
-</form>
 </body>
 </html>

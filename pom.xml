@@ -19,6 +19,10 @@
           <artifactId>tomcat-annotations-api</artifactId>
           <groupId>org.apache.tomcat</groupId>
         </exclusion>
+        <exclusion>
+          <artifactId>spring-boot-starter-logging</artifactId>
+          <groupId>org.springframework.boot</groupId>
+        </exclusion>
       </exclusions>
     </dependency>
     <dependency>
@@ -33,6 +37,10 @@
         <exclusion>
           <artifactId>tomcat-annotations-api</artifactId>
           <groupId>org.apache.tomcat</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spring-boot-starter-logging</artifactId>
+          <groupId>org.springframework.boot</groupId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -49,6 +57,10 @@
           <artifactId>tomcat-annotations-api</artifactId>
           <groupId>org.apache.tomcat</groupId>
         </exclusion>
+        <exclusion>
+          <artifactId>spring-boot-starter-logging</artifactId>
+          <groupId>org.springframework.boot</groupId>
+        </exclusion>
       </exclusions>
     </dependency>
     <dependency>
@@ -63,6 +75,29 @@
         <exclusion>
           <artifactId>tomcat-annotations-api</artifactId>
           <groupId>org.apache.tomcat</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spring-boot-starter-logging</artifactId>
+          <groupId>org.springframework.boot</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-log4j2</artifactId>
+      <scope>runtime</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>ognl</artifactId>
+          <groupId>ognl</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>tomcat-annotations-api</artifactId>
+          <groupId>org.apache.tomcat</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spring-boot-starter-logging</artifactId>
+          <groupId>org.springframework.boot</groupId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -79,6 +114,10 @@
           <artifactId>tomcat-annotations-api</artifactId>
           <groupId>org.apache.tomcat</groupId>
         </exclusion>
+        <exclusion>
+          <artifactId>spring-boot-starter-logging</artifactId>
+          <groupId>org.springframework.boot</groupId>
+        </exclusion>
       </exclusions>
     </dependency>
     <dependency>
@@ -86,18 +125,34 @@
       <artifactId>h2</artifactId>
       <version>1.4.200</version>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>spring-boot-starter-logging</artifactId>
+          <groupId>org.springframework.boot</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.awaitility</groupId>
       <artifactId>awaitility</artifactId>
       <version>3.1.2</version>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>spring-boot-starter-logging</artifactId>
+          <groupId>org.springframework.boot</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
       <exclusions>
+        <exclusion>
+          <artifactId>spring-boot-starter-logging</artifactId>
+          <groupId>org.springframework.boot</groupId>
+        </exclusion>
         <exclusion>
           <artifactId>junit-vintage-engine</artifactId>
           <groupId>org.junit.vintage</groupId>

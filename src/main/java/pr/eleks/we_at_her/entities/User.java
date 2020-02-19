@@ -4,11 +4,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import pr.eleks.we_at_her.dto.RoleDto;
 
-import javax.management.relation.Role;
 import javax.persistence.*;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
 
 @Entity
+@Table(name = "usr")
 public class User implements UserDetails {
 
     @Id

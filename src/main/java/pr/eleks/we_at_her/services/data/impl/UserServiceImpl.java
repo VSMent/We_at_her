@@ -12,6 +12,8 @@ import pr.eleks.we_at_her.entities.User;
 import pr.eleks.we_at_her.repositories.UserRepository;
 import pr.eleks.we_at_her.services.data.UserService;
 
+import javax.annotation.PostConstruct;
+
 @Service
 public class UserServiceImpl implements UserDetailsService, UserService {
 

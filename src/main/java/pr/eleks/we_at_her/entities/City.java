@@ -1,8 +1,6 @@
 package pr.eleks.we_at_her.entities;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
@@ -14,9 +12,6 @@ public class City {
     private String countryName;
     private String latitude;
     private String longitude;
-
-    public City() {
-    }
 
     public Long getId() {
         return id;

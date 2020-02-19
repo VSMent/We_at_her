@@ -4,15 +4,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.bind.annotation.*;
 import pr.eleks.we_at_her.dto.UserDto;
 import pr.eleks.we_at_her.entities.User;
+import pr.eleks.we_at_her.services.data.UserService;
 import pr.eleks.we_at_her.services.data.impl.UserServiceImpl;
 
 @RestController
 @RequestMapping("/REST")
 public class UserController {
-    private UserServiceImpl userService;
+    private UserService userService;
     private ObjectMapper mapper;
 
-    public UserController(UserServiceImpl userService, ObjectMapper mapper) {
+    public UserController(UserService userService, ObjectMapper mapper) {
         this.userService = userService;
         this.mapper = mapper;
     }

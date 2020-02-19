@@ -26,7 +26,7 @@ public class UserRepositoryTest {
     private UserRepository userRepository;
 
     @Test
-    public void save_find() {
+    public void user_SaveFind() {
         String username = "test";
         String password = "user";
         long cityId = 12345L;

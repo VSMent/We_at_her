@@ -1,5 +1,6 @@
 package pr.eleks.we_at_her.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -10,8 +11,10 @@ public class City {
     private String name;
     private String stateName;
     private String countryName;
-    private String latitude;
-    private String longitude;
+    @Column(precision = 8, scale = 5)
+    private double latitude;
+    @Column(precision = 8, scale = 5)
+    private double longitude;
 
     public Long getId() {
         return id;
@@ -45,19 +48,19 @@ public class City {
         this.countryName = countryName;
     }
 
-    public String getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public String getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 }

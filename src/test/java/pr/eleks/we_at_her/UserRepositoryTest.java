@@ -1,11 +1,9 @@
 package pr.eleks.we_at_her;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import pr.eleks.we_at_her.dto.RoleDto;
 import pr.eleks.we_at_her.entities.User;
 import pr.eleks.we_at_her.repositories.UserRepository;
@@ -17,9 +15,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 //@Transactional
 //@ComponentScan(basePackages = {"pr.eleks.we_at_her"})
 //@AutoConfigureMockMvc
-@ExtendWith(SpringExtension.class)
 @DataJpaTest
-@ContextConfiguration(classes = {Application.class})
+@SpringJUnitConfig(Application.class)
 public class UserRepositoryTest {
 
 //    @Autowired

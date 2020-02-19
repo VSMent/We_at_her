@@ -13,6 +13,7 @@ import pr.eleks.we_at_her.repositories.UserRepository;
 import pr.eleks.we_at_her.services.data.UserService;
 
 import javax.annotation.PostConstruct;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserDetailsService, UserService {
@@ -36,11 +37,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException(username);
-        }
-        return user;
+        return userRepository.findByUsername(username)
+                .orElseThrow(()->new UsernameNotFoundException(username));
     }
 
     public UserDto convertToDto(User user) {

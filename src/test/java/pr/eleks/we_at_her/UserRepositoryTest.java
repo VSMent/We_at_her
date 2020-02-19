@@ -41,8 +41,9 @@ public class UserRepositoryTest {
 
         userRepository.save(user);
 
-        User foundUser = userRepository.findByUsername(username);
+        User foundUser = userRepository.findByUsername(username).orElse(null);
 
+        assertThat(foundUser).isNotNull();
         assertThat(user.getUsername())
                 .isNotBlank()
                 .isEqualTo(foundUser.getUsername());

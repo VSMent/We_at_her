@@ -1,5 +1,6 @@
 package pr.eleks.we_at_her.services.view;
 
+import pr.eleks.we_at_her.dto.BlogPostDto;
 import pr.eleks.we_at_her.dto.CityDto;
 import pr.eleks.we_at_her.dto.UserDto;
 import pr.eleks.we_at_her.dto.weather.WeatherSampleDto;
@@ -14,4 +15,6 @@ public interface ViewService {
     List<CityDto> getAllCities() throws PropertyNotFoundException;
 
     UserDto createUser(UserDto userDto) throws PropertyNotFoundException;
+
+    List<BlogPostDto> getAllBlogPosts() throws PropertyNotFoundException;
 }

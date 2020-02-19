@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import pr.eleks.we_at_her.dto.BlogPostDto;
 import pr.eleks.we_at_her.dto.CityDto;
 import pr.eleks.we_at_her.dto.UserDto;
 import pr.eleks.we_at_her.dto.weather.WeatherSampleDto;
@@ -45,5 +46,13 @@ public class ViewController {
 //        }
         return "redirect:/";
     }
+
+    @GetMapping("/blog")
+    public String showBlogPage(Model model) throws PropertyNotFoundException {
+        List<BlogPostDto> blogPostDtoList = viewService.getAllBlogPosts();
+        model.addAttribute("blogPostDtoList", blogPostDtoList);
+        return "blog";
+    }
+
 
 }

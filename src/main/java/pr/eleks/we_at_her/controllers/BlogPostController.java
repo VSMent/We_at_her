@@ -4,8 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.bind.annotation.*;
 import pr.eleks.we_at_her.dto.BlogPostDto;
 import pr.eleks.we_at_her.dto.BlogPostDto;
+import pr.eleks.we_at_her.dto.CityDto;
 import pr.eleks.we_at_her.entities.BlogPost;
 import pr.eleks.we_at_her.services.data.BlogPostService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/REST")
@@ -24,8 +27,8 @@ public class BlogPostController {
     }
 
     @GetMapping("/blogPost")
-    public String getBlogPosts() {
-        return "get";
+    public List<BlogPostDto> getBlogPosts() {
+        return blogPostService.findAllBlogPosts();
     }
 
     public BlogPostDto convertToDto(BlogPost blogPost) {

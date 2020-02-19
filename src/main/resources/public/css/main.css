@@ -11,7 +11,7 @@ table.centered th, table.centered td {
     font-size: 20px;
 }
 
-table.data tbody{
+table.data tbody {
     overflow: auto;
     height: 450px;
 }
@@ -21,9 +21,13 @@ table.data, table.data th, table.data td {
     border-collapse: collapse;
 }
 
-.error{
+.error {
     color: crimson;
     font-weight: bold;
+}
+
+.active {
+    font-style: italic;
 }
 
 #controls > button {

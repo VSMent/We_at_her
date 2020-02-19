@@ -8,13 +8,9 @@
 </head>
 <body>
 <div class="centered">
-    <h1>Weather Samples</h1>
-    <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+    <h1><a href="#" class="active">Weather Samples</a> <a href="/blog">Blog</a></h1>
+    <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]! <a href="/logout">Logout</a></h1>
     <div id="controls">
-        <form th:action="@{/logout}" method="post">
-            <input type="submit" value="Sign Out"/>
-        </form>
-        <!--        <button onclick="window.location.href='/addWeatherSamplesFromApi'">Load data from API</button>-->
         <button onclick="window.location.href='/'">Refresh data</button>
     </div>
     <table class="centered data">

@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.*;
 import pr.eleks.we_at_her.dto.UserDto;
 import pr.eleks.we_at_her.entities.User;
 import pr.eleks.we_at_her.services.data.UserService;
-import pr.eleks.we_at_her.services.data.impl.UserServiceImpl;
 
 @RestController
 @RequestMapping("/REST")

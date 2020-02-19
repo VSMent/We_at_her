@@ -9,7 +9,7 @@ import pr.eleks.we_at_her.exceptions.WrongApiResponseException;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface WeatherService {
+public interface WeatherSampleService {
     List<WeatherSample> getAllWeatherSamples();
 
     WeatherSample findFirstWeatherSampleByCityIdAndTime(int cityId, int time);

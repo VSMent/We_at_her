@@ -11,19 +11,19 @@ import pr.eleks.we_at_her.exceptions.UnknownServiceNameException;
 import pr.eleks.we_at_her.exceptions.WrongApiResponseException;
 import pr.eleks.we_at_her.repositories.WeatherSampleRepository;
 import pr.eleks.we_at_her.services.api.ApiServiceFactory;
-import pr.eleks.we_at_her.services.data.WeatherService;
+import pr.eleks.we_at_her.services.data.WeatherSampleService;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
-public class WeatherServiceImpl implements WeatherService {
+public class WeatherSampleServiceImpl implements WeatherSampleService {
 
     private WeatherSampleRepository weatherSampleRepository;
     private ObjectMapper mapper;
     private Environment env;
 
-    public WeatherServiceImpl(
+    public WeatherSampleServiceImpl(
             WeatherSampleRepository weatherSampleRepository,
             ObjectMapper mapper,
             Environment env

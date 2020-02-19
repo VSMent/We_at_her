@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pr.eleks.we_at_her.dto.weather.WeatherSampleDto;
 import pr.eleks.we_at_her.entities.WeatherSample;
-import pr.eleks.we_at_her.services.data.impl.WeatherServiceImpl;
+import pr.eleks.we_at_her.services.data.impl.WeatherSampleServiceImpl;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,10 +15,10 @@ import java.util.stream.Collectors;
 @RequestMapping("/REST")
 public class WeatherSampleController {
 
-    private WeatherServiceImpl weatherServiceImpl;
+    private WeatherSampleServiceImpl weatherServiceImpl;
     private ObjectMapper mapper;
 
-    public WeatherSampleController(WeatherServiceImpl weatherServiceImpl, ObjectMapper mapper) {
+    public WeatherSampleController(WeatherSampleServiceImpl weatherServiceImpl, ObjectMapper mapper) {
         this.weatherServiceImpl = weatherServiceImpl;
         this.mapper = mapper;
     }

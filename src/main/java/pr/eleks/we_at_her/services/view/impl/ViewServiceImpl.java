@@ -95,7 +95,7 @@ public class ViewServiceImpl implements ViewService {
                     "Your account was registered",
                     "Dear " + savedUser.getUsername() + "." +
                             "\nYour account was successfully created." +
-                            "\nTo activate account please go to " + activateUri + ".");
+                            "\nTo activate account please go to " + activateUri + " .");
         }
         return savedUser;
     }

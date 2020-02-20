@@ -11,7 +11,7 @@
     <nav><a href="/">Weather Samples</a> <a href="#" class="active">Blog</a></nav>
     <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]! <a href="/logout">Logout</a></h1>
     <div id="controls">
-        <button onclick="window.location.href='/blog'">Refresh data</button>
+<!--        <button onclick="window.location.href='/blog'">Refresh data</button>-->
         <form action="/blog" method="post">
             <label for="blogPostText">Post message</label>
             <input id="blogPostText" type="text" name="text"/>

@@ -31,8 +31,8 @@ public class ViewServiceImpl implements ViewService {
     }
 
     @Override
-    public List<WeatherSampleDto> getAllWeatherSamples() throws PropertyNotFoundException {
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder
+    public UriComponentsBuilder hostUriBuilder() throws PropertyNotFoundException {
+        return UriComponentsBuilder
                 .fromUriString(
                         Optional
                                 .ofNullable(env.getProperty("server.host"))
@@ -42,37 +42,33 @@ public class ViewServiceImpl implements ViewService {
                                         .ofNullable(env.getProperty("server.port"))
                                         .orElseThrow(() -> new PropertyNotFoundException("server.port"))
                         )
-                )
+                );
+    }
+
+    @Override
+    public List<WeatherSampleDto> getAllWeatherSamples() throws PropertyNotFoundException {
+        String requestUri = hostUriBuilder()
                 .pathSegment("REST")
-                .pathSegment("weatherSample");
+                .pathSegment("weatherSample")
+                .toUriString();
 
         // Make request
-
         return new ArrayList<>(Arrays.asList(
                 Optional
-                        .ofNullable(restTemplate.getForObject(uriBuilder.toUriString(), WeatherSampleDto[].class))
+                        .ofNullable(restTemplate.getForObject(requestUri, WeatherSampleDto[].class))
                         .orElse(new WeatherSampleDto[0])
         ));
     }
 
     @Override
     public List<CityDto> getAllCities() throws PropertyNotFoundException {
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder
-                .fromUriString(
-                        Optional
-                                .ofNullable(env.getProperty("server.host"))
-                                .orElseThrow(() -> new PropertyNotFoundException("server.host"))
-                                .concat(":").concat(
-                                Optional
-                                        .ofNullable(env.getProperty("server.port"))
-                                        .orElseThrow(() -> new PropertyNotFoundException("server.port"))
-                        )
-                )
+        String requestUri = hostUriBuilder()
                 .pathSegment("REST")
-                .pathSegment("city");
+                .pathSegment("city")
+                .toUriString();
 
         // Make request
-        CityDto[] cityDtos = restTemplate.getForObject(uriBuilder.toUriString(), CityDto[].class);
+        CityDto[] cityDtos = restTemplate.getForObject(requestUri, CityDto[].class);
         return new ArrayList<>(Arrays.asList(
                 Optional
                         .ofNullable(cityDtos)
@@ -82,45 +78,37 @@ public class ViewServiceImpl implements ViewService {
 
     @Override
     public UserDto createUser(UserDto userDto) throws PropertyNotFoundException {
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder
-                .fromUriString(
-                        Optional
-                                .ofNullable(env.getProperty("server.host"))
-                                .orElseThrow(() -> new PropertyNotFoundException("server.host"))
-                                .concat(":").concat(
-                                Optional
-                                        .ofNullable(env.getProperty("server.port"))
-                                        .orElseThrow(() -> new PropertyNotFoundException("server.port"))
-                        )
-                )
+        String requestUri = hostUriBuilder()
                 .pathSegment("REST")
-                .pathSegment("user");
+                .pathSegment("user")
+                .toUriString();
 
-        emailService.sendEmail(userDto.getEmail(),
-                "Your account was registered",
-                "Random text");
+        UserDto savedUser = restTemplate.postForEntity(requestUri, userDto, UserDto.class).getBody();
 
-        return restTemplate.postForEntity(uriBuilder.toUriString(), userDto, UserDto.class).getBody();
+        if (savedUser != null) {
+            String activateUri = hostUriBuilder()
+                    .pathSegment("activate")
+                    .queryParam("u", userDto.getUuid())
+                    .toUriString();
+
+            emailService.sendEmail(userDto.getEmail(),
+                    "Your account was registered",
+                    "Dear " + userDto.getUsername() + "." +
+                            "\nYour account was successfully created." +
+                            "\nTo activate account please go to " + activateUri + ".");
+        }
+        return savedUser;
     }
 
     @Override
     public List<BlogPostDto> getAllBlogPosts() throws PropertyNotFoundException {
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder
-                .fromUriString(
-                        Optional
-                                .ofNullable(env.getProperty("server.host"))
-                                .orElseThrow(() -> new PropertyNotFoundException("server.host"))
-                                .concat(":").concat(
-                                Optional
-                                        .ofNullable(env.getProperty("server.port"))
-                                        .orElseThrow(() -> new PropertyNotFoundException("server.port"))
-                        )
-                )
+        String requestUri = hostUriBuilder()
                 .pathSegment("REST")
-                .pathSegment("blogPost");
+                .pathSegment("user")
+                .toUriString();
 
         // Make request
-        BlogPostDto[] blogPostDto = restTemplate.getForObject(uriBuilder.toUriString(), BlogPostDto[].class);
+        BlogPostDto[] blogPostDto = restTemplate.getForObject(requestUri, BlogPostDto[].class);
         return new ArrayList<>(Arrays.asList(
                 Optional
                         .ofNullable(blogPostDto)

@@ -49,14 +49,25 @@ nav a:hover, h1 a:hover {
     font-weight: bold;
 }
 
-#controls > button {
-    padding: 15px;
-    margin: 0 50px;
+#controls {
+    margin-block-end: 20px;
     font-size: 18px;
 }
 
-#controls {
-    margin-block-end: 20px;
+#controls button {
+    padding: 15px;
+    margin: 0 50px;
 }
 
+#controls label {
+    font-size: 20px;
+}
+
+#controls input[type="text"] {
+    margin: 0 30px;
+}
+
+#controls input[type="submit"] {
+    padding: 15px;
+}
 

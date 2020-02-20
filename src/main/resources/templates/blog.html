@@ -12,6 +12,12 @@
     <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]! <a href="/logout">Logout</a></h1>
     <div id="controls">
         <button onclick="window.location.href='/blog'">Refresh data</button>
+        <form action="/blog" method="post">
+            <label for="blogPostText">Post message</label>
+            <input id="blogPostText" type="text" name="blogPostText"/>
+            <input type="hidden" name="authorUsername" th:value="${#httpServletRequest.remoteUser}"/>
+            <input type="submit" value="Post"/>
+        </form>
     </div>
     <table class="centered data">
         <thead>

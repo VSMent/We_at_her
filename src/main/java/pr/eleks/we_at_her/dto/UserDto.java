@@ -1,6 +1,7 @@
 package pr.eleks.we_at_her.dto;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 public class UserDto implements Serializable {
     private Long id;
@@ -9,6 +10,8 @@ public class UserDto implements Serializable {
     private Long cityId;
     private String email;
     private RoleDto role;
+    private Boolean activated;
+    private UUID uuid;
 
     public UserDto() {
     }
@@ -67,5 +70,21 @@ public class UserDto implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Boolean getActivated() {
+        return activated;
+    }
+
+    public void setActivated(Boolean activated) {
+        this.activated = activated;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 }

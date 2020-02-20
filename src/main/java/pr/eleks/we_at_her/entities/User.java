@@ -7,6 +7,7 @@ import pr.eleks.we_at_her.dto.RoleDto;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.UUID;
 
 @Entity
 @Table(name = "usr")
@@ -24,6 +25,8 @@ public class User implements UserDetails {
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Basic
     private RoleDto role;
+    private Boolean activated;
+    private UUID uuid;
 
     public Long getId() {
         return id;
@@ -73,6 +76,22 @@ public class User implements UserDetails {
 
     public void setRole(RoleDto role) {
         this.role = role;
+    }
+
+    public Boolean getActivated() {
+        return activated;
+    }
+
+    public void setActivated(Boolean activated) {
+        this.activated = activated;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 
     @Override

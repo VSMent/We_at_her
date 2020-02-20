@@ -14,7 +14,7 @@
         <button onclick="window.location.href='/blog'">Refresh data</button>
         <form action="/blog" method="post">
             <label for="blogPostText">Post message</label>
-            <input id="blogPostText" type="text" name="blogPostText"/>
+            <input id="blogPostText" type="text" name="text"/>
             <input type="hidden" name="authorUsername" th:value="${#httpServletRequest.remoteUser}"/>
             <input type="submit" value="Post"/>
         </form>

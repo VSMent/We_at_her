@@ -26,6 +26,7 @@ public class User implements UserDetails {
     @Basic
     private RoleDto role;
     private Boolean activated;
+    @Column(columnDefinition = "BINARY(16)")
     private UUID uuid;
 
     public Long getId() {

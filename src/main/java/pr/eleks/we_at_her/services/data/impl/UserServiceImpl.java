@@ -12,8 +12,7 @@ import pr.eleks.we_at_her.entities.User;
 import pr.eleks.we_at_her.repositories.UserRepository;
 import pr.eleks.we_at_her.services.data.UserService;
 
-import javax.annotation.PostConstruct;
-import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserDetailsService, UserService {
@@ -29,16 +28,17 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
 
-    public void createUser(UserDto userDto) {
+    public UserDto createUser(UserDto userDto) {
         userDto.setRole(RoleDto.USER);
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        userRepository.save(convertToEntity(userDto));
+        userDto.setUuid(UUID.fromString(userDto.getUsername() + userDto.getEmail()));
+        return convertToDto(userRepository.save(convertToEntity(userDto)));
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) {
         return userRepository.findByUsername(username)
-                .orElseThrow(()->new UsernameNotFoundException(username));
+                .orElseThrow(() -> new UsernameNotFoundException(username));
     }
 
     public UserDto convertToDto(User user) {

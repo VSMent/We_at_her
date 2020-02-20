@@ -4,7 +4,7 @@ import pr.eleks.we_at_her.dto.UserDto;
 import pr.eleks.we_at_her.entities.User;
 
 public interface UserService {
-    void createUser(UserDto userDto);
+    UserDto createUser(UserDto userDto);
 
     UserDto convertToDto(User user);
 

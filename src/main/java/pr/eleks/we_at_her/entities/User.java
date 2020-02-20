@@ -25,8 +25,8 @@ public class User implements UserDetails {
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Basic
     private RoleDto role;
-    private Boolean activated;
-    @Column(columnDefinition = "BINARY(16)")
+    private boolean activated;
+    @Column(nullable = false, unique = true, columnDefinition = "BINARY(16)")
     private UUID uuid;
 
     public Long getId() {
@@ -79,11 +79,11 @@ public class User implements UserDetails {
         this.role = role;
     }
 
-    public Boolean getActivated() {
+    public boolean getActivated() {
         return activated;
     }
 
-    public void setActivated(Boolean activated) {
+    public void setActivated(boolean activated) {
         this.activated = activated;
     }
 

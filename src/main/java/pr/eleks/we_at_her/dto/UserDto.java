@@ -13,13 +13,13 @@ public class UserDto implements Serializable {
     private Long cityId;
     private String email;
     private RoleDto role;
-    private Boolean activated = false;
+    private boolean activated = false;
     private UUID uuid;
 
     public UserDto() {
     }
 
-    public UserDto(String username, String password, Long cityId, String email, RoleDto role, Boolean activated, UUID uuid) {
+    public UserDto(String username, String password, Long cityId, String email, RoleDto role, boolean activated, UUID uuid) {
         this.username = username;
         this.password = password;
         this.cityId = cityId;
@@ -77,11 +77,11 @@ public class UserDto implements Serializable {
         this.email = email;
     }
 
-    public Boolean getActivated() {
+    public boolean getActivated() {
         return activated;
     }
 
-    public void setActivated(Boolean activated) {
+    public void setActivated(boolean activated) {
         this.activated = activated;
     }
 

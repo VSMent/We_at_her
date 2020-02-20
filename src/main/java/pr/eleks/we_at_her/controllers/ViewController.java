@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import pr.eleks.we_at_her.dto.BlogPostDto;
 import pr.eleks.we_at_her.dto.CityDto;
 import pr.eleks.we_at_her.dto.UserDto;
@@ -52,6 +53,12 @@ public class ViewController {
         List<BlogPostDto> blogPostDtoList = viewService.getAllBlogPosts();
         model.addAttribute("blogPostDtoList", blogPostDtoList);
         return "blog";
+    }
+
+    @GetMapping("/activate")
+    public String activateUser(@RequestParam("u") String userUuid) throws PropertyNotFoundException {
+        viewService.activateUser(userUuid);
+        return "redirect:/";
     }
 
 

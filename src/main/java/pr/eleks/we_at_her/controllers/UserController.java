@@ -27,6 +27,11 @@ public class UserController {
         return "get";
     }
 
+    @GetMapping("/activateUser/{uuidString}")
+    public UserDto activateUserByUuid(@PathVariable String uuidString) {
+        return userService.activateUserByUuid(uuidString);
+    }
+
     private UserDto convertToDto(User user) {
         if (user == null) {
             return null;

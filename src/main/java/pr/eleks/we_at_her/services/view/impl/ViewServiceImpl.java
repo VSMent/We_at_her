@@ -101,6 +101,19 @@ public class ViewServiceImpl implements ViewService {
     }
 
     @Override
+    public UserDto activateUser(String userUuid) throws PropertyNotFoundException {
+        String requestUri = hostUriBuilder()
+                .pathSegment("REST")
+                .pathSegment("activateUser")
+                .pathSegment(userUuid)
+                .toUriString();
+
+        return Optional
+                .ofNullable(restTemplate.getForObject(requestUri, UserDto.class))
+                .orElse(null);
+    }
+
+    @Override
     public List<BlogPostDto> getAllBlogPosts() throws PropertyNotFoundException {
         String requestUri = hostUriBuilder()
                 .pathSegment("REST")

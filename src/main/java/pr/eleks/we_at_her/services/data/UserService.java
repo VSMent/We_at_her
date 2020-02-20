@@ -9,4 +9,8 @@ public interface UserService {
     UserDto convertToDto(User user);
 
     User convertToEntity(UserDto userDto);
+
+    UserDto findUserByUuid(String uuidString);
+
+    UserDto activateUserByUuid(String uuidString);
 }

@@ -19,4 +19,6 @@ public interface ViewService {
     UserDto createUser(UserDto userDto) throws PropertyNotFoundException;
 
     List<BlogPostDto> getAllBlogPosts() throws PropertyNotFoundException;
+
+    UserDto activateUser(String userUuid) throws PropertyNotFoundException;
 }

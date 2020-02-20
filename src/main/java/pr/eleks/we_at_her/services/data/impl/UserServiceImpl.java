@@ -13,6 +13,7 @@ import pr.eleks.we_at_her.repositories.UserRepository;
 import pr.eleks.we_at_her.services.data.UserService;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -38,6 +39,23 @@ public class UserServiceImpl implements UserDetailsService, UserService {
                 )
         );
         return convertToDto(userRepository.save(convertToEntity(userDto)));
+    }
+
+    @Override
+    public UserDto findUserByUuid(String uuidString) {
+        return userRepository.findByUuid(UUID.fromString(uuidString))
+                .map(this::convertToDto)
+                .orElse(null);
+    }
+
+    @Override
+    public UserDto activateUserByUuid(String uuidString) {
+        UserDto existingUser = findUserByUuid(uuidString);
+        existingUser.setActivated(true);
+        return Optional
+                .of(userRepository.save(convertToEntity(existingUser)))
+                .map(this::convertToDto)
+                .orElse(null);
     }
 
     @Override

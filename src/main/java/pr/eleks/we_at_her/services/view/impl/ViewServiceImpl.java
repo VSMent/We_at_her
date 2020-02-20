@@ -117,7 +117,7 @@ public class ViewServiceImpl implements ViewService {
     public List<BlogPostDto> getAllBlogPosts() throws PropertyNotFoundException {
         String requestUri = hostUriBuilder()
                 .pathSegment("REST")
-                .pathSegment("user")
+                .pathSegment("blogPost")
                 .toUriString();
 
         // Make request

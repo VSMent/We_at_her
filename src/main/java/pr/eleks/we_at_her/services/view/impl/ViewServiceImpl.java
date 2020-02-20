@@ -9,6 +9,7 @@ import pr.eleks.we_at_her.dto.CityDto;
 import pr.eleks.we_at_her.dto.UserDto;
 import pr.eleks.we_at_her.dto.weather.WeatherSampleDto;
 import pr.eleks.we_at_her.exceptions.PropertyNotFoundException;
+import pr.eleks.we_at_her.services.EmailService;
 import pr.eleks.we_at_her.services.view.ViewService;
 
 import java.util.ArrayList;
@@ -21,10 +22,12 @@ public class ViewServiceImpl implements ViewService {
 
     private Environment env;
     private RestTemplate restTemplate;
+    private EmailService emailService;
 
-    public ViewServiceImpl(Environment env, RestTemplate restTemplate) {
+    public ViewServiceImpl(Environment env, RestTemplate restTemplate, EmailService emailService) {
         this.env = env;
         this.restTemplate = restTemplate;
+        this.emailService = emailService;
     }
 
     @Override
@@ -92,6 +95,10 @@ public class ViewServiceImpl implements ViewService {
                 )
                 .pathSegment("REST")
                 .pathSegment("user");
+
+        emailService.sendEmail(userDto.getEmail(),
+                "Your account was registered",
+                "Random text");
 
         return restTemplate.postForEntity(uriBuilder.toUriString(), userDto, UserDto.class).getBody();
     }

@@ -88,12 +88,12 @@ public class ViewServiceImpl implements ViewService {
         if (savedUser != null) {
             String activateUri = hostUriBuilder()
                     .pathSegment("activate")
-                    .queryParam("u", userDto.getUuid())
+                    .queryParam("u", savedUser.getUuid().toString())
                     .toUriString();
 
-            emailService.sendEmail(userDto.getEmail(),
+            emailService.sendEmail(savedUser.getEmail(),
                     "Your account was registered",
-                    "Dear " + userDto.getUsername() + "." +
+                    "Dear " + savedUser.getUsername() + "." +
                             "\nYour account was successfully created." +
                             "\nTo activate account please go to " + activateUri + ".");
         }

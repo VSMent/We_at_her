@@ -12,6 +12,7 @@ import pr.eleks.we_at_her.entities.User;
 import pr.eleks.we_at_her.repositories.UserRepository;
 import pr.eleks.we_at_her.services.data.UserService;
 
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 @Service
@@ -31,7 +32,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public UserDto createUser(UserDto userDto) {
         userDto.setRole(RoleDto.USER);
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        userDto.setUuid(UUID.fromString(userDto.getUsername() + userDto.getEmail()));
+        userDto.setUuid(
+                UUID.nameUUIDFromBytes(
+                        (userDto.getUsername() + userDto.getEmail()).getBytes(StandardCharsets.UTF_8)
+                )
+        );
         return convertToDto(userRepository.save(convertToEntity(userDto)));
     }
 
@@ -62,7 +67,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 //                "$2a$12$SZPBnZ/DXjSyVyMCypxjgO2rgA/UAQqJ45krkWCC6AR4BNUXh4WZW",
 //                691650L,
 //                "ad@m.in",
-//                RoleDto.ADMIN)
+//                RoleDto.ADMIN,
+//                true,
+//                UUID.nameUUIDFromBytes("adminad@m.in".getBytes(StandardCharsets.UTF_8)))
 //        ));
 //    }
 }

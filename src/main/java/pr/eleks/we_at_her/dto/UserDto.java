@@ -1,8 +1,11 @@
 package pr.eleks.we_at_her.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import java.util.UUID;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDto implements Serializable {
     private Long id;
     private String username;
@@ -10,18 +13,20 @@ public class UserDto implements Serializable {
     private Long cityId;
     private String email;
     private RoleDto role;
-    private Boolean activated;
+    private Boolean activated = false;
     private UUID uuid;
 
     public UserDto() {
     }
 
-    public UserDto(String username, String password, Long cityId, String email, RoleDto role) {
+    public UserDto(String username, String password, Long cityId, String email, RoleDto role, Boolean activated, UUID uuid) {
         this.username = username;
         this.password = password;
         this.cityId = cityId;
         this.email = email;
         this.role = role;
+        this.activated = activated;
+        this.uuid = uuid;
     }
 
     public Long getId() {

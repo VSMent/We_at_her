@@ -55,6 +55,13 @@ public class ViewController {
         return "blog";
     }
 
+    @PostMapping("/blog")
+    public String createNewBlogPost(BlogPostDto blogPostDto, Model model) throws PropertyNotFoundException {
+        viewService.createNewBlogPost(blogPostDto);
+        return "redirect:/blog";
+    }
+
+
     @GetMapping("/activate")
     public String activateUser(@RequestParam("u") String userUuid) throws PropertyNotFoundException {
         viewService.activateUser(userUuid);

@@ -128,4 +128,16 @@ public class ViewServiceImpl implements ViewService {
                         .orElse(new BlogPostDto[0])
         ));
     }
+
+    @Override
+    public BlogPostDto createNewBlogPost(BlogPostDto blogPostDto) throws PropertyNotFoundException {
+        String requestUri = hostUriBuilder()
+                .pathSegment("REST")
+                .pathSegment("blogPost")
+                .toUriString();
+
+        return Optional
+                .ofNullable(restTemplate.postForEntity(requestUri, blogPostDto, BlogPostDto.class).getBody())
+                .orElse(null);
+    }
 }

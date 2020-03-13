@@ -1,0 +1,26 @@
+{
+    "latitude":49.56,
+    "longitude":25.61,
+    "timezone":"Europe/Kiev",
+    "currently":{
+        "time":1584037828,
+        "summary":"Вітер і Хмарно",
+        "icon":"wind",
+        "precipIntensity":0.009,
+        "precipProbability":0.02,
+        "precipType":"rain",
+        "temperature":13.07,
+        "apparentTemperature":13.07,
+        "dewPoint":7.29,
+        "humidity":0.68,
+        "pressure":1008.9,
+        "windSpeed":8.27,
+        "windGust":17.87,
+        "windBearing":247,
+        "cloudCover":0.76,
+        "uvIndex":0,
+        "visibility":16.093,
+        "ozone":323
+    },
+    "offset":2
+}

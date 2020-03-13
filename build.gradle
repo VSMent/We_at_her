@@ -4,6 +4,17 @@ plugins {
     id 'java'
     id 'war'
     id 'maven'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.70'
+    id "org.jetbrains.kotlin.plugin.jpa" version "1.3.70"
+    id "org.jetbrains.kotlin.plugin.noarg" version "1.3.70"
+    id "org.jetbrains.kotlin.plugin.spring" version "1.3.70"
+    id "org.jetbrains.kotlin.plugin.allopen" version "1.3.70"
+}
+
+allOpen {
+    annotation("javax.persistence.Entity")
+    annotation("javax.persistence.Embeddable")
+    annotation("javax.persistence.MappedSuperclass")
 }
 
 group 'pr.eleks'
@@ -13,8 +24,10 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 sourceSets {
-    main.java.srcDir 'src/main'
-    test.java.srcDir 'src/test'
+    main.java.srcDir 'src/main/java'
+    test.java.srcDir 'src/test/java'
+    main.kotlin.srcDir 'src/main/kotlin'
+    test.kotlin.srcDir 'src/test/kotlin'
 }
 
 repositories {
@@ -28,6 +41,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-mail:2.2.4.RELEASE'
     implementation 'org.springframework.security:spring-security-test'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation "org.jetbrains.kotlin:kotlin-reflect"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.10.2"
     runtimeOnly 'mysql:mysql-connector-java'
 //    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
@@ -52,4 +68,14 @@ classes.finalizedBy(writeNewPom)
 
 bootRun {
     systemProperty "spring.profiles.active", "local"
+}
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }

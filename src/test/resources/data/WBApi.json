@@ -1,0 +1,48 @@
+{
+    "data":[
+        {
+            "rh":76,
+            "pod":"n",
+            "lon":25.61,
+            "pres":969.632,
+            "timezone":"Europe\/Kiev",
+            "ob_time":"2020-03-12 18:21",
+            "country_code":"UA",
+            "clouds":100,
+            "ts":1584037267,
+            "solar_rad":0,
+            "state_code":"22",
+            "city_name":"Ternopil’",
+            "wind_spd":3.78231,
+            "last_ob_time":"2020-03-12T18:05:00",
+            "wind_cdir_full":"пі́вдень-захід",
+            "wind_cdir":"ЮЗ",
+            "slp":1008.98,
+            "vis":24.1352,
+            "h_angle":-90,
+            "sunset":"16:16",
+            "dni":0,
+            "dewpt":7.5,
+            "snow":0,
+            "uv":0,
+            "precip":0,
+            "wind_dir":231,
+            "sunrise":"04:30",
+            "ghi":0,
+            "dhi":0,
+            "aqi":24,
+            "lat":49.56,
+            "weather":{
+                "icon":"c04n",
+                "code":"804",
+                "description":"Похмурі хмари"
+            },
+            "datetime":"2020-03-12:18",
+            "temp":11.7,
+            "station":"F1141",
+            "elev_angle":-17.17,
+            "app_temp":11.7
+        }
+    ],
+    "count":1
+}
